@@ -1,0 +1,13 @@
+.breadcrumbs_main{
+    display: flex;
+    align-items: center;
+    color: #484C52;
+    font-size: 14px;
+    margin-left: 7px;
+    margin-top: 10px;
+    gap: 5px;
+}
+
+.breadcrumbs_main p {
+    margin-bottom: 0;
+}
