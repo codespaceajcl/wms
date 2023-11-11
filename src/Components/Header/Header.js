@@ -9,6 +9,7 @@ import { Col, Row } from "react-bootstrap";
 import { BiChevronRight } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsFullscreen } from 'react-icons/bs'
+import Notification from "../Notification/Notification";
 
 function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const { pathname } = useLocation();
@@ -16,6 +17,11 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const navbarRef = useRef();
 
   const [sidebarToggle, setSidebarToggle] = useState(false)
+  const [showNotificationBar, setShowNotificationBar] = useState(false)
+
+  useEffect(() => {
+    setShowNotificationBar(false)
+  }, [pathname])
 
   const classes = (path) => {
     let splitPath = path.split("/");
@@ -37,8 +43,6 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
       navbarRef.current.style.width = "0%";
     else navbarRef.current.style.width = "100%";
   };
-
-  console.log(handle)
 
   return (
     <>
@@ -190,7 +194,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
           <div className="layout_content">
             <div className="user_header">
 
-              <Row>
+              <Row className="align-items-center">
                 <Col md={6}>
                   <div className="search_box">
                     <img src="/images/search_icon.png" alt="" />
@@ -225,9 +229,17 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                               </NavDropdown.Item>
                             </NavDropdown>
                           </div>
-                          <div>
-                            <img src="/images/notification_icon.png" alt="" width={'15px'} />
+
+                          <div className="notification_box">
+                            <img src="/images/notification_icon.png" alt="" width={'15px'}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => setShowNotificationBar(!showNotificationBar)} />
+
+                            {
+                              showNotificationBar && <Notification />
+                            }
                           </div>
+
                         </div>
                       </Nav>
                     </Navbar.Collapse>

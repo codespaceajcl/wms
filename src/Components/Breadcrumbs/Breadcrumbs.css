@@ -10,4 +10,5 @@
 
 .breadcrumbs_main p {
     margin-bottom: 0;
+    cursor: pointer;
 }

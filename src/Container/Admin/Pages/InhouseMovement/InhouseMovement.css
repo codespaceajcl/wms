@@ -1,0 +1,79 @@
+.react_select_inhouse .css-13cymwt-control {
+    border: 1px solid #bec0c3;
+    padding: 0px;
+    border-radius: 30px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.react_select_inhouse .css-t3ipsp-control:hover{
+    border-color: transparent;
+    box-shadow: none;
+    border: 1px solid #bec0c3;
+    border-radius: 30px;
+    background-color: #f9f9f9;
+}
+
+.react_select_inhouse .css-t3ipsp-control:focus-visible{
+    border-color: transparent;
+    box-shadow: none;
+    border: 1px solid #bec0c3;
+    border-radius: 30px;
+    background-color: #f9f9f9;
+}
+
+.react_select_inhouse .css-1hb7zxy-IndicatorsContainer{
+    background-color: #A9C23F;
+    border-top-right-radius: 21px;
+    border-bottom-right-radius: 21px;
+    padding: 3px 6px;
+}
+
+.react_select_inhouse .css-1hb7zxy-IndicatorsContainer SVG{
+    color: #fff;
+}
+
+.react_select_inhouse .css-1u9des2-indicatorSeparator{
+    display: none;
+}
+
+.select_inhouse_table{
+    background-color: #484C52;
+    color: #fff;
+    padding: 14px 15px;
+}
+
+.select_inhouse_table h6{
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.consignee_table.inhouse .table>tbody>tr>td {
+    padding: 12px 10px;
+    border: 1px solid #E7E7E7;
+    font-size: 14px;
+}
+
+.consignee_table.inhouse .table>thead>tr>th{
+    padding: 12px 10px;
+}
+
+.select_inhouse_table{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.select_inhouse_table button{
+    padding: 6px 40px;
+    border: none;
+    margin-right: 5px;
+    border-radius: 5px;
+    font-size: 13px;
+    background-color: #E64646;
+    color: #fff;
+}
+
+.select_inhouse_table button.make_green{
+    background-color: #329932;
+}

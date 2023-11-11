@@ -1,0 +1,31 @@
+.success .modal-content{
+    border-radius: 25px;
+}
+
+.success .modal-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 0;
+}
+
+.success .modal-body img{
+    width: 50px;
+    margin-bottom: 15px;
+}
+
+.success .modal-body svg{
+    color: red;
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.success .modal-body h2{
+    font-weight: 600;
+}
+
+.success .modal-body p{
+    color: #484C52;
+    text-align: center;
+}

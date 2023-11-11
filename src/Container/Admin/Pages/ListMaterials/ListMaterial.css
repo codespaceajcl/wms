@@ -4,13 +4,14 @@
     padding: 25px 30px;
     margin-top: 15px;
     border-radius: 20px;
+    margin-bottom: 30px;
 }
 
 .material_main h5{
     text-align: center;
     font-weight: 700;
     font-size: 22px;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     position: relative;
     text-transform: uppercase;
 }
@@ -35,8 +36,22 @@
     text-transform: capitalize;
 }
 
-.material_main form .col-md-6{
+.material_main form .col-md-6, .material_main .col-md-12{
     margin-bottom: 20px;
+}
+
+.material_main > p{
+    color: #484C52;
+    font-size: 14px;
+    text-align: center;
+}
+
+.form-check label{
+    font-size: 14px;
+}
+
+.form-check .form-check-input{
+    border: 1px solid #000;
 }
 
 .submit_btn{

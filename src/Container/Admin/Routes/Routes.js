@@ -1,6 +1,10 @@
 import Consignee from "../Pages/Consignee/Consignee";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import Nomenclature from "../Pages/Enquiry/Details/Nomenclature/Nomenclature";
+import Enquiry from "../Pages/Enquiry/Enquiry";
+import InhouseMovement from "../Pages/InhouseMovement/InhouseMovement";
 import ListMaterials from "../Pages/ListMaterials/ListMaterials";
+import RMA from "../Pages/RMA/RMA";
 import Warehouses from "../Pages/Warehouses/Warehouses";
 
 export const adminRoutes = [
@@ -19,6 +23,22 @@ export const adminRoutes = [
   {
     path: "/consignee",
     component: <Consignee />,
+  },
+  {
+    path: "/rma",
+    component: <RMA />,
+  },
+  {
+    path: "/enquiry",
+    component: <Enquiry />,
+  },
+  {
+    path: "/enquiry/nomenclature",
+    component: <Nomenclature />,
+  },
+  {
+    path: "/inhouse-movement",
+    component: <InhouseMovement />,
   },
 ];
 

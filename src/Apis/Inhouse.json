@@ -1,0 +1,27 @@
+[
+    {
+        "sno": "001",
+        "pallet": "10000001",
+        "Curr_location": "W01AE01A2"
+    },
+    {
+        "sno": "002",
+        "pallet": "10000002",
+        "Curr_location": "W01AE01A12"
+    },
+    {
+        "sno": "003",
+        "pallet": "10000003",
+        "Curr_location": "W01AE01A13"
+    },
+    {
+        "sno": "004",
+        "pallet": "10000004",
+        "Curr_location": "W01AE01A14"
+    },
+    {
+        "sno": "005",
+        "pallet": "10000005",
+        "Curr_location": "W01AE01A15"
+    }
+]

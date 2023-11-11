@@ -9,6 +9,10 @@
     font-weight: 400;
 }
 
+.input_field label span{
+    color: red;
+}
+
 .input_field input{
     border: 1px solid #bec0c3;
     padding: 7px 5px;
@@ -19,11 +23,17 @@
     border: 1px solid #bec0c3;
     padding: 0px 5px;
     border-radius: 8px;
+    width: 100%;
 }
 
 .input_field input:focus-visible{
     outline: none;
     border: 1px solid #A9C23F;
+}
+
+.input_field input::placeholder{
+    font-size: 14px;
+    padding-left: 4px;
 }
 
 .react_select > div{

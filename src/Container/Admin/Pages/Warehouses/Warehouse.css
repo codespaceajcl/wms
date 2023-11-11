@@ -142,3 +142,64 @@
     width: 80px;
     margin: auto;
 }
+
+.add_warehouse_head{
+    padding: 0;
+    margin-top: 5px;
+    margin-bottom: 40px;
+}
+
+.add_warehouse_head h5 > svg {
+    position: absolute;
+    left: 0;
+    color: #000;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.add_warehouse_head h5 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 5px;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.add_warehouse_head p{
+    color: #484C52;
+    font-size: 14px;
+    text-align: center;
+}
+
+.warehouse_form input{
+    margin-bottom: 20px;
+}
+
+.warehouse_form .guZdik{
+    max-width: 100% !important;
+    height: auto !important;
+    border: 2px dashed #bec0c3 !important;
+    border-radius: 10px !important;
+    padding: 30px 20px !important;
+}
+
+.warehouse_form button{
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-radius: 25px;
+    background-color: #003A70;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.warehouse_form button.cancel_btn{
+    background-color: #D3D3D3;
+    color: #484C52;
+}
+
+.add_warehouse_modal .modal-body{
+    padding: 20px 40px;
+}

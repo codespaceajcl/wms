@@ -1,0 +1,10 @@
+.loading_main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 0;
+}
+
+.loading_main img{
+    width: 250px;
+}

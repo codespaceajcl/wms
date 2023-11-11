@@ -1,7 +1,7 @@
 import React from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
 import './Warehouse.css';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { BsArrowLeftShort } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai"
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,10 @@ import {
   Chart as ChartJS, ArcElement, BarElement, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend,
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { useState } from 'react';
+import Input from '../../../../Components/Input/Input';
+import { FileUploader } from "react-drag-drop-files";
+import ErrorModal from '../../../../Components/Modals/ErrorModal';
 
 ChartJS.register(
   ArcElement,
@@ -26,6 +30,12 @@ ChartJS.register(
 
 const Warehouses = () => {
   const navigate = useNavigate();
+  const [addWarehouseModal, setAddWarehouseModal] = useState(false)
+  const [file, setFile] = useState(null);
+  const [show, setShow] = useState(false)
+  const handleChange = (file) => {
+    setFile(file);
+  };
 
   const locationData = {
     labels: ['Total', 'Utilized'],
@@ -65,18 +75,76 @@ const Warehouses = () => {
     },
   };
 
+  const addWarehouseHandler = (e) => {
+    e.preventDefault();
+
+    setAddWarehouseModal(false)
+    setShow(true)
+  }
+
+  const modal = <Modal show={addWarehouseModal} onHide={() => setAddWarehouseModal(false)} size='lg' className='add_warehouse_modal'>
+    <Modal.Body>
+      <div className='add_warehouse_head'>
+        <h5> <BsArrowLeftShort onClick={() => setAddWarehouseModal(false)} />
+          Add Warehouse
+        </h5>
+        <p>Please fill out this form with the required information</p>
+      </div>
+
+      <div className='warehouse_form'>
+        <Form onSubmit={addWarehouseHandler}>
+          <Row>
+            <Col md={6}>
+              <Input label={'Warehouse Name'} placeholder={"Enter Warehouse Name"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'Commerce Date'} placeholder={"Enter Warehouse Name"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={12}>
+              <Input label={'Warehouse Address'} placeholder={"Enter Warehouse Address"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'POC Name'} placeholder={"Enter POC Name"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'POC Contact'} placeholder={"Enter POC Contact"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'No of Stages'} placeholder={"Enter No. of Stages"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'No of Stores'} placeholder={"Enter No. of Stores"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={12}>
+              <FileUploader handleChange={handleChange} name="file" types={["JPG", "PNG", "GIF"]} />
+            </Col>
+            <Col md={12} className='mt-4'>
+              <div><button type='submit'>Add</button></div>
+            </Col>
+            <Col md={12}>
+              <div><button type="button" className='cancel_btn' onClick={() => setAddWarehouseModal(false)}>Cancel</button></div>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+    </Modal.Body>
+  </Modal>
+
   return (
     <div>
+      {modal}
+      <ErrorModal show={show} setShow={() => setShow(!show)} />
+
       <Breadcrumbs list={["Dashboard", "Warehouses"]} />
 
       <div className='material_main'>
         <h5> <BsArrowLeftShort onClick={() => navigate(-1)} />
           Warehouses
 
-          <div className='create'><AiOutlinePlus style={{ fontSize: "20px" }} /> Create Warehouse</div>
+          <div className='create' onClick={() => setAddWarehouseModal(true)}><AiOutlinePlus style={{ fontSize: "20px" }} /> Create Warehouse</div>
         </h5>
 
-        <Container>
+        <Container className='mt-5'>
           <Row>
             {
               warehouseApi.map((w) => {

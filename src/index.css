@@ -13,6 +13,18 @@ body{
   overflow: hidden;
 }
 
+body::-webkit-scrollbar {
+  width: 1px;
+}
+ 
+body::-webkit-scrollbar-track {
+  box-shadow: none;
+}
+ 
+body::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
 img{
   max-width: 100%;
 }

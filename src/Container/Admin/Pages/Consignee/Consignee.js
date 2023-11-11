@@ -4,15 +4,19 @@ import { AiOutlineUserAdd, AiOutlineClose } from "react-icons/ai"
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { BiChevronLeft } from "react-icons/bi";
-import { Col, Modal, Row, Table } from "react-bootstrap"
+import { Col, Modal, Row, Table, Form } from "react-bootstrap"
 import ConsigeeApi from "../../../../Apis/Consigee.json";
 import './Consignee.css';
+import Input from '../../../../Components/Input/Input';
+import SuccessModal from '../../../../Components/Modals/SuccessModal';
 
 const Consignee = () => {
   const navigate = useNavigate();
   const [consigneeModal, setConsigneeModal] = useState(false)
   const [moreModal, setMoreModal] = useState(false)
   const [skuModal, setSkuModal] = useState(false)
+  const [addConsigneeModal, setAddConsigneeModal] = useState(false)
+  const [show, setShow] = useState(false)
 
   const tableHead = ["S.No", "Name & Address", "Contact", "Assign"]
   const detailHead = ["SKU", "Quantity", "Business Type", "More"]
@@ -191,11 +195,63 @@ const Consignee = () => {
     </Modal>
   )
 
+  const addConsigneeHandler = (e) => {
+    e.preventDefault();
+
+    setAddConsigneeModal(false)
+    setShow(true)
+  }
+
+  const modal = <Modal show={addConsigneeModal} onHide={() => setAddConsigneeModal(false)} size='lg' className='add_warehouse_modal'>
+    <Modal.Body>
+      <div className='add_warehouse_head'>
+        <h5> <BsArrowLeftShort onClick={() => setAddConsigneeModal(false)} />
+          Add Consignee Form
+        </h5>
+        <p>Please fill out this form with the required information</p>
+      </div>
+
+      <div className='warehouse_form'>
+        <Form onSubmit={addConsigneeHandler}>
+          <Row>
+            <Col md={6}>
+              <Input label={'Industry Name'} placeholder={"Enter Industry Name"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'Consignee Name'} placeholder={"Enter Consignee Name"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={12}>
+              <Input label={'Consignee Address'} placeholder={"Enter Consignee Address"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'Commence Date'} placeholder={"Select Date"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'POC Name'} placeholder={"Enter POC Name"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={6}>
+              <Input label={'Contact'} placeholder={"Enter Contact"} isRequired={true} type={'text'} />
+            </Col>
+            <Col md={12} className='mt-4'>
+              <div><button type='submit'>Submit</button></div>
+            </Col>
+            <Col md={12}>
+              <div><button type="button" className='cancel_btn' onClick={() => setAddConsigneeModal(false)}>Cancel</button></div>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+    </Modal.Body>
+  </Modal>
+
   return (
     <div>
       {consigneeDetailModal}
       {consigneeMoreModal}
       {skuDetailModal}
+      {modal}
+
+      <SuccessModal show={show} setShow={() => setShow(!show)} />
 
       <Breadcrumbs list={["Dashboard", "Consignee"]} />
 
@@ -208,7 +264,7 @@ const Consignee = () => {
               <input placeholder="search anything" />
             </div>
             Consignee
-            <div className='create'><AiOutlineUserAdd style={{ fontSize: "17px" }} /> Add Consignee</div>
+            <div className='create' onClick={() => setAddConsigneeModal(true)}><AiOutlineUserAdd style={{ fontSize: "17px" }} /> Add Consignee</div>
           </h5>
         </div>
 

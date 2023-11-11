@@ -6,9 +6,12 @@ import Input from '../../../../Components/Input/Input';
 import { BsArrowLeftShort } from "react-icons/bs";
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
+import SuccessModal from '../../../../Components/Modals/SuccessModal';
+import { useState } from 'react';
 
 const ListMaterials = () => {
   const navigate = useNavigate();
+  const [show, setShow] = useState(false)
 
   const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -16,14 +19,22 @@ const ListMaterials = () => {
     { value: 'vanilla', label: 'Vanilla' }
   ]
 
+  const materialSubmitHandler = (e) => {
+    e.preventDefault();
+
+    setShow(true)
+  }
+
   return (
     <div>
       <Breadcrumbs list={["Dashboard", "List Of Materials"]} />
 
+      <SuccessModal show={show} setShow={() => setShow(!show)} />
+
       <div className='material_main'>
         <h5> <BsArrowLeftShort onClick={() => navigate(-1)} /> List Of Materials</h5>
 
-        <Form>
+        <Form onSubmit={materialSubmitHandler} className='mt-5'>
           <Container>
             <Row className='justify-content-around'>
               <Col md={6}>
