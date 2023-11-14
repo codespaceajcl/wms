@@ -1,5 +1,8 @@
+import WarehouseDetail from "../../Warehouses/Detail/WarehouseDetail";
+import LocationDetail from "../../Warehouses/LocationDetail/LocationDetail";
 import Consignee from "../Pages/Consignee/Consignee";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import DcDocument from "../Pages/DcDocument/DcDocument";
 import Nomenclature from "../Pages/Enquiry/Details/Nomenclature/Nomenclature";
 import Enquiry from "../Pages/Enquiry/Enquiry";
 import InhouseMovement from "../Pages/InhouseMovement/InhouseMovement";
@@ -40,7 +43,23 @@ export const adminRoutes = [
     path: "/inhouse-movement",
     component: <InhouseMovement />,
   },
+  {
+    path: "/dc-document",
+    component: <DcDocument />,
+  },
+
 ];
+
+export const warehouseRoutes = [
+  {
+    path: "/warehouse/details",
+    component: <WarehouseDetail />,
+  },
+  {
+    path: "/warehouse/details/location",
+    component: <LocationDetail />,
+  },
+]
 
 
 export const adminSideBarItems = [

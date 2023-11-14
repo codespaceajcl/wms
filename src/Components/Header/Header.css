@@ -36,6 +36,7 @@
   align-items: center;
   padding-right: 20px;
   border-right: 1px solid #CCCCCC;
+  gap: 4px;
 }
 
 .user_nav img{
@@ -194,6 +195,7 @@
 
 .sidebar_top_logo .main_logo{
   width: 90px;
+  cursor: pointer;
 }
 
 .search_box{
@@ -366,6 +368,38 @@
 .notification_box{
   position: relative;
 }
+
+.warehouse_header{
+  padding: 0px;
+  border-bottom: 1px solid #fff;
+  margin-bottom: 15px;
+  /* margin-bottom: 50px; */
+}
+
+.warehouse_header .layout_content{
+  min-height: auto !important;
+}
+
+.warehouse_header .search_box input{
+  min-width: 300px
+}
+
+.warehouse_header .main_logo{
+  width: 90px;
+  cursor: pointer;
+}
+
+.warehouse_header .user_nav .nav-item a{
+  color: #fff !important;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  margin-left: 4px;
+  padding: 0;
+}
+
 
 @media screen and (max-width: 992px) {
   .user_header .navbar {

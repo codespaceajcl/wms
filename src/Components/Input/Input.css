@@ -9,7 +9,7 @@
     font-weight: 400;
 }
 
-.input_field label span{
+.input_field label span, .react_select_label span{
     color: red;
 }
 

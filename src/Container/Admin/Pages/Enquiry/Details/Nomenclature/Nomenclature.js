@@ -5,12 +5,18 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Loading from '../../../../../../Components/Loading/Loading';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Modal, Row, Table } from 'react-bootstrap';
+import { AiOutlineUserAdd, AiOutlineClose } from "react-icons/ai"
+import nomenClatureApi from "../../../../../../Apis/NomenClature.json";
 
 const Nomenclature = () => {
     const navigate = useNavigate();
     const [showLoader, setShowLoader] = useState(false)
     const [showResult, setShowResult] = useState(false)
+    const [nomenModal, setNomenModal] = useState(false)
+
+    const skuHead = ["Transaction ID", "Order/Invoice No", "Vehicle No", "Warehouse", "Destination",
+        "Business Type", "Date", "Document", "Action"]
 
     const searchHandler = (e) => {
         e.preventDefault();
@@ -22,8 +28,56 @@ const Nomenclature = () => {
         }, 1500)
     }
 
+    const nomenClatureDetailModal = (
+        <Modal show={nomenModal}
+            centered onHide={() => setNomenModal(!nomenModal)} size='xl' className='consignee_detail_modal sku_Detail nomen_Detail'>
+            <Modal.Body>
+                <div className='nomen_detail_head'>
+                    <div>
+                        Nomenclature
+                        <br />
+                        <span>Encoder TK320.SG.500.11/30 - (Wheel)</span>
+                    </div>
+
+                    <AiOutlineClose onClick={() => setNomenModal(!nomenModal)} style={{ cursor: "pointer", fontSize: "17px" }} />
+                </div>
+                <div className='consignee_table detail'>
+                    <Table responsive={true}>
+                        <thead>
+                            <tr>
+                                {skuHead.map((d) => (<th>{d}</th>))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                nomenClatureApi.map((n) => {
+                                    console.log(n)
+                                    return (
+                                        <tr>
+                                            <td>{n.Transaction_id}</td>
+                                            <td>{n.Order_Invoice}</td>
+                                            <td>{n.Vehicle_No}</td>
+                                            <td>{n.Warehouse}</td>
+                                            <td>{n.Destination}</td>
+                                            <td>{n.Business_type}</td>
+                                            <td>{n.Date}</td>
+                                            <td><a href=''>{n.Document}</a></td>
+                                            <td className={n.Action === 'Stock Out' ? 'stock_out' : 'stock_in'}><span>{n.Action}</span></td>
+                                        </tr>
+                                    )
+                                })
+                            }
+
+                        </tbody>
+                    </Table>
+                </div>
+            </Modal.Body>
+        </Modal>
+    )
+
     return (
         <div>
+            {nomenClatureDetailModal}
             <Breadcrumbs list={["Dashboard", "General Enquiry"]} />
 
             {
@@ -82,7 +136,7 @@ const Nomenclature = () => {
                                             <p>Warehouse  <br /> <span>PAKISTANNone_01</span></p>
                                         </Col>
 
-                                        <button>View</button>
+                                        <button onClick={() => setNomenModal(true)}>View</button>
                                     </Row>
                                 </div>
                             </Col>

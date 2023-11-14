@@ -1,4 +1,4 @@
-import { adminRoutes } from "./Container/Admin/Routes/Routes";
+import { adminRoutes, warehouseRoutes } from "./Container/Admin/Routes/Routes";
 // import ChangePassword from "Container/Auth/ChangePassword/ChangePassword";
 // import ForgotPassword from "Container/Auth/ForgotPassword/ForgotPassword";
 // import Login from "Container/Auth/Login/Login";
@@ -9,6 +9,7 @@ import AdminLayout from "./Layouts/AdminLayout";
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import MainLayout from "./Layouts/MainLayout";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -30,9 +31,15 @@ const App = () => {
     </Route>
   );
 
+  const warehouseLayout = <Route path={"/warehouse"} element={<MainLayout fullClickBtn={handle.enter} fullClickClose={handle.exit} handle={handle} />}>
+    {warehouseRoutes.map((item) => (
+      <Route key={item.path} path={item.path} element={item.component} />
+    ))}
+  </Route>
+
 
   return (
-    <div className="make_overflow">
+    <div className="fullscreen">
       <FullScreen handle={handle}>
         <BrowserRouter>
           <ScrollToTop />
@@ -40,6 +47,7 @@ const App = () => {
           <Routes>
 
             {adminLayout}
+            {warehouseLayout}
 
             <Route path="*" element={<NotFound />} />
           </Routes>

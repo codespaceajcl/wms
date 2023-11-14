@@ -219,7 +219,7 @@ const Warehouses = () => {
                         </Col>
                       </Row>
                     </div>
-                    <button className='go_warehouse_btn'>Go To Warehouse</button>
+                    <button className='go_warehouse_btn' onClick={() => navigate('/warehouse/details')}>Go To Warehouse</button>
                   </Col>
                 )
               })

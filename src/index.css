@@ -9,12 +9,14 @@
 
 body{
   background-color: #F5F6F7 !important;
-  padding: 25px;
+  /* padding: 25px; */
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 body::-webkit-scrollbar {
-  width: 1px;
+  width: 0px;
 }
  
 body::-webkit-scrollbar-track {
@@ -31,7 +33,33 @@ img{
 
 .fullscreen.fullscreen-enabled{
   background-color: #F5F6F7 !important;
-  padding: 20px 5px !important;
+  /* padding: 20px 5px !important; */
+}
+
+.warehouse_detail_layout{
+  background-image: url('/public/images/warehouse_detail_bg.png');
+  background-size: cover;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 80px;
+}
+
+.location_bg_layout{
+  background-image: url('/public/images/location_bg.png');
+  background-size: cover;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 80px;
+}
+
+.user_layout{
+  padding: 25px;
+}
+
+.modal {
+  z-index: 10000000 !important;
 }
 
 @media (max-width: 992px) {

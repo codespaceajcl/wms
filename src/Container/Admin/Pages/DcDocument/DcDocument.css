@@ -1,0 +1,296 @@
+.change_table_icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 20px;
+}
+
+.change_table_icons img {
+    width: 35px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 7px;
+}
+
+.change_table_icons img:last-child {
+    width: 38px;
+}
+
+.change_table_icons img.active{
+    background-color: #E9E9E9;
+}
+
+.react_select_inhouse.dc_doc {
+    width: 100%;
+}
+
+.consignee_table.inhouse.dc_doc .table>thead>tr>th {
+    padding: 10px 7px;
+    font-size: 13px;
+}
+
+.consignee_table.inhouse.dc_doc .table>tbody>tr>td {
+    padding: 12px 5px;
+    border: 1px solid #E7E7E7;
+    font-size: 13px;
+}
+
+.consignee_table.dc_doc .table>tbody>tr>td button {
+    border: none;
+    background-color: #00A499;
+    color: #fff;
+    padding: 7px 10px;
+    font-size: 12px;
+    border-radius: 100px;
+    font-weight: 600;
+    width: 100%;
+    margin-bottom: 10px;
+    min-width: 95px;
+}
+
+.consignee_table.dc_doc .table>tbody>tr>td button.upload_dc {
+    background-color: #00A3FF;
+}
+
+.consignee_table.dc_doc .table>tbody>tr>td button.revert {
+    background-color: #FF5656;
+}
+
+.in_transit {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    background-color: #fff;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.in_transit.download .status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #D9FFC9;
+    padding: 12px 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.in_transit .status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FFF4B9;
+    padding: 10px 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.in_transit .status h6 {
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: 300;
+    color: #B99C00;
+}
+
+.in_transit.download .status h6 {
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 300;
+    color: #329932;
+}
+
+.in_transit .status h6 span {
+    font-weight: 600;
+}
+
+.in_transit .data {
+    padding: 5px 15px;
+}
+
+.in_transit .data h6 {
+    color: #666666;
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.in_transit .data p {
+    color: #181818;
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: end;
+}
+
+.in_transit .data .row {
+    border-bottom: 1px solid #E6E6E6;
+    padding: 10px 0px;
+    margin: 0px 10px;
+}
+
+.in_transit .data .row .col-md-4 {
+    padding-left: 0;
+}
+
+.in_transit .data .row .col-md-8 {
+    padding-right: 0;
+}
+
+.in_transit .data .upload_dc {
+    font-size: 13px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 7px 15px;
+    background-color: #00A3FF;
+    color: #fff;
+    border-radius: 5px;
+    margin: 10px 0;
+    width: 50%;
+    justify-content: center;
+}
+
+.in_transit .data .revert {
+    font-size: 13px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 15px;
+    background-color: #FF5656;
+    color: #fff;
+    border-radius: 5px;
+    margin: 10px 0;
+    width: 50%;
+    justify-content: center;
+}
+
+.in_transit .data button img {
+    width: 14px;
+}
+
+.in_transit.download button{
+    font-size: 13px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 15px;
+    background-color: #329932;
+    color: #fff;
+    border-radius: 5px;
+    margin: 10px 0;
+    width: 100%;
+    justify-content: center;
+}
+
+.consignee_detail_modal.revert{
+    min-width: 550px;
+}
+
+.revert_detail{
+    background-color: #F5F6F7;
+    padding: 10px 16px;
+}
+
+.revert_detail .col-md-6 div{
+    font-size: 13px;
+    color: #484C52;
+    background-color: #fff;
+    padding: 6px 10px;
+    border-radius: 7px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.revert_detail .col-md-6 div span{
+    font-weight: 600;
+}
+
+.revert_detail p{
+    text-align: center;
+    color: #484C52;
+    font-size: 16px;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.revert_detail button{
+    font-size: 13px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 15px;
+    background-color: #329932;
+    color: #fff;
+    border-radius: 5px;
+    margin: 10px 0;
+    width: 50%;
+    justify-content: center;
+}
+
+.revert_detail button.no_btn{
+    background-color: #E64646;
+}
+
+.download_report{
+    position: absolute;
+    right: 0;
+    top: 5px;
+    font-size: 13px;
+    color: #484C52;
+    font-weight: 300;
+    margin-bottom: 0;
+    cursor: pointer;
+    text-transform: capitalize;
+    display: flex;
+    gap: 12px;
+}
+
+.filter_div{
+    background-color: #F5F6F7;
+    padding: 16px 10px;
+    position: absolute;
+    z-index: 11111;
+    right: 0;
+    border-radius: 11px;
+    top: 21px;
+}
+
+.filter_div label{
+    display: flex;
+    padding-left: 5px;
+    margin-bottom: 2px;
+    font-weight: 400;
+}
+
+.filter_div input{
+    background-color: #fff;
+    border: none;
+    padding: 5px 4px;
+    font-size: 12px;
+    border-radius: 7px;
+}
+
+.filter_div div{
+    margin-bottom: 10px;
+}
+
+.filter_div .checkbox_div{
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.filter_div .checkbox_div label{
+    display: flex;
+    padding-left: 5px;
+    margin-bottom: 0px;
+    font-weight: 400;
+    font-size: 15px;
+    color: #000;
+}

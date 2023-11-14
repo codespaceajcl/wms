@@ -142,3 +142,34 @@
     font-size: 15px;
 }
 
+.nomenDetails .modal-xl {
+    max-width: 96%;
+}
+
+.nomen_detail_head{
+    display: flex;
+    justify-content: space-between;
+    background-color: #F5F6F7;
+    color: #484C52;
+    padding: 10px 20px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    align-items: center;
+    border-bottom: 2px solid #003A70;
+    font-size: 13px;
+}
+
+.nomen_detail_head span{
+    font-weight: 700;
+}
+
+.nomen_Detail .consignee_table.detail .table>thead>tr>th{
+    border: none;
+    background-color: #fff;
+    color: #718096;
+    text-align: center;
+    font-weight: 600;
+    padding: 12px 0px;
+    font-size: 13px;
+}
+

@@ -1,0 +1,138 @@
+.location_detail_box {
+    background-image: url('/public/images/shade_box1.png');
+    background-size: cover;
+    padding: 25px 22px;
+    border-radius: 15px;
+}
+
+.location_detail_box>h6 {
+    font-size: 13px;
+    color: #fff;
+}
+
+.location_detail_box .warehouse_info_detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.location_detail_box .warehouse_info_detail img {
+    width: 80px;
+}
+
+.location_detail_box .warehouse_info_detail h6 {
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+
+.location_detail_box .warehouse_info_detail p {
+    margin-bottom: 0;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 300;
+}
+
+.location_list_detail ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    padding-bottom: 3px;
+}
+
+.location_list_detail ul:last-child {
+    border-bottom: none;
+}
+
+.location_list_detail ul li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+}
+
+.location_list_detail ul li img {
+    width: 15px;
+}
+
+.location_center_boxes {
+    background-image: url('/public/images/location_center_boxes.png');
+    background-size: cover;
+    padding: 23px 10px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.location_center_boxes h4 {
+    margin-bottom: 0;
+    font-weight: 700;
+    color: #fff;
+    font-size: 25px;
+}
+
+.location_center_boxes p {
+    margin-bottom: 0;
+    font-size: 12px;
+    color: #fff;
+}
+
+.location_detail_box .col-md-6 {
+    margin-bottom: 15px;
+}
+
+.location_detail_graph {
+    background-image: url('/public/images/shade_box1.png');
+    background-size: cover;
+    padding: 25px 22px;
+    border-radius: 15px;
+}
+
+.location_detail_graph .tabs {
+    display: flex;
+    justify-content: space-between;
+    /* background-color: #fff; */
+    font-size: 15px;
+    background-image: url('/public/images/graph_box_bg.png');
+    background-size: 100% 100%;
+    border-radius: 10px;
+}
+
+.location_detail_graph .tabs p{
+    margin-bottom: 0;
+    padding: 7px 10px;
+    font-weight: 600;
+    font-size: 14px;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.location_detail_graph .tabs p.active{
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 8px;
+}
+
+.pie_chart_location{
+    max-width: 180px;
+    margin: auto;
+    height: 215px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.bar_location{
+    max-width: 310px;
+    margin: auto;
+    height: 215px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+}

@@ -12,3 +12,7 @@
     margin-bottom: 0;
     cursor: pointer;
 }
+
+.location_breakcrumb .breadcrumbs_main{
+    color: #fff;
+}
