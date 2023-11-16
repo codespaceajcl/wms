@@ -373,7 +373,15 @@
   padding: 0px;
   border-bottom: 1px solid #fff;
   margin-bottom: 15px;
-  /* margin-bottom: 50px; */
+  position: fixed;
+  background-image: url('/public/images/location_bg.png');
+  width: 100%;
+  background-size: cover;
+  z-index: 999;
+}
+
+.warehouse_detail_layout .warehouse_header{
+  background-image: url('/public/images/warehouse_detail_bg.png');
 }
 
 .warehouse_header .layout_content{
