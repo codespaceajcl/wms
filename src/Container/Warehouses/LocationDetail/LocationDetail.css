@@ -141,7 +141,7 @@
     position: relative;
 }
 
-.pie_chart_location ul{
+.pie_chart_location ul {
     position: absolute;
     left: -80px;
     bottom: -50px;
@@ -151,7 +151,7 @@
     padding-left: 10px;
 }
 
-.pie_chart_location ul li span{
+.pie_chart_location ul li span {
     height: 10px;
     width: 10px;
     background: rgba(165, 207, 79, 1);
@@ -159,15 +159,15 @@
     margin-right: 2px;
 }
 
-.pie_chart_location ul li:nth-child(even) span{
+.pie_chart_location ul li:nth-child(even) span {
     background: rgba(119, 206, 255, 1);
 }
 
-.pie_chart_location ul li:last-child span{
+.pie_chart_location ul li:last-child span {
     background: #fff;
 }
 
-.pie_chart_location ul li{
+.pie_chart_location ul li {
     margin-bottom: 5px;
     padding-left: 10px;
 }
@@ -568,9 +568,10 @@
 
 .rack_add .modal-body {
     border-radius: 20px;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(30px);
-    background: linear-gradient(350.02deg, #FFFFFF -11.6%, rgba(255, 255, 255, 0) 43.85%), linear-gradient(9.97deg, rgba(255, 255, 255, 470.5) -47.87%, rgba(255, 255, 255, 0) 136.95%), linear-gradient(180deg, rgba(255, 255, 255, 0.3) 167%, rgba(255, 255, 255, 0) 367%);
+    backdrop-filter: blur(11px);
+    background: linear-gradient(108.02deg, #fcfcfc00 4.4%, rgba(255, 255, 255, 0) 103.85%), linear-gradient(110.97deg, rgba(255, 255, 255, 0.7) -4.87%, rgba(255, 255, 255, 0) 103.95%), linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+    border-image-source: linear-gradient(103.02deg, #FFFFFF 4.4%, rgba(255, 255, 255, 0) 102.85%);
+    box-shadow: 0px 16px 32px 0px rgba(255, 255, 255, 0.16);
 }
 
 .rack_add .modal-content {
@@ -595,7 +596,7 @@
 
 .rack_add input,
 .rack_add .react_select .css-13cymwt-control {
-    border: 2px solid #000 !important;
+    border: 1.5px solid #000 !important;
     background-color: rgba(231, 231, 231, 1);
 }
 
@@ -751,19 +752,19 @@
     color: #000;
 }
 
-.status_changed_success .modal-content{
+.status_changed_success .modal-content {
     -webkit-backdrop-filter: blur(30px);
     backdrop-filter: blur(20px);
     background: linear-gradient(110.97deg, rgba(255, 255, 255, 0.9) -14.87%, rgba(255, 255, 255, 0) 176.95%), linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
     border: 1px solid #fff;
 }
 
-.status_changed_success .close_div{
+.status_changed_success .close_div {
     display: flex;
     justify-content: end;
 }
 
-.status_changed_success .success_detail{
+.status_changed_success .success_detail {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -771,22 +772,22 @@
     padding: 80px 0;
 }
 
-.status_changed_success .success_detail img{
+.status_changed_success .success_detail img {
     width: 50px;
     margin-bottom: 10px;
 }
 
-.status_changed_success .success_detail h2{
+.status_changed_success .success_detail h2 {
     font-weight: 600;
 }
 
-.status_changed_success .success_detail p{
+.status_changed_success .success_detail p {
     text-align: center;
     font-size: 18px;
     font-weight: 400;
 }
 
-.show_input_value{
+.show_input_value {
     border: none;
     background-color: transparent;
     font-weight: 800;
@@ -794,10 +795,65 @@
     border-bottom: 2px solid;
 }
 
-.show_input_value:focus-visible{
+.show_input_value:focus-visible {
     outline: none;
 }
 
-.show_input_value:disabled{
+.show_input_value:disabled {
     color: #000;
+}
+
+.scroll_chevrons {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.scroll_chevrons svg {
+    color: #fff;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+@media (min-width: 1400px) {
+    .rack_placing .rack_place span {
+        position: absolute;
+        font-size: 12px;
+        top: 25.5%;
+        left: 27%;
+        color: #fff;
+        font-weight: 600;
+    }
+}
+
+@media (max-width: 1200px) {
+    .location_detail_inner .container {
+        max-width: 1100px;
+    }
+
+    .rack_box_container table {
+        width: 180%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .rack_placing .rack_place span {
+        position: absolute;
+        font-size: 12px;
+        top: 25.5%;
+        left: 28%;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .location_detail_graph .tabs p {
+        padding: 7px 5px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 767px) {
+    .rack_box_container table {
+        width: 430%;
+    }
 }

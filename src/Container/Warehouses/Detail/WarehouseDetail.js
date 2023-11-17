@@ -26,7 +26,7 @@ const WarehouseDetail = () => {
     <Modal show={AddStore}
       centered onHide={() => setAddStore(!AddStore)} size='lg' className='warehouse_add'>
       <Modal.Body>
-        <div className='warehouse_add_head'>
+        <div className='warehouse_add_head' style={{ backgroundColor: "#003A70" }}>
           <div>
             Add Store
           </div>
@@ -99,7 +99,7 @@ const WarehouseDetail = () => {
             </div>
           }
 
-          <button className='submit_btn' type='submit'>Add</button>
+          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }}>Add</button>
         </div>
       </Modal.Body>
     </Modal >
@@ -109,7 +109,7 @@ const WarehouseDetail = () => {
     <Modal show={AddStages}
       centered onHide={() => setAddStages(!AddStages)} size='lg' className='warehouse_add'>
       <Modal.Body>
-        <div className='warehouse_add_head'>
+        <div className='warehouse_add_head' style={{ backgroundColor: "#003A70" }}>
           <div>
             Add Stage
           </div>
@@ -122,7 +122,7 @@ const WarehouseDetail = () => {
             <input placeholder='Enter no of stages' type='number' />
           </div>
           <hr />
-          <button className='submit_btn' type='submit'>Add</button>
+          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }}>Add</button>
         </div>
       </Modal.Body>
     </Modal>
@@ -132,7 +132,7 @@ const WarehouseDetail = () => {
     <Modal show={AddPallet}
       centered onHide={() => setAddPallet(!AddPallet)} size='lg' className='warehouse_add'>
       <Modal.Body>
-        <div className='warehouse_add_head'>
+        <div className='warehouse_add_head' style={{ backgroundColor: "#003A70" }}>
           <div>
             Add Pallet
           </div>
@@ -145,7 +145,7 @@ const WarehouseDetail = () => {
             <input placeholder='Enter no of pallets' type='number' />
           </div>
           <hr />
-          <button className='submit_btn' type='submit'>Add</button>
+          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }}>Add</button>
         </div>
       </Modal.Body>
     </Modal>
@@ -159,7 +159,7 @@ const WarehouseDetail = () => {
 
       <Container>
         <div className='warehouse_head'>
-          <h6> <BsArrowLeft onClick={() => navigate(-1)} /> PAKISTANNone_01/Storage</h6>
+          <h6> <BsArrowLeft onClick={() => navigate('/warehouses')} /> PAKISTANNone_01/Storage</h6>
 
           <div className='d-flex' style={{ gap: "10px" }}>
             <button onClick={() => setAddStore(true)}><AiOutlinePlus /> Add Store</button>

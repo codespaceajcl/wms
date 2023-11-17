@@ -7,7 +7,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-body{
+body {
   background-color: #F5F6F7 !important;
   /* padding: 25px; */
   overflow: hidden;
@@ -18,25 +18,38 @@ body{
 body::-webkit-scrollbar {
   width: 0px;
 }
- 
+
 body::-webkit-scrollbar-track {
   box-shadow: none;
 }
- 
+
 body::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
 
-img{
+img {
   max-width: 100%;
 }
 
-.fullscreen.fullscreen-enabled{
+.fullscreen.fullscreen-enabled {
   background-color: #F5F6F7 !important;
   /* padding: 20px 5px !important; */
+  overflow-y: scroll;
 }
 
-.warehouse_detail_layout{
+.fullscreen.fullscreen-enabled::-webkit-scrollbar {
+  width: 0px;
+}
+
+.fullscreen.fullscreen-enabled::-webkit-scrollbar-track {
+  box-shadow: none;
+}
+
+.fullscreen.fullscreen-enabled::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.warehouse_detail_layout {
   background-image: url('/public/images/warehouse_detail_bg.png');
   background-size: cover;
   overflow-x: hidden;
@@ -45,7 +58,7 @@ img{
   padding-bottom: 80px;
 }
 
-.location_bg_layout{
+.location_bg_layout {
   background-image: url('/public/images/location_bg.png');
   background-size: cover;
   overflow-x: hidden;
@@ -54,7 +67,7 @@ img{
   padding-bottom: 80px;
 }
 
-.user_layout{
+.user_layout {
   padding: 25px;
 }
 
@@ -62,12 +75,16 @@ img{
   z-index: 10000000 !important;
 }
 
+.fade.modal-backdrop.show {
+  opacity: 0.3;
+}
+
 @media (max-width: 992px) {
-  .left_layout_overlay{
+  .left_layout_overlay {
     width: 0px !important;
   }
 
-  body{
+  body {
     overflow: auto;
   }
 }

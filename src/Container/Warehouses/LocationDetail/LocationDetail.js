@@ -5,17 +5,11 @@ import Select from 'react-select'
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { AiOutlineSearch } from "react-icons/ai";
-import './LocationDetail.css';
-import {
-    Chart as ChartJS, ArcElement, BarElement, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend,
-} from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
 import { MdFilterList } from "react-icons/md";
 import LocationApi from "../../../Apis/Location.json";
-import SuccessModal from '../../../Components/Modals/SuccessModal';
-
-ChartJS.register(ArcElement, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Filler, Legend
-);
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa6";
+import './LocationDetail.css';
 
 const LocationDetail = () => {
     const [showGraph, setShowGraph] = useState('inventory')
@@ -28,20 +22,29 @@ const LocationDetail = () => {
     const [showFilterBox, setShowFilterBox] = useState(false)
     const [editInputValue, setEditInputValue] = useState('W02AA01A1');
     const [editInput, setEditInput] = useState(false)
+    const [scrollPosition1, setScrollPosition1] = useState(0);
+    const [scrollPosition2, setScrollPosition2] = useState(0);
+
+    const rackContainerRef1 = useRef(null);
+    const rackContainerRef2 = useRef(null);
+
+    const handleScroll = (scrollValue, containerRef, setScrollPosition) => {
+        const newScrollPosition = setScrollPosition + scrollValue;
+        setScrollPosition(newScrollPosition);
+
+        if (containerRef.current) {
+            containerRef.current.scrollBy({ left: scrollValue, behavior: 'smooth' });
+        }
+    };
 
     const inputRef = useRef(null);
 
     useEffect(() => {
-        if (editInput) {
-            inputRef.current.focus();
-        }
+        if (editInput) { inputRef.current.focus() }
     }, [editInput]);
 
-    const handleClick = () => {
-        setEditInput(true);
-    };
-
     const tableHead = ["#", "Serial No", "SKU", "Pallet No", "Status", "Change Status"]
+    const warehouseLabels = ['OK', 'Faulty/Damaged'];
 
     const pieData = {
         labels: ['Ambient 79%', 'Air Conditioned 14%', 'Refrigerator 5%'],
@@ -71,8 +74,6 @@ const LocationDetail = () => {
             },
         },
     };
-
-    const warehouseLabels = ['OK', 'Faulty/Damaged'];
 
     const warehouseData = {
         labels: warehouseLabels,
@@ -231,7 +232,7 @@ const LocationDetail = () => {
                             ref={inputRef} />
                     </div>
                     <div>
-                        <p> {editInput ? <span onClick={() => setEditInput(!editInput)}>Save</span> : <span onClick={handleClick}>Edit</span>} | <span onClick={() => setShowDetail(!showDetail)}>Close</span> </p>
+                        <p> {editInput ? <span onClick={() => setEditInput(!editInput)}>Save</span> : <span onClick={() => setEditInput(true)}>Edit</span>} | <span onClick={() => setShowDetail(!showDetail)}>Close</span> </p>
                     </div>
                 </div>
 
@@ -245,12 +246,8 @@ const LocationDetail = () => {
                         </Col>
                         <Col md={5}>
                             <div className='search_by'>
-                                <div>
-                                    <input type='date' />
-                                </div>
-                                <div>
-                                    <button> <img src='/images/file_download.png' alt='' /> Download</button>
-                                </div>
+                                <input type='date' />
+                                <button> <img src='/images/file_download.png' alt='' /> Download</button>
                             </div>
                         </Col>
                     </Row>
@@ -341,7 +338,7 @@ const LocationDetail = () => {
     )
 
     return (
-        <div>
+        <div className='location_detail_inner'>
             {rackModal}
             {floorModal}
             {locationModal}
@@ -437,7 +434,6 @@ const LocationDetail = () => {
                                 <p onClick={() => setShowGraph('Utilization')} className={showGraph === 'Utilization' ? 'active' : ''}>Location Utilization</p>
                             </div>
 
-
                             <div>
                                 {
                                     showGraph === 'Utilization' ? <div className='pie_chart_location'>
@@ -487,9 +483,16 @@ const LocationDetail = () => {
                             <Row className='mt-4' style={{ transition: "all 0.3s ease" }}>
                                 <Col md={showFilterBox ? 8 : 12}>
                                     <div className='rack_placing'>
-                                        <h4>W01AA</h4>
+                                        <div style={{ position: "relative" }}>
+                                            <h4>W01AA</h4>
 
-                                        <div className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
+                                            <div className='scroll_chevrons'>
+                                                <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef1, setScrollPosition1)} />
+                                                <FaChevronRight onClick={() => handleScroll(300, rackContainerRef1, setScrollPosition1)} />
+                                            </div>
+                                        </div>
+
+                                        <div ref={rackContainerRef1} className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
                                             <table>
                                                 <tbody>
                                                     <tr>
@@ -854,9 +857,16 @@ const LocationDetail = () => {
                                     </div>
 
                                     <div className='rack_placing'>
-                                        <h4>W01AB</h4>
+                                        <div style={{ position: "relative" }}>
+                                            <h4>W01AB</h4>
 
-                                        <div className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
+                                            <div className='scroll_chevrons'>
+                                                <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef2, setScrollPosition2)} />
+                                                <FaChevronRight onClick={() => handleScroll(300, rackContainerRef2, setScrollPosition2)} />
+                                            </div>
+                                        </div>
+
+                                        <div ref={rackContainerRef2} className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
                                             <table>
                                                 <tbody>
                                                     <tr>
@@ -1221,10 +1231,9 @@ const LocationDetail = () => {
                                     </div>
                                 </Col>
 
-                                <Col md={4} style={showFilterBox === false ? { visibility: "hidden", width: "0%" } : { visibility: "visible", width: "33.33%" }}>
+                                <Col md={4} style={showFilterBox === false ? { display: "none" } : { display: "block" }}>
                                     <div className='rack_filter_right'>
                                         <div className='show_recent'>
-
                                             <div className='search_bar'>
                                                 <input placeholder='Search' />
                                                 <select id="cars" name="cars">
@@ -1240,7 +1249,6 @@ const LocationDetail = () => {
                                             </div>
 
                                             <h6>Recent Searches</h6>
-
                                             <ul>
                                                 <li>+ W01AA01A1</li>
                                                 <li>+ W01AA01A2</li>
@@ -1362,19 +1370,22 @@ const LocationDetail = () => {
                                                         <div>
                                                             <span>Filled</span>
                                                         </div>
-                                                    </label></li>
+                                                    </label>
+                                                </li>
                                                 <li><input type="checkbox" id="html" name="fav_language" value="HTML" />
                                                     <label for="html">
                                                         <div>
                                                             <span>OK</span>
                                                         </div>
-                                                    </label></li>
+                                                    </label>
+                                                </li>
                                                 <li><input type="checkbox" id="html" name="fav_language" value="HTML" />
                                                     <label for="html">
                                                         <div>
                                                             <span>Damage/Faulty</span>
                                                         </div>
-                                                    </label></li>
+                                                    </label>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -1387,5 +1398,4 @@ const LocationDetail = () => {
         </div>
     )
 }
-
 export default LocationDetail

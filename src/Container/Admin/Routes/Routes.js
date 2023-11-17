@@ -8,6 +8,7 @@ import Enquiry from "../Pages/Enquiry/Enquiry";
 import InhouseMovement from "../Pages/InhouseMovement/InhouseMovement";
 import ListMaterials from "../Pages/ListMaterials/ListMaterials";
 import RMA from "../Pages/RMA/RMA";
+import Reports from "../Pages/Reports/Reports";
 import Warehouses from "../Pages/Warehouses/Warehouses";
 
 export const adminRoutes = [
@@ -47,7 +48,10 @@ export const adminRoutes = [
     path: "/dc-document",
     component: <DcDocument />,
   },
-
+  {
+    path: "/reports",
+    component: <Reports />,
+  },
 ];
 
 export const warehouseRoutes = [
@@ -114,7 +118,7 @@ export const adminSideBarItems = [
     title: "DC Document",
   },
   {
-    path: "/report",
+    path: "/reports",
     icon: "/images/report_icon.png",
     title: "Report",
   },

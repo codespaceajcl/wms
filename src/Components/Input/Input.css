@@ -15,8 +15,11 @@
 
 .input_field input{
     border: 1px solid #bec0c3;
-    padding: 7px 5px;
+    padding: 7px 7px;
     border-radius: 8px;
+    color: hsl(0, 0%, 50%);
+    font-size: 14px;
+    width: 100%;
 }
 
 .react_select .css-13cymwt-control{
@@ -39,4 +42,12 @@
 .react_select > div{
     font-size: 14px;
     color: #00000080;
+}
+
+.calender_icon_handler{
+    width: 16px;
+    position: absolute;
+    right: 8px;
+    top: 10px;
+    background-color: #fff;
 }

@@ -13,7 +13,11 @@ const Breadcrumbs = ({ list }) => {
                         <div className='breadcrumbs_main'>
                             {
                                 l === 'Dashboard' ?
-                                    <p onClick={() => navigate('/')}>{l}</p> : <p>{l}</p>
+                                    <p onClick={() => navigate('/')}>{l}</p> :
+                                    l === 'Warehouse' ?
+                                        <p onClick={() => navigate('/warehouses')}>{l}</p> :
+                                        l === 'Agility Port Qasim' ?
+                                            <p onClick={() => navigate('/warehouse/details')}>{l}</p> : <p>{l}</p>
                             }
                             <BiChevronRight style={list.length - 1 === i ? { display: "none" } : null} />
                         </div>

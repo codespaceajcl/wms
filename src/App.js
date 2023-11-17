@@ -5,7 +5,6 @@ import { adminRoutes, warehouseRoutes } from "./Container/Admin/Routes/Routes";
 // import Home from "Container/Pages/Home/Home";
 import NotFound from "./Container/Pages/NotFound/NotFound";
 import AdminLayout from "./Layouts/AdminLayout";
-// import MainLayout from "Layouts/MainLayout";
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
@@ -37,24 +36,19 @@ const App = () => {
     ))}
   </Route>
 
-
   return (
-    <div className="fullscreen">
-      <FullScreen handle={handle}>
-        <BrowserRouter>
-          <ScrollToTop />
+    <FullScreen handle={handle}>
+      <BrowserRouter>
+        <ScrollToTop />
 
-          <Routes>
+        <Routes>
+          {adminLayout}
+          {warehouseLayout}
 
-            {adminLayout}
-            {warehouseLayout}
-
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </FullScreen>
-
-    </div>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </FullScreen>
   );
 };
 export default App;
