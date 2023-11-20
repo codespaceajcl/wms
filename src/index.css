@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 body {
@@ -34,7 +34,7 @@ img {
 .fullscreen.fullscreen-enabled {
   background-color: #F5F6F7 !important;
   /* padding: 20px 5px !important; */
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .fullscreen.fullscreen-enabled::-webkit-scrollbar {

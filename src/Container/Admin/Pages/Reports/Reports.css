@@ -1,21 +1,22 @@
 .report_tabs {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .report_tabs button {
-    color: rgba(170, 170, 170, 1);
     border: none;
-    background-color: rgba(245, 246, 247, 1);
-    padding: 10px 35px;
+    background-color: transparent;
+    padding: 10px 40px;
     color: rgba(170, 170, 170, 1);
-    border-radius: 100px;
     font-weight: 500;
     font-size: 12px;
+    background-image: url('/public/images/report_inactive_tab.png');
+    background-size: 100% 100%;
 }
 
 .report_tabs button.active {
-    background-color: #a7bf41;
+    background-image: url('/public/images/report_active_tab.png');
+    background-size: 100% 100%;
     color: #fff;
 }
 
@@ -86,8 +87,77 @@
     gap: 10px;
 }
 
-.report_summary_table.stock table tbody tr td .show_warehouse_chevron svg{
+.show_warehouse_chevron svg{
     color: #95B3D7;
     cursor: pointer;
+    margin-bottom: 3px;
 }
 
+.super_head .MuiTableCell-head{
+    background-color: #003A70;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 5px;
+    border: 1px solid #fff;
+    text-align: center;
+    border-top: none;
+}
+
+.stock_out_tab .MuiTableCell-body{
+    border: none;
+    text-align: center;
+    background-color: #F5F6F7;
+    padding: 15px 5px;
+    font-size: 13px;
+}
+
+.stock_out_tab tr{
+    box-shadow: 0px 4px 8px 0px #00000029;
+}
+
+.stock_out_table{
+    border-collapse: separate !important;
+    border-spacing: 0 10px !important;
+    position: relative !important;
+    top: -10px !important;
+}
+
+.stock_expended_row td{
+    background-color: #fff !important;
+}
+
+.stock_expended_row{
+    box-shadow: none !important;
+}
+
+.stock_expended_row .MuiTableCell-head{
+    background-color: #484C52;
+    color: #fff;
+    font-size: 13px;
+    padding: 7px 5px;
+}
+
+.stock_expended_row .MuiTableCell-body{
+    text-align: left;
+}
+
+.stock_expended_row .expended_row:nth-child(even) td{
+    background-color: #F5F6F7 !important;
+}
+
+.stock_expended_row .expended_row .make_green{
+    color: #A9C23F;
+    font-size: 15px;
+}
+
+.stock_expended_row .expended_row .make_blue{
+    color: #003A70;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stock_expended_row .expended_row .make_red{
+    color: #FF5733;
+    font-size: 14px;
+}

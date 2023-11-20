@@ -1,0 +1,66 @@
+.stockin_main .stockin_box{
+    box-shadow: 0px 4px 8px 0px #00000029;
+    border-radius: 15px;
+    text-align: center;
+    padding: 70px 20px;
+    border: 1px solid #fff;
+    cursor: pointer;
+    height: 100%;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.stockin_main .stockin_box:hover{
+    border: 1px solid #00A499;
+}
+
+.stockin_main .stockin_box img{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.stockin_main .stockin_box h6{
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+}
+
+.create.serial_generate{
+    color: #00A499;
+    font-weight: 400;
+    right: 15px;
+    top: 3px;
+}
+
+.create.serial_generate img{
+    width: 16px;
+}
+
+.shipment_stock_main{
+    margin-top: 20px;
+}
+
+.shipment_stock_main h6{
+    background-color: #DDE7B2;
+    padding: 6px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+}
+
+.serialization_para{
+    font-size: 14px;
+    text-align: end;
+    margin-bottom: 0;
+    text-decoration: underline;
+}
+
+.react_select_inhouse.stock .css-1jqq78o-placeholder{
+    font-size: 14px;
+}
+
+.react_select_inhouse.stock .css-1hb7zxy-IndicatorsContainer{
+    padding: 0 6px;
+}

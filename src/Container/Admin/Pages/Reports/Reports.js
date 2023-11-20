@@ -8,6 +8,9 @@ import Input from '../../../../Components/Input/Input';
 import reportSumApi from "../../../../Apis/ReportSum.json";
 import { useState } from 'react';
 import StockInTab from './StockInTab/StockInTab';
+import StockOutTab from './StockOutTab/StockOutTab';
+import StockReturn from './StockReturn/StockReturn';
+import StockTranfer from './StockTransfer/StockTransfer';
 
 const Reports = () => {
     const [showTab, setShowTab] = useState('Summary');
@@ -135,13 +138,13 @@ const Reports = () => {
                     showTab === 'SN' && <StockInTab />
                 }
                 {
-                    showTab === 'SO' && <StockInTab />
+                    showTab === 'SO' && <StockOutTab />
                 }
                 {
-                    showTab === 'SRN' && <StockInTab />
+                    showTab === 'SRN' && <StockReturn />
                 }
                 {
-                    showTab === 'ST' && <StockInTab />
+                    showTab === 'ST' && <StockTranfer />
                 }
             </div>
         </div>

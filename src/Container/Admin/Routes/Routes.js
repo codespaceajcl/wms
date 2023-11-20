@@ -9,6 +9,9 @@ import InhouseMovement from "../Pages/InhouseMovement/InhouseMovement";
 import ListMaterials from "../Pages/ListMaterials/ListMaterials";
 import RMA from "../Pages/RMA/RMA";
 import Reports from "../Pages/Reports/Reports";
+import ReturnStock from "../Pages/StockIn/ReturnStock/ReturnStock";
+import ShipmentStock from "../Pages/StockIn/ShipmentStock/ShipmentStock";
+import StockIn from "../Pages/StockIn/StockIn";
 import Warehouses from "../Pages/Warehouses/Warehouses";
 
 export const adminRoutes = [
@@ -51,6 +54,22 @@ export const adminRoutes = [
   {
     path: "/reports",
     component: <Reports />,
+  },
+  {
+    path: "/stock-in",
+    component: <StockIn />,
+  },
+  {
+    path: "/stock-in/return-stock",
+    component: <ReturnStock />,
+  },
+  {
+    path: "/stock-in/shipment-stock",
+    component: <ShipmentStock />,
+  },
+  {
+    path: "/stock-in/transfer-stock",
+    component: <ShipmentStock />,
   },
 ];
 

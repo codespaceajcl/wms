@@ -68,7 +68,7 @@ function Row(props) {
     );
 }
 
-export default function StockInTab() {
+export default function StockReturn() {
     const [openRow, setOpenRow] = React.useState(null);
     const tableHead = ['#', 'Transaction Code', 'Action By', 'Vehicle No', 'Suppllier', 'Date', 'Business Type', 'Warehouse']
 
