@@ -5,9 +5,9 @@ import { adminSideBarItems } from "../Container/Admin/Routes/Routes";
 import Header from "../Components/Header/Header";
 
 const AdminLayout = ({ fullClickBtn, fullClickClose, handle }) => {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
-  const shouldApplyOverflowHidden =  pathname !== '/warehouse/details' && pathname !== '/warehouse/details/location' ? true : false;
+  const shouldApplyOverflowHidden = pathname !== '/warehouse/details' && pathname !== '/warehouse/details/location' ? true : false;
   useOverflowHidden(shouldApplyOverflowHidden);
 
   return (

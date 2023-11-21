@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { BsArrowLeftShort } from "react-icons/bs";
 import Select from 'react-select'
-import Breadcrumbs from '../../../../../Components/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '../../../../../../Components/Breadcrumbs/Breadcrumbs';
 import { Col, Form, Row, Table } from 'react-bootstrap';
-import Input from '../../../../../Components/Input/Input';
+import Input from '../../../../../../Components/Input/Input';
 import { useNavigate } from 'react-router-dom';
 import { MdClose } from "react-icons/md";
 import { FileUploader } from "react-drag-drop-files";
 
-const ShipmentStock = () => {
+const KnownStock = () => {
+
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
 
@@ -27,8 +28,7 @@ const ShipmentStock = () => {
             <Breadcrumbs list={["Dashboard", "Stock In"]} />
 
             <div className='material_main' style={{ padding: "25px 0" }}>
-                <h5> <BsArrowLeftShort onClick={() => navigate(-1)} style={{ left: "10px" }} /> Stock In (ASN)
-                    <div className='create serial_generate'> <img src='/images/serial_icon.png' alt='' /> Generate Serial No</div>
+                <h5> <BsArrowLeftShort onClick={() => navigate(-1)} style={{ left: "10px" }} /> Stock Return (SRN)
                 </h5>
 
                 <Form style={{ padding: "0 20px" }}>
@@ -218,4 +218,4 @@ const ShipmentStock = () => {
     )
 }
 
-export default ShipmentStock
+export default KnownStock

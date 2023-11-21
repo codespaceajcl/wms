@@ -203,3 +203,24 @@
 .add_warehouse_modal .modal-body{
     padding: 20px 40px;
 }
+
+@media (max-width: 767px) {
+    .warehouse_detail_main .warehouse_head button{
+        padding: 5px 16px;
+        font-size: 13px;
+    }
+
+    .warehouse_detail_main .warehouse_head h6{
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .warehouse_detail_boxes_right{
+        margin-top: 20px;
+        height: auto;
+    }
+
+    .warehouse_detail_boxes_right div{
+        position: relative;
+    }
+}

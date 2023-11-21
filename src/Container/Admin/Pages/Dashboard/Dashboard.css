@@ -1,16 +1,16 @@
-.dashboard_head{
+.dashboard_head {
     display: flex;
     justify-content: space-between;
     margin: 20px 5px;
 }
 
-.dashboard_head h5{
+.dashboard_head h5 {
     font-weight: 700;
     font-size: 23px;
     text-transform: uppercase;
 }
 
-.dashboard_head .calender_date{
+.dashboard_head .calender_date {
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -18,12 +18,12 @@
     border-radius: 100px;
 }
 
-.dashboard_head .calender_date img{
+.dashboard_head .calender_date img {
     width: 15px;
     margin-right: 13px;
 }
 
-.dashboard_head .calender_date p{
+.dashboard_head .calender_date p {
     margin-bottom: 0;
     font-size: 13px;
     font-weight: 600;
@@ -31,46 +31,48 @@
     align-items: center;
 }
 
-.dashboard_head .calender_date p svg{
+.dashboard_head .calender_date p svg {
     font-size: 22px;
 }
 
-.dashboard_boxes{
+.dashboard_boxes {
     margin-bottom: 25px;
 }
 
-.dashboard_boxes .box{
+.dashboard_boxes .box {
     background-color: #F7DAE5;
     padding: 15px;
     border-radius: 25px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.dashboard_boxes .consignee_box{
+.dashboard_boxes .consignee_box {
     background-color: #FFF2E1;
 }
-.dashboard_boxes .item_box{
+
+.dashboard_boxes .item_box {
     background-color: #C3E2E6;
 }
-.dashboard_boxes .pallet_box{
+
+.dashboard_boxes .pallet_box {
     background-color: #D0CCE0;
 }
 
-.dashboard_boxes .box img{
+.dashboard_boxes .box img {
     width: 35px;
     margin-bottom: 10px;
 }
 
-.dashboard_boxes .box h5{
+.dashboard_boxes .box h5 {
     font-size: 14px;
     font-weight: 400;
 }
 
-.dashboard_boxes .box strong{
+.dashboard_boxes .box strong {
     font-size: 24px;
 }
 
-.graph_view .graph_box{
+.graph_view .graph_box {
     background-color: #fff;
     padding: 10px;
     border-radius: 25px;
@@ -79,7 +81,7 @@
     margin-bottom: 20px;
 }
 
-.graph_view .graph_box h6{
+.graph_view .graph_box h6 {
     font-weight: 600;
     padding: 0 10px;
     font-size: 18px;
@@ -92,14 +94,14 @@
     width: 150px;
 }
 
-.consignee_table.recent_activity{
+.consignee_table.recent_activity {
     background-color: #fff;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     margin-bottom: 30px;
 }
 
-.consignee_table.recent_activity .recent_head{
+.consignee_table.recent_activity .recent_head {
     background-color: #718096;
     color: #fff;
     padding: 15px;
@@ -110,7 +112,7 @@
     align-items: center;
 }
 
-.consignee_table.recent_activity .recent_head h6{
+.consignee_table.recent_activity .recent_head h6 {
     margin-bottom: 0;
 }
 
@@ -132,20 +134,20 @@
     background-color: #F2F2F2;
 }
 
-.consignee_table.recent_activity .table>tbody>tr>td{
+.consignee_table.recent_activity .table>tbody>tr>td {
     text-align: center;
     font-size: 13px;
 }
 
-.consignee_table.recent_activity .table>tbody>tr>td.make_green{
+.consignee_table.recent_activity .table>tbody>tr>td.make_green {
     color: #329932;
 }
 
-.consignee_table.recent_activity .table>tbody>tr>td.make_red{
+.consignee_table.recent_activity .table>tbody>tr>td.make_red {
     color: #FF0000;
 }
 
-.consignee_table.recent_activity .table>tbody>tr:last-child>td:first-child{
+.consignee_table.recent_activity .table>tbody>tr:last-child>td:first-child {
     border-bottom-left-radius: 0px
 }
 
@@ -153,13 +155,13 @@
     border-bottom-right-radius: 0px;
 }
 
-.consignee_table.recent_activity .table>tbody>tr>td button{
+.consignee_table.recent_activity .table>tbody>tr>td button {
     background-color: #979797;
     padding: 4px 30px;
     font-weight: 500;
 }
 
-.sort_by .dropdown button{
+.sort_by .dropdown button {
     background-color: #fff;
     border: none;
     color: #484C52;
@@ -172,23 +174,23 @@
     border-radius: 100px;
 }
 
-.sort_by .dropdown button:active{
+.sort_by .dropdown button:active {
     background-color: #fff !important;
     color: #484C52 !important;
 }
 
-.sort_by{
+.sort_by {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.sort_by img{
+.sort_by img {
     width: 18px;
     cursor: pointer;
 }
 
-.user_chat button{
+.user_chat button {
     border: none;
     background-color: #003A70;
     color: #fff;
@@ -203,30 +205,57 @@
     justify-content: center;
 }
 
-.user_chat button svg{
+.user_chat button svg {
     font-size: 17px;
 }
 
-.donut_chart{
+.donut_chart {
     max-width: 200px;
     margin: auto;
     height: 200px;
 }
 
-.pie_chart{
+.pie_chart {
     max-width: 180px;
     margin: auto;
     height: 200px;
 }
 
-.line_chart{
+.line_chart {
     min-height: 240px;
     display: flex;
     align-items: center;
 }
 
-.bar_chart{
+.bar_chart {
     min-height: 200px;
     display: flex;
     align-items: center;
+}
+
+@media (max-width: 767px) {
+    .dashboard_boxes .box {
+        margin-bottom: 25px;
+        height: 90%;
+    }
+
+    .dashboard_head {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0px;
+        align-items: center;
+    }
+
+    .dashboard_head h5{
+        font-size: 18px;
+        margin-bottom: 0;
+    }
+
+    .dashboard_head .calender_date{
+        padding: 5px 25px;
+    }
+
+    .recent_activity{
+        margin-bottom: 50px;
+    }
 }

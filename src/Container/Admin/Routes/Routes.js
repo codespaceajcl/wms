@@ -1,5 +1,5 @@
-import WarehouseDetail from "../../Warehouses/Detail/WarehouseDetail";
-import LocationDetail from "../../Warehouses/LocationDetail/LocationDetail";
+import WarehouseDetail from "../../Pages/Warehouses/Detail/WarehouseDetail";
+import LocationDetail from "../../Pages/Warehouses/LocationDetail/LocationDetail";
 import Consignee from "../Pages/Consignee/Consignee";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import DcDocument from "../Pages/DcDocument/DcDocument";
@@ -11,8 +11,12 @@ import RMA from "../Pages/RMA/RMA";
 import Reports from "../Pages/Reports/Reports";
 import ReturnStock from "../Pages/StockIn/ReturnStock/ReturnStock";
 import ShipmentStock from "../Pages/StockIn/ShipmentStock/ShipmentStock";
+import TransferredStock from "../Pages/StockIn/TransferredStock/TransferredStock";
 import StockIn from "../Pages/StockIn/StockIn";
 import Warehouses from "../Pages/Warehouses/Warehouses";
+import KnownStock from "../Pages/StockIn/ReturnStock/KnownStock/KnownStock";
+import UnknownStock from "../Pages/StockIn/ReturnStock/UnknownStock/UnknownStock";
+import StockOut from "../Pages/StockOut/StockOut";
 
 export const adminRoutes = [
   {
@@ -64,12 +68,24 @@ export const adminRoutes = [
     component: <ReturnStock />,
   },
   {
+    path: "/stock-in/return-stock/known",
+    component: <KnownStock />,
+  },
+  {
+    path: "/stock-in/return-stock/unknown",
+    component: <UnknownStock />,
+  },
+  {
     path: "/stock-in/shipment-stock",
     component: <ShipmentStock />,
   },
   {
     path: "/stock-in/transfer-stock",
-    component: <ShipmentStock />,
+    component: <TransferredStock />,
+  },
+  {
+    path: "/stock-out",
+    component: <StockOut />,
   },
 ];
 

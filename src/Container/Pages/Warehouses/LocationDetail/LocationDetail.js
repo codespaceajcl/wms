@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Breadcrumbs from '../../../Components/Breadcrumbs/Breadcrumbs'
+import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs'
 import { Col, Container, Modal, Row, Table } from 'react-bootstrap';
 import Select from 'react-select'
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
@@ -7,7 +7,7 @@ import { FiSearch } from "react-icons/fi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Pie, Bar } from 'react-chartjs-2';
 import { MdFilterList } from "react-icons/md";
-import LocationApi from "../../../Apis/Location.json";
+import LocationApi from "../../../../Apis/Location.json";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa6";
 import './LocationDetail.css';
 

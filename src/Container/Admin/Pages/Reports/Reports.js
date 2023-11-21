@@ -11,8 +11,10 @@ import StockInTab from './StockInTab/StockInTab';
 import StockOutTab from './StockOutTab/StockOutTab';
 import StockReturn from './StockReturn/StockReturn';
 import StockTranfer from './StockTransfer/StockTransfer';
+import { useNavigate } from 'react-router-dom';
 
 const Reports = () => {
+    const navigate = useNavigate();
     const [showTab, setShowTab] = useState('Summary');
 
     const options = [

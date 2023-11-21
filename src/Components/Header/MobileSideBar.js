@@ -17,7 +17,7 @@ function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
       <div className={"overlay-content"}>
         <div className="d-flex align-items-center text-white gap-2 mb-3">
           <div className="mobile_sidebar_avatar">
-            <img src="/images/profileImg.svg" alt="" />
+            <img src="/images/user_img.png" alt="" />
           </div>
           <div>
             <h6>Admin</h6>
@@ -30,7 +30,7 @@ function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
               to={item.path}
               className={pathname === item.path ? "nav-active" : "nav-link"}
             >
-              <span className="overlay-content-number">0{index + 1} - </span>{" "}
+              <span className="overlay-content-number"> { index < 9 ? `0${index + 1}` : `${index + 1}` } - </span>
               {item.title}
             </Link>
           );

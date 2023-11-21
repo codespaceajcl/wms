@@ -62,3 +62,14 @@
     background-color: #003A70;
     color: #fff;
 }
+
+@media (max-width: 767px) {
+    .material_main .create{
+        position: relative;
+        top: 10px;
+    }
+
+    .material_main{
+        padding: 25px 10px;
+    }
+}

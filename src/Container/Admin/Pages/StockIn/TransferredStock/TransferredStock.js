@@ -5,10 +5,18 @@ import Breadcrumbs from '../../../../../Components/Breadcrumbs/Breadcrumbs';
 import { Col, Form, Row, Table } from 'react-bootstrap';
 import Input from '../../../../../Components/Input/Input';
 import { useNavigate } from 'react-router-dom';
+import { MdClose } from "react-icons/md";
+import { FileUploader } from "react-drag-drop-files";
 
-const TranferredStock = () => {
+const TransferredStock = () => {
+
     const navigate = useNavigate();
-    
+    const [file, setFile] = useState(null);
+
+    const handleChange = (file) => {
+        setFile(file);
+    };
+
     const options = [
         { value: 'chocolate', label: 'Chocolate' },
         { value: 'strawberry', label: 'Strawberry' },
@@ -20,8 +28,7 @@ const TranferredStock = () => {
             <Breadcrumbs list={["Dashboard", "Stock In"]} />
 
             <div className='material_main' style={{ padding: "25px 0" }}>
-                <h5> <BsArrowLeftShort onClick={() => navigate(-1)} style={{ left: "10px" }} /> Stock In (ASN)
-                    <div className='create serial_generate'> <img src='/images/serial_icon.png' alt='' /> Generate Serial No</div>
+                <h5> <BsArrowLeftShort onClick={() => navigate(-1)} style={{ left: "10px" }} /> Stock Transfer (ST)
                 </h5>
 
                 <Form style={{ padding: "0 20px" }}>
@@ -71,27 +78,144 @@ const TranferredStock = () => {
                         </Col>
                     </Row>
 
-                    <Row className=''>
-                        <div className='report_summary_table'>
+                    <Row>
+                        <div className='report_summary_table stock_in_shipment'>
                             <Table striped bordered responsive>
                                 <thead>
                                     <tr className='super_head'>
-                                        <th colSpan={2}>S.No</th>
-                                        <th colSpan={3}>Part Number</th>
-                                        <th colSpan={3}>Nomenclature</th>
-                                        <th colSpan={3}>NSN</th>
-                                        <th colSpan={3}>Sterilization</th>
-                                        <th colSpan={2}>Quantity</th>
-                                        <th colSpan={2}>Remove</th>
+                                        <th>S.No</th>
+                                        <th>Part Number</th>
+                                        <th>Nomenclature</th>
+                                        <th>NSN</th>
+                                        <th>Sterilization</th>
+                                        <th>Quantity</th>
+                                        <th>Remove</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>139P04763-51</td>
+                                        <td>INTERNAL PILOT HANDLE</td>
+                                        <td>---</td>
+                                        <td> <input type='file' className='sterilize' /> </td>
+                                        <td>001</td>
+                                        <td> <MdClose className='remove_icon' /> </td>
+                                    </tr>
+                                </tbody>
                             </Table>
                         </div>
                     </Row>
+
+                    <h6>Assign Pallet at Warehouse</h6>
+
+                    <Row>
+                        <div className='report_summary_table stock_in_shipment'>
+                            <Table striped bordered responsive>
+                                <thead>
+                                    <tr className='super_head'>
+                                        <th>S.No</th>
+                                        <th>Part Number</th>
+                                        <th>Nomenclature</th>
+                                        <th>Pallet ID</th>
+                                        <th>Quantity</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>139P04763-51</td>
+                                        <td>INTERNAL PILOT HANDLE</td>
+                                        <td>1122332211</td>
+                                        <td> 2 </td>
+                                        <td>
+                                            <select className='location_select'>
+                                                <option value="10001212">10001212</option>
+                                                <option value="10001213">10001213</option>
+                                                <option value="10001214">10001214</option>
+                                                <option value="10001215">10001215</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </div>
+                    </Row>
+
+                    <h6>Assign Location at Warehouse</h6>
+
+                    <Row>
+                        <div className='report_summary_table stock_in_shipment'>
+                            <Table striped bordered responsive>
+                                <thead>
+                                    <tr className='super_head'>
+                                        <th>S.No</th>
+                                        <th>Pallet No</th>
+                                        <th>No Of Locations</th>
+                                        <th>Store/Storage</th>
+                                        <th>Rack</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1122332211</td>
+                                        <td>
+                                            <select className='location_select'>
+                                                <option value="10001212">001</option>
+                                                <option value="10001213">002</option>
+                                                <option value="10001214">003</option>
+                                                <option value="10001215">004</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select className='location_select'>
+                                                <option value="10001212">W01</option>
+                                                <option value="10001213">W02</option>
+                                                <option value="10001214">W03</option>
+                                                <option value="10001215">W04</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select className='location_select'>
+                                                <option value="10001212">W01AB</option>
+                                                <option value="10001213">W01AC</option>
+                                                <option value="10001214">W01AD</option>
+                                                <option value="10001215">W01AE</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select className='location_select'>
+                                                <option value="10001212">W01AB</option>
+                                                <option value="10001213">W01AC</option>
+                                                <option value="10001214">W01AD</option>
+                                                <option value="10001215">W01AE</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </div>
+                    </Row>
+                </div>
+
+                <Row className='file_upload_handler'>
+                    <Col md={12}>
+                        <FileUploader handleChange={handleChange} name="file"
+                            types={["JPG", "PNG", "GIF"]} label="Attached Stock Document" />
+                        <img src='/images/stock_doc_icon.png' />
+                    </Col>
+                </Row>
+
+                <div className='mx-3'>
+                    <button className='submit_btn'>Submit</button>
+                    <button className='back_btn' onClick={() => navigate(-1)}>Back</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default TranferredStock
+export default TransferredStock

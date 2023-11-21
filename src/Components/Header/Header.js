@@ -15,13 +15,11 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const navbarRef = useRef();
+  const rightNavRef = useRef();
+  const leftNavRef = useRef();
 
   const [sidebarToggle, setSidebarToggle] = useState(false)
   const [showNotificationBar, setShowNotificationBar] = useState(false)
-
-  useEffect(() => {
-    setShowNotificationBar(false)
-  }, [pathname])
 
   const classes = (path) => {
     let splitPath = path.split("/");
@@ -35,7 +33,10 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   };
 
   useEffect(() => {
-    if (pathname === "/") navbarRef.current.style.width = "0%";
+    if (pathname === "/") { navbarRef.current.style.width = "0%"; }
+    setShowNotificationBar(false)
+    rightNavRef.current.scrollTo(0, 0);
+    leftNavRef.current.scrollTo(0, 0);
   }, [pathname]);
 
   const NavHandler = () => {
@@ -52,11 +53,10 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
         sideBarItems={sideBarItems}
       />
 
-      {/* <div className="container"> */}
       <div className="user_layout">
         <div className="layout_content_section">
 
-          <div className={sidebarToggle ? "left_layout_overlay shrink" : "left_layout_overlay"}>
+          <div ref={leftNavRef} className={sidebarToggle ? "left_layout_overlay shrink" : "left_layout_overlay"}>
 
             <div className={sidebarToggle ? "layout_content_sidebar_section close" : "layout_content_sidebar_section"}>
               <div className="user_sidebar">
@@ -194,7 +194,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
           <div className="layout_content">
             <div className="user_header">
 
-              <Row className="align-items-center">
+              <Row className="align-items-center make_col_reverse">
                 <Col md={6}>
                   <div className="search_box">
                     <img src="/images/search_icon.png" alt="" />
@@ -204,7 +204,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                 <Col md={6}>
                   <Navbar collapseOnSelect expand="lg">
                     <Navbar.Brand onClick={() => navigate("/")}>
-                      <img src="/images/logo.png" alt="" />
+                      <img src="/images/ajcl_logo.png" alt="" className="mob_responsive_logo" />
                     </Navbar.Brand>
                     <Navbar.Toggle
                       aria-controls="responsive-navbar-nav"
@@ -246,16 +246,14 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                   </Navbar>
                 </Col>
               </Row>
-
             </div>
 
-            <div className="right_layout_overlay mb-5">
+            <div className="right_layout_overlay mb-5" ref={rightNavRef}>
               {children}
             </div>
           </div>
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 }

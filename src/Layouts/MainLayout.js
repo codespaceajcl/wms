@@ -14,7 +14,7 @@ const MainLayout = ({ fullClickBtn, fullClickClose, handle }) => {
     <div className={pathname === '/warehouse/details' ? "warehouse_detail_layout" : "location_bg_layout"}>
       <WarehouseHeader fullScreen={fullClickBtn} closeScreen={fullClickClose} handle={handle} />
 
-      <div style={{ marginTop: "100px" }}>
+      <div className="margin-top-100">
         <Outlet />
       </div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'react-lottie';
-import lottie_truck from "../../../../Apis/lottie_truck.json";
+import lottie_truck from "../../../../Util/Lottie/Lottie_truck.json";
 import lottie_ok from "../../../../Util/Lottie/Lottie_ok.json";
 import { Col, Row } from 'react-bootstrap';
 

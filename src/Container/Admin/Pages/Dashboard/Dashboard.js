@@ -184,28 +184,28 @@ const Dashboard = () => {
 
       <div className='dashboard_boxes'>
         <Row>
-          <Col md={3}>
+          <Col md={3} xs={6}>
             <div className='box warehouse_box'>
               <img src='/images/dashboard_box_img.png' alt='' />
               <h5>Total No of Warehouses</h5>
               <strong>8</strong>
             </div>
           </Col>
-          <Col md={3}>
+          <Col md={3} xs={6}>
             <div className='box consignee_box'>
               <img src='/images/consignee_box_img.png' alt='' />
               <h5>Total Consignees</h5>
               <strong>432</strong>
             </div>
           </Col>
-          <Col md={3}>
+          <Col md={3} xs={6}>
             <div className='box item_box'>
               <img src='/images/item_box_img.png' alt='' />
               <h5>Total Items</h5>
               <strong>1349</strong>
             </div>
           </Col>
-          <Col md={3}>
+          <Col md={3} xs={6}>
             <div className='box pallet_box'>
               <img src='/images/pallet_box_img.png' alt='' />
               <h5>Total Pallets</h5>
@@ -248,7 +248,7 @@ const Dashboard = () => {
               </div>
             </div>
           </Col>
-          <Col md={4}>
+          <Col md={4} sm={6}>
             <div className='graph_box'>
               <div className='d-flex align-items-center justify-content-between'>
                 <h6>Pallets Utilization</h6>
@@ -260,7 +260,7 @@ const Dashboard = () => {
               </div>
             </div>
           </Col>
-          <Col md={4}>
+          <Col md={4} sm={6}>
             <div className='graph_box'>
               <div className='d-flex align-items-center justify-content-between'>
                 <h6>Capacity</h6>
@@ -310,7 +310,7 @@ const Dashboard = () => {
                       <td>{c.location}</td>
                       <td>{c.warehouse}</td>
                       <td className={c.stock === 'Stock In' ? 'make_green' : "make_red"}>{c.stock}</td>
-                      <td><button onClick={() => setConsigneeModal(!consigneeModal)}>View</button></td>
+                      <td><button>View</button></td>
                     </tr>
                   )
                 })
@@ -322,5 +322,4 @@ const Dashboard = () => {
     </div>
   )
 }
-
 export default Dashboard

@@ -171,7 +171,7 @@ const Warehouses = () => {
                       </div>
 
                       <Row>
-                        <Col md={6}>
+                        <Col md={6} xs={6}>
                           <div className='w_location'>
                             <div className='loc'>
                               <img src='/images/location_icon.png' alt='' />
@@ -194,7 +194,7 @@ const Warehouses = () => {
                             </div>
                           </div>
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} xs={6}>
                           <div className='w_location'>
                             <div className='loc'>
                               <img src='/images/pallet_icon.png' alt='' />
