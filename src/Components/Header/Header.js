@@ -5,11 +5,13 @@ import "./Header.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import MobileSidebar from "./MobileSideBar";
-import { Col, Row } from "react-bootstrap";
+import { Col, Modal, Row } from "react-bootstrap";
 import { BiChevronRight } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsFullscreen } from 'react-icons/bs'
 import Notification from "../Notification/Notification";
+import { MdClose } from "react-icons/md";
+import { MdSearch } from "react-icons/md";
 
 function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const { pathname } = useLocation();
@@ -20,6 +22,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
 
   const [sidebarToggle, setSidebarToggle] = useState(false)
   const [showNotificationBar, setShowNotificationBar] = useState(false)
+  const [newChatModal, setNewChatModal] = useState(false)
 
   const classes = (path) => {
     let splitPath = path.split("/");
@@ -45,8 +48,51 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
     else navbarRef.current.style.width = "100%";
   };
 
+  const modal = (
+    <Modal centered show={newChatModal} onHide={() => setNewChatModal(false)} size='sm' className="new_chat">
+      <Modal.Body>
+        <div className="new_chat_head">
+          <h6>New Message</h6>
+          <MdClose onClick={() => setNewChatModal(false)} />
+        </div>
+
+        <div className="search_name">
+          <MdSearch />
+          <input placeholder="Type a name" />
+        </div>
+
+        <div className="suggestion_chat">
+          <h6>SUGGESTED</h6>
+
+          <div className="users">
+            <img src="/images/chat_img2.png" />
+
+            <div>
+              <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
+            </div>
+          </div>
+          <div className="users">
+            <img src="/images/chat_img.png" />
+
+            <div>
+              <p><span>Ayesha Malik</span> <br /> Logistics Manager </p>
+            </div>
+          </div>
+          <div className="users">
+            <img src="/images/chat_img2.png" />
+
+            <div>
+              <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
+            </div>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
+  )
+
   return (
     <>
+      {modal}
       <MobileSidebar
         navbarRef={navbarRef}
         NavHandler={NavHandler}
@@ -90,14 +136,14 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                   <ul className="nav_list">
                     <h6 className={sidebarToggle ? 'toggler' : null}>Support</h6>
                     <li>
-                      <Link to='' style={sidebarToggle ? { padding: '12px 0px 12px 15px' } : null}>
+                      <Link to='messages/message' style={sidebarToggle ? { padding: '12px 0px 12px 15px' } : null}>
                         <img src={'/images/inbox_icon.png'} alt="" />
                         <span style={sidebarToggle ? { display: "none" } : null}>Inbox</span>
                       </Link>
                       <p className="chat_num">2</p>
                     </li>
                     <li>
-                      <Link to='' style={sidebarToggle ? { padding: '12px 0px 12px 15px' } : null}>
+                      <Link to='/faqs' style={sidebarToggle ? { padding: '12px 0px 12px 15px' } : null}>
                         <img src={'/images/faq_icon.png'} alt="" />
                         <span style={sidebarToggle ? { display: "none" } : null}>FAQ</span>
                       </Link>
@@ -183,7 +229,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                 </div>
 
                 <div style={{ margin: "20px 10px" }}>
-                  <button><AiOutlinePlus /> {sidebarToggle ? null : 'Create New Chat'}</button>
+                  <button onClick={() => setNewChatModal(true)}><AiOutlinePlus /> {sidebarToggle ? null : 'Create New Chat'}</button>
                 </div>
 
               </div>
@@ -224,8 +270,11 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                             <img src="/images/user_img.png" alt="" />
 
                             <NavDropdown title="Admin" id="basic-nav-dropdown">
+                              <NavDropdown.Item>
+                                <Link to='/profile'>Profile</Link>
+                              </NavDropdown.Item>
                               <NavDropdown.Item href="/">
-                                Logout
+                                <Link>Logout</Link>
                               </NavDropdown.Item>
                             </NavDropdown>
                           </div>

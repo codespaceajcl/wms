@@ -17,6 +17,13 @@ import Warehouses from "../Pages/Warehouses/Warehouses";
 import KnownStock from "../Pages/StockIn/ReturnStock/KnownStock/KnownStock";
 import UnknownStock from "../Pages/StockIn/ReturnStock/UnknownStock/UnknownStock";
 import StockOut from "../Pages/StockOut/StockOut";
+import FAQs from "../Pages/FAQs/FAQs";
+import Profile from "../Pages/Profile/Profile";
+import EditProfile from "../Pages/Profile/EditProfile/EditProfile";
+import PrivacyPolicy from "../Pages/Profile/PrivacyPolicy/PrivacyPolicy";
+import Settings from "../Pages/Profile/Settings/Settings";
+import Chat from "../../Pages/Chat/Chat/Chat";
+import Message from "../../Pages/Chat/Message/Message";
 
 export const adminRoutes = [
   {
@@ -87,6 +94,26 @@ export const adminRoutes = [
     path: "/stock-out",
     component: <StockOut />,
   },
+  {
+    path: "/faqs",
+    component: <FAQs />,
+  },
+  {
+    path: "/profile",
+    component: <Profile />,
+  },
+  {
+    path: "/profile/edit-profile",
+    component: <EditProfile />,
+  },
+  {
+    path: "/profile/privacy-policy",
+    component: <PrivacyPolicy />,
+  },
+  {
+    path: "/profile/settings",
+    component: <Settings />,
+  },
 ];
 
 export const warehouseRoutes = [
@@ -97,6 +124,17 @@ export const warehouseRoutes = [
   {
     path: "/warehouse/details/location",
     component: <LocationDetail />,
+  },
+]
+
+export const messageRoutes = [
+  {
+    path: "/messages/message",
+    component: <Message />,
+  },
+  {
+    path: "/messages/chat",
+    component: <Chat />,
   },
 ]
 

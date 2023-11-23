@@ -1,0 +1,23 @@
+.faq_box{
+    margin: 15px;
+    box-shadow: 0px 4px 8px 0px #00000029;
+    border-radius: 10px;
+}
+
+.faq_box h6{
+    margin-bottom: 0;
+    background-color: #003A70;
+    color: #fff;
+    padding: 12px 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.faq_box p{
+    background-color: #fff;
+    padding: 15px 20px;
+    font-size: 14px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #484C52;
+}

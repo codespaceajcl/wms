@@ -1,0 +1,142 @@
+.profile_img{
+    width: fit-content;
+    margin: auto;
+    position: relative;
+}
+
+.profile_img img:first-child{
+    width: 95px;
+    border-radius: 100px;
+}
+
+.profile_img img:last-child{
+    position: absolute;
+    bottom: 3px;
+    right: -5px;
+    background-color: #fff;
+    border-radius: 100px;
+    padding: 8px;
+    width: 34px;
+    height: 34px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.profile_info{
+    text-align: center;
+}
+
+.profile_info p{
+    color: #1573FE;
+    margin: 10px 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.profile_info h6{
+    font-weight: 600;
+    margin-bottom: 2px;
+    font-size: 28px;
+}
+
+.profile_info span{
+    font-size: 15px;
+}
+
+.profile_details{
+    box-shadow: 0px 1px 4px 0px #00000040;
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.profile_details .view_links{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #484C52;
+    font-weight: 400;
+    font-size: 14px;
+    justify-content: space-between;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.profile_details .view_links div{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.profile_details .view_links img{
+    width: 19px;
+}
+
+.profile_details .view_links span{
+    color: #1573FE;
+}
+
+.privacy_data{
+    margin-bottom: 30px;
+}
+
+.privacy_data h6{
+    color: #484C52;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.privacy_data p{
+    color: #484C52;
+    font-size: 14px;
+}
+
+.profile_details.settings{
+    box-shadow: none;
+    padding: 0;
+}
+
+.profile_details.settings .form-check-input:checked {
+    background-color: #A9C23F;
+    border-color: #A9C23F;
+}
+
+.profile_details.settings .form-switch .form-check-input{
+    width: 2.3em;
+    height: 1.2em;
+    cursor: pointer;
+}
+
+.change_password_head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.change_password_head h6{
+    margin-bottom: 0;
+    font-size: 25px;
+}
+
+.change_password_head svg{
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.change_password_modal p{
+    color: #484C52;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.change_password_modal .modal-content{
+    border-radius: 30px;
+    padding: 15px;
+}
+
+.input_field .eye_view{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
