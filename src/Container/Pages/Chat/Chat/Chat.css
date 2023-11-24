@@ -1,0 +1,323 @@
+.show_chat .chating_box {
+    border-left: 1px solid #E3E8E7;
+}
+
+.show_chat .chating_box .chat_user_detail_show {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 15px 20px;
+}
+
+.chating_box .chat_user_detail_show img {
+    width: 50px;
+}
+
+.chating_box .chat_user_detail_show h6 {
+    margin-bottom: 0;
+    font-weight: 700;
+    color: #171C1B;
+}
+
+.chating_box .chat_user_detail_show p {
+    margin-bottom: 0;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.chating_box .chat_user_detail_show svg {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.chat_user_detail_show p .dot {
+    height: 8px;
+    width: 8px;
+    background-color: #329932;
+    border-radius: 50%;
+    display: inline-block !important;
+    margin-right: 2px;
+}
+
+.msgs_show .sender_msg_shown {
+    align-items: end;
+}
+
+.msgs_show .sender_msg_shown .col-md-2 {
+    text-align: end;
+}
+
+.msgs_show .sender_msg_shown .col-md-2 img {
+    width: 40px;
+    margin-bottom: 30px;
+}
+
+.msgs_show .sender_msg_shown .col-md-7 {
+    padding-left: 0;
+}
+
+.msgs_show .sender_msg_shown .col-md-7 div {
+    background-color: #FFFFFF;
+    padding: 12px 12px;
+    font-size: 13px;
+    border-radius: 15px 15px 15px 0px;
+    border: 1px solid #758a8942;
+    width: fit-content;
+}
+
+.msgs_show .sender_msg_shown .col-md-7 span {
+    color: #758A89;
+    font-size: 12px;
+}
+
+.receiver_msg_shown {
+    justify-content: end;
+    align-items: end;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.receiver_msg_shown .col-md-7 {
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.receiver_msg_shown .col-md-7 div {
+    background-color: #003A70;
+    padding: 12px 12px;
+    font-size: 13px;
+    border-radius: 15px 15px 0px 15px;
+    border: 1px solid #758a8942;
+    color: #fff;
+    width: fit-content;
+}
+
+.receiver_msg_shown .col-md-2 {
+    padding-left: 0;
+}
+
+.receiver_msg_shown .col-md-2 img {
+    width: 40px;
+    margin-bottom: 30px;
+}
+
+.receiver_msg_shown .col-md-7 span {
+    color: #758A89;
+    font-size: 12px;
+}
+
+.msgs_show {
+    height: 53vh;
+    overflow-y: scroll;
+    padding: 30px 30px 0 30px;
+}
+
+.msgs_show::-webkit-scrollbar {
+    width: 5px;
+}
+
+.msgs_show::-webkit-scrollbar-track {
+    box-shadow: none;
+}
+
+.msgs_show::-webkit-scrollbar-thumb {
+    background-color: #E3E8E7;
+    border-radius: 100px;
+}
+
+.send_msg_box .col-md-9 {
+    background-color: #fff;
+    border: 1px solid #E3E8E7;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.send_msg_box .col-md-9 textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    font-size: 14px;
+    border-bottom: 1px solid #E3E8E7;
+}
+
+.send_msg_box .col-md-9 textarea:focus-visible {
+    outline: none;
+}
+
+.send_msg_box .col-md-9 div img {
+    width: 20px;
+    cursor: pointer;
+}
+
+.send_msg_box .col-md-9 div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.send_msg_box .col-md-9 div:first-child {
+    gap: 10px;
+    border-right: 1px solid lightgrey;
+    padding-right: 20px;
+    align-items: center;
+}
+
+.send_msg_box .col-md-9 div:first-child img {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+}
+
+.show_chat .chating_user_box {
+    border-left: 1px solid #E3E8E7;
+    background-color: #fff;
+    padding: 15px;
+    height: 87vh;
+    overflow-y: scroll;
+}
+
+.chating_user_box .close_right_box {
+    padding: 10px;
+    text-align: end;
+}
+
+.chating_user_box .close_right_box svg {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.sender_details {
+    text-align: center;
+}
+
+.sender_details img {
+    width: 110px;
+    height: 110px;
+    border: 1px solid #A9C23F;
+    border-radius: 100px;
+}
+
+.sender_details h6 {
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
+
+.sender_details p {
+    font-size: 13px;
+}
+
+.profile_details.settings.user_notification {
+    border-top: 1px solid #E3E8E7;
+    border-radius: 0;
+    border-bottom: 1px solid #E3E8E7;
+}
+
+.user_files_given .accordion-item {
+    border: none;
+}
+
+.user_files_given .accordion-header button {
+    background-color: #fff !important;
+    font-size: 14px !important;
+    padding-left: 0 !important;
+    padding-right: 5px !important;
+    color: #000 !important;
+    font-weight: 600 !important;
+}
+
+.user_files_given .accordion-header button span {
+    margin-left: 5px;
+    font-weight: 300;
+}
+
+.user_files_given .accordion-button:not(.collapsed) {
+    box-shadow: none;
+}
+
+.user_files_given .accordion-button:focus {
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.user_files_given .user_pdfs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #5D6F6D;
+    margin-bottom: 5px;
+}
+
+.user_files_given .accordion-body {
+    padding: 0;
+}
+
+.user_files_given .user_pdfs div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.user_files_given .user_pdfs div:first-child img {
+    width: 20px;
+}
+
+.user_files_given .user_pdfs div:first-child h6 {
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+.user_files_given .user_pdfs div:last-child svg {
+    cursor: pointer;
+}
+
+.user_files_given .accordion-body span {
+    font-size: 14px;
+    color: #A9C23F;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.user_files_given .user_files {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.user_files_given .user_files img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.user_blocked button {
+    width: 100%;
+    border: 1.5px solid #DD0000;
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 100px;
+    color: #DD0000;
+    font-weight: 400;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.user_blocked button svg {
+    width: 18px;
+}
+
+.show_chat .chating_user_box::-webkit-scrollbar {
+    width: 0px;
+}
+
+.show_chat .chating_user_box::-webkit-scrollbar-track {
+    box-shadow: none;
+}
+
+.show_chat .chating_user_box::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}

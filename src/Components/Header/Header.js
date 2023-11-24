@@ -12,6 +12,8 @@ import { BsFullscreen } from 'react-icons/bs'
 import Notification from "../Notification/Notification";
 import { MdClose } from "react-icons/md";
 import { MdSearch } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { chatOpenStatus } from "../../Redux/Action/Chat";
 
 function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const { pathname } = useLocation();
@@ -19,6 +21,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const navbarRef = useRef();
   const rightNavRef = useRef();
   const leftNavRef = useRef();
+  const dispatch = useDispatch();
 
   const [sidebarToggle, setSidebarToggle] = useState(false)
   const [showNotificationBar, setShowNotificationBar] = useState(false)
@@ -48,6 +51,11 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
     else navbarRef.current.style.width = "100%";
   };
 
+  const onMessageHandler = () => {
+    dispatch(chatOpenStatus(true))
+    navigate('/messages/message')
+  }
+
   const modal = (
     <Modal centered show={newChatModal} onHide={() => setNewChatModal(false)} size='sm' className="new_chat">
       <Modal.Body>
@@ -64,21 +72,21 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
         <div className="suggestion_chat">
           <h6>SUGGESTED</h6>
 
-          <div className="users">
+          <div className="users" onClick={onMessageHandler}>
             <img src="/images/chat_img2.png" />
 
             <div>
               <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
             </div>
           </div>
-          <div className="users">
+          <div className="users" onClick={onMessageHandler}>
             <img src="/images/chat_img.png" />
 
             <div>
               <p><span>Ayesha Malik</span> <br /> Logistics Manager </p>
             </div>
           </div>
-          <div className="users">
+          <div className="users" onClick={onMessageHandler}>
             <img src="/images/chat_img2.png" />
 
             <div>
@@ -166,7 +174,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
 
                 <div>
 
-                  <div className="chat">
+                  <div className="chat" onClick={onMessageHandler}>
                     <span>12</span>
                     <div> <img src="/images/user_chat_img1.png" alt="" /> </div>
 
@@ -181,7 +189,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                     }
                   </div>
 
-                  <div className="chat">
+                  <div className="chat" onClick={onMessageHandler}>
                     <span>29</span>
                     <div> <img src="/images/user_chat_img2.png" alt="" /> </div>
 
@@ -196,7 +204,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                     }
                   </div>
 
-                  <div className="chat">
+                  <div className="chat" onClick={onMessageHandler}>
                     <span>12</span>
                     <div> <img src="/images/user_chat_img1.png" alt="" /> </div>
 
@@ -211,7 +219,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                     }
                   </div>
 
-                  <div className="chat">
+                  <div className="chat" onClick={onMessageHandler}>
                     <span>29</span>
                     <div> <img src="/images/user_chat_img2.png" alt="" /> </div>
 

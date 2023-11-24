@@ -6,23 +6,26 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import MobileSidebar from "./MobileSideBar";
 import { Col, Modal, Row } from "react-bootstrap";
-import { BiChevronRight } from "react-icons/bi";
-import { AiOutlinePlus } from "react-icons/ai";
 import { BsFullscreen } from 'react-icons/bs'
 import Notification from "../Notification/Notification";
-import { MdClose } from "react-icons/md";
-import { MdSearch } from "react-icons/md";
+import { BsArrowLeftShort } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
-
+import { AiOutlinePlus } from "react-icons/ai";
+import { IoCheckmarkDone } from "react-icons/io5";
+import { MdSearch, MdClose } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { chatOpenStatus } from "../../Redux/Action/Chat";
 
 function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children }) {
     const { pathname } = useLocation();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const navbarRef = useRef();
     const rightNavRef = useRef();
     const leftNavRef = useRef();
 
     const [showNotificationBar, setShowNotificationBar] = useState(false)
+    const [newChatModal, setNewChatModal] = useState(false)
 
     const classes = (path) => {
         let splitPath = path.split("/");
@@ -48,8 +51,59 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
         else navbarRef.current.style.width = "100%";
     };
 
+    const onMessageHandler = () => {
+        setNewChatModal(!newChatModal)
+      }
+
+    const modal = (
+        <Modal centered show={newChatModal} onHide={() => setNewChatModal(false)} size='sm' className="new_chat">
+            <Modal.Body>
+                <div className="new_chat_head">
+                    <h6>New Message</h6>
+                    <MdClose onClick={() => setNewChatModal(false)} />
+                </div>
+
+                <div className="search_name">
+                    <MdSearch />
+                    <input placeholder="Type a name" />
+                </div>
+
+                <div className="suggestion_chat">
+                    <h6>SUGGESTED</h6>
+
+                    <div className="users" onClick={onMessageHandler}>
+                        <img src="/images/chat_img2.png" />
+
+                        <div>
+                            <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
+                        </div>
+                    </div>
+                    <div className="users" onClick={onMessageHandler}>
+                        <img src="/images/chat_img.png" />
+
+                        <div>
+                            <p><span>Ayesha Malik</span> <br /> Logistics Manager </p>
+                        </div>
+                    </div>
+                    <div className="users" onClick={onMessageHandler}>
+                        <img src="/images/chat_img2.png" />
+
+                        <div>
+                            <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
+                        </div>
+                    </div>
+                </div>
+            </Modal.Body>
+        </Modal>
+    )
+
+    const openChatHandler = () => {
+        dispatch(chatOpenStatus(true))
+    }
+
     return (
         <>
+            {modal}
             <MobileSidebar
                 navbarRef={navbarRef}
                 NavHandler={NavHandler}
@@ -87,12 +141,12 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                     <ul className="nav_list">
                                         <h6 className={'toggler'}>Support</h6>
                                         <li>
-                                            <Link to='' style={{ padding: '12px 0px 12px 15px' }}>
+                                            <Link to='/messages/message' style={{ padding: '12px 0px 12px 0px', display: "flex", justifyContent: "center" }}>
                                                 <img src={'/images/inbox_icon.png'} alt="" />
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to='/faqs' style={{ padding: '12px 0px 12px 15px' }}>
+                                            <Link to='/faqs' style={{ padding: '12px 0px 12px 0px', display: "flex", justifyContent: "center" }}>
                                                 <img src={'/images/faq_icon.png'} alt="" />
                                             </Link>
                                         </li>
@@ -101,9 +155,8 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                 <div className="exit_sidebar">
                                     <ul className="nav_list">
                                         <li>
-                                            <Link to='' style={{ padding: '12px 0px 12px 15px', display: "block" }}>
+                                            <Link to='/' style={{ padding: '12px 0px 12px 0px', display: "flex", justifyContent: "center", flexDirection: "column" }}>
                                                 <FiLogOut />
-                                                <br />
                                                 <span>Exit</span>
                                             </Link>
                                         </li>
@@ -113,19 +166,128 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                         </div>
 
                         <div className="messages_div">
-                            <h4>Message</h4>
+                            <h5> <BsArrowLeftShort onClick={() => navigate(-1)} />
+                                Messages
+                            </h5>
+
+                            <div className="chat_search">
+                                <img src="/images/search_icon.png" alt="" />
+                                <input placeholder="Search for chats..." />
+                            </div>
+
+                            <div className="new_chat_btn">
+                                <button onClick={() => setNewChatModal(!newChatModal)}>
+                                    <AiOutlinePlus />
+                                    Create New Chat
+                                </button>
+                            </div>
+
+                            <div className="inboxes">
+                                <div className="chat_box" onClick={openChatHandler}>
+                                    <div>
+                                        <img src="/images/chat_img2.png" alt="" className="user_img" />
+                                    </div>
+                                    <div className="chat_msg">
+                                        <div>
+                                            <h6>Yaqoob Jamil</h6>
+                                            <span>5s</span>
+                                        </div>
+                                        <div className="align-items-end">
+                                            <p>Not too bad, just trying to catch up on some work.
+                                                How about...</p>
+                                            <IoCheckmarkDone style={{ color: "#758A89" }} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="chat_box" onClick={openChatHandler}>
+                                    <div>
+                                        <img src="/images/chat_img.png" alt="" className="user_img" />
+                                    </div>
+                                    <div className="chat_msg">
+                                        <div>
+                                            <h6>Ayesha Malik</h6>
+                                            <span>18h</span>
+                                        </div>
+                                        <div className="align-items-end">
+                                            <p>Sure, that sounds good. I need to take a break from staring at my computer screen all day.</p>
+
+                                            <span className="msg_count"> 1 </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="chat_box" onClick={openChatHandler}>
+                                    <div>
+                                        <img src="/images/user_chat_img2.png" alt="" className="user_img" />
+                                    </div>
+                                    <div className="chat_msg">
+                                        <div>
+                                            <h6>Owais Ilyas</h6>
+                                            <span>5s</span>
+                                        </div>
+                                        <div className="align-items-end">
+                                            <p>when will it be ready?</p>
+                                            <IoCheckmarkDone style={{ color: "#758A89" }} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="chat_box" onClick={openChatHandler}>
+                                    <div>
+                                        <img src="/images/chat_img.png" alt="" className="user_img" />
+                                    </div>
+                                    <div className="chat_msg">
+                                        <div>
+                                            <h6>Ayesha Malik</h6>
+                                            <span>18h</span>
+                                        </div>
+                                        <div className="align-items-end">
+                                            <p>Sure, that sounds good. I need to take a break from staring at my computer screen all day.</p>
+
+                                            <span className="msg_count"> 1 </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="chat_box" onClick={openChatHandler}>
+                                    <div>
+                                        <img src="/images/chat_img2.png" alt="" className="user_img" />
+                                    </div>
+                                    <div className="chat_msg">
+                                        <div>
+                                            <h6>Yaqoob Jamil</h6>
+                                            <span>5s</span>
+                                        </div>
+                                        <div className="align-items-end">
+                                            <p>Not too bad, just trying to catch up on some work.
+                                                How about...</p>
+                                            <IoCheckmarkDone style={{ color: "#758A89" }} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="chat_box" onClick={openChatHandler}>
+                                    <div>
+                                        <img src="/images/chat_img.png" alt="" className="user_img" />
+                                    </div>
+                                    <div className="chat_msg">
+                                        <div>
+                                            <h6>Ayesha Malik</h6>
+                                            <span>18h</span>
+                                        </div>
+                                        <div className="align-items-end">
+                                            <p>Sure, that sounds good. I need to take a break from staring at my computer screen all day.</p>
+
+                                            <span className="msg_count"> 1 </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="layout_content">
+                    <div className="layout_content chat_main_div" style={{ padding: 0 }}>
                         <div className="user_header">
 
-                            <Row className="align-items-center make_col_reverse">
+                            <Row className="align-items-center make_col_reverse" style={{ margin: "10px" }}>
                                 <Col md={6}>
-                                    <div className="search_box">
-                                        <img src="/images/search_icon.png" alt="" />
-                                        <input placeholder="search anything" />
-                                    </div>
+
                                 </Col>
                                 <Col md={6}>
                                     <Navbar collapseOnSelect expand="lg">
@@ -177,7 +339,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                             </Row>
                         </div>
 
-                        <div className="right_layout_overlay mb-5" ref={rightNavRef}>
+                        <div className="mt-3" ref={rightNavRef}>
                             {children}
                         </div>
                     </div>
