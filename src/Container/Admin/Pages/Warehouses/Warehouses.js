@@ -1,7 +1,7 @@
 import React from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
 import './Warehouse.css';
-import { Col, Container, Form, Modal, Row } from 'react-bootstrap';
+import { Col, Form, Modal, Row } from 'react-bootstrap';
 import { BsArrowLeftShort } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai"
 import { useNavigate } from 'react-router-dom';
@@ -137,19 +137,19 @@ const Warehouses = () => {
 
       <Breadcrumbs list={["Dashboard", "Warehouses"]} />
 
-      <div className='material_main'>
+      <div className='material_main warehouse_main'>
         <h5> <BsArrowLeftShort onClick={() => navigate(-1)} />
           Warehouses
 
           <div className='create' onClick={() => setAddWarehouseModal(true)}><AiOutlinePlus style={{ fontSize: "20px" }} /> Create Warehouse</div>
         </h5>
 
-        <Container className='mt-5'>
-          <Row>
+        <div className='mt-5'>
+          <Row className='justify-content-center'>
             {
               warehouseApi.map((w) => {
                 return (
-                  <Col md={4} key={w.id}>
+                  <Col md={4} sm={6} xs={10} key={w.id}>
                     <div className='warehouse_div'>
                       <div className='warehouse_img_div'>
                         <img src={w.img} alt='' />
@@ -225,7 +225,7 @@ const Warehouses = () => {
               })
             }
           </Row>
-        </Container>
+        </div>
       </div>
     </div>
   )

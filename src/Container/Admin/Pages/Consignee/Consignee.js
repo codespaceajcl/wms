@@ -64,14 +64,14 @@ const Consignee = () => {
       centered onHide={() => setMoreModal(!moreModal)} size='lg' className='consignee_detail_modal more'>
       <Modal.Body>
         <div className='consignee_name_head'>
-          <div>
+          <div onClick={() => setMoreModal(!moreModal)}>
             <BiChevronLeft />
             Back
           </div>
 
           <div className="search_box">
             <img src="/images/search_icon.png" alt="" />
-            <input placeholder="search anything" style={{ maxWidth: "400px", width: "400px" }} />
+            <input placeholder="search anything" />
           </div>
 
           <AiOutlineClose onClick={() => setMoreModal(!moreModal)} style={{ cursor: "pointer" }} />
@@ -147,7 +147,7 @@ const Consignee = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <div className="search_box">
               <img src="/images/search_icon.png" alt="" />
-              <input placeholder="search anything" style={{ maxWidth: "400px", width: "400px" }} />
+              <input placeholder="search anything" />
             </div>
 
             <AiOutlineClose onClick={() => setSkuModal(!skuModal)} style={{ cursor: "pointer" }} />
@@ -256,7 +256,7 @@ const Consignee = () => {
       <Breadcrumbs list={["Dashboard", "Consignee"]} />
 
       <div className='material_main consigee_main'>
-        <div style={{ padding: "25px 30px" }}>
+        <div>
           <h5> <BsArrowLeftShort onClick={() => navigate(-1)} />
 
             <div className="search_box consignee">

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Breadcrumbs = ({ list }) => {
     const navigate = useNavigate();
     return (
-        <div className='d-flex align-items-center'>
+        <div className='d-flex align-items-center flex-wrap'>
             {
                 list.map((l, i) => {
                     return (

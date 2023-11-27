@@ -183,10 +183,6 @@
     justify-content: center;
 }
 
-.consignee_detail_modal.revert{
-    min-width: 550px;
-}
-
 .revert_detail{
     background-color: #F5F6F7;
     padding: 10px 16px;
@@ -293,4 +289,21 @@
     font-weight: 400;
     font-size: 15px;
     color: #000;
+}
+
+@media (max-width: 1000px) {
+    .download_report {
+        position: relative;
+        right: 0;
+        top: 7px;
+        font-size: 13px;
+        color: #484C52;
+        font-weight: 300;
+        margin-bottom: 15px;
+        cursor: pointer;
+        text-transform: capitalize;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+    }
 }

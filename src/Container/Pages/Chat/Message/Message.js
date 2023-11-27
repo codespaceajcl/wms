@@ -21,7 +21,7 @@ const Message = () => {
   return (
     <div>
       {
-        isOpenChat ? <Chat /> : <>
+        isOpenChat ? <Chat /> : <div style={{ margin: "0 10px" }}>
 
           <Breadcrumbs list={["Dashboard", "Messages"]} />
 
@@ -36,7 +36,7 @@ const Message = () => {
             </div>
           </div>
 
-        </>
+        </div>
       }
     </div>
   )

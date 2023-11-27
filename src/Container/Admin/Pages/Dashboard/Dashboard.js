@@ -2,7 +2,8 @@ import React from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
 import { BiChevronLeft } from "react-icons/bi";
 import './Dashboard.css';
-import Select from 'react-select'
+import Select from 'react-select';
+import { dashboardColorStyles } from '../../../../Util/Helper.js';
 import { Col, DropdownButton, Dropdown, Row, Table } from 'react-bootstrap';
 import RecentApi from "../../../../Apis/recent.json";
 import {
@@ -216,12 +217,12 @@ const Dashboard = () => {
       </div>
 
       <div className='graph_view'>
-        <Row style={{height: "100%", gap: "20px 0"}}>
+        <Row style={{ height: "100%", gap: "20px 0", marginBottom: "20px" }}>
           <Col md={5}>
             <div className='graph_box'>
-              <div className='d-flex align-items-center justify-content-between'>
+              <div>
                 <h6>Overview</h6>
-                <Select options={options} placeholder="Select WH" className='react_select' />
+                <Select options={options} placeholder="Select WH" styles={dashboardColorStyles} />
               </div>
 
               <div className='line_chart'>
@@ -231,16 +232,16 @@ const Dashboard = () => {
           </Col>
           <Col md={7}>
             <div className='graph_box'>
-              <h6>Warehouse Utilization</h6>
+              <h6 style={{ width: "fit-content", margin: "10px 0" }}>Warehouse Utilization</h6>
 
               <Bar options={warehouseOptions} data={warehouseData} />
             </div>
           </Col>
           <Col md={4}>
             <div className='graph_box'>
-              <div className='d-flex align-items-center justify-content-between'>
+              <div>
                 <h6>Location Utilization</h6>
-                <Select options={options} placeholder="Select LH" className='react_select' />
+                <Select options={options} placeholder="Select LH" styles={dashboardColorStyles} />
               </div>
 
               <div className='bar_chart'>
@@ -250,9 +251,9 @@ const Dashboard = () => {
           </Col>
           <Col md={4} sm={6}>
             <div className='graph_box'>
-              <div className='d-flex align-items-center justify-content-between'>
+              <div>
                 <h6>Pallets Utilization</h6>
-                <Select options={options} placeholder="Select PH" className='react_select' />
+                <Select options={options} placeholder="Select PH" styles={dashboardColorStyles} />
               </div>
 
               <div className='pie_chart'>
@@ -262,9 +263,9 @@ const Dashboard = () => {
           </Col>
           <Col md={4} sm={6}>
             <div className='graph_box'>
-              <div className='d-flex align-items-center justify-content-between'>
+              <div>
                 <h6>Capacity</h6>
-                <Select options={options} placeholder="Select Rack" className='react_select' />
+                <Select options={options} placeholder="Select Rack" styles={dashboardColorStyles} />
               </div>
 
               <div className='donut_chart'>
@@ -281,11 +282,10 @@ const Dashboard = () => {
             <h6>Recent Activity</h6>
 
             <div className='sort_by'>
-              <img src='/images/filter_icon.png' alt='' />
-              <DropdownButton title="Sort By">
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+              {/* <img src='/images/filter_icon.png' alt='' /> */}
+              <DropdownButton title="Sort By" className='recent_sort'>
+                <Dropdown.Item>Ascending</Dropdown.Item>
+                <Dropdown.Item>Desending</Dropdown.Item>
               </DropdownButton>
             </div>
           </div>

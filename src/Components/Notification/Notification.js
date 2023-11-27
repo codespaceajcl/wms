@@ -1,7 +1,10 @@
 import React from 'react';
 import './Notification.css';
+import { useNavigate } from 'react-router-dom';
 
 const Notification = () => {
+    const navigate = useNavigate();
+
     return (
         <div className='notification_main'>
             <div className='notifcation_head'>
@@ -43,7 +46,7 @@ const Notification = () => {
                 </div>
             </div>
 
-            <h5>See All Notification</h5>
+            <h5 onClick={() => navigate('/all-notifications')}>See All Notification</h5>
         </div>
     )
 }

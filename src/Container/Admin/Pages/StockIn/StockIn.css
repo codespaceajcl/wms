@@ -165,3 +165,7 @@
 .file_upload_handler svg{
     margin-right: 60px;
 }
+
+.stockin_main .row{
+    gap: 15px 0;
+}

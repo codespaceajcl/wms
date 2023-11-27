@@ -17,8 +17,8 @@ const StockIn = () => {
                 <p>Select Any One</p>
 
                 <div className='stockin_main mt-5'>
-                    <Row>
-                        <Col md={4}>
+                    <Row className='justify-content-center'>
+                        <Col md={4} sm={8}>
                             <div className='stockin_box' onClick={() => navigate('/stock-in/shipment-stock')}>
                                 <img src='/images/purchase_stock.gif' alt='' className='black' />
                                 <h6>Shipment/ <br />
@@ -26,14 +26,14 @@ const StockIn = () => {
                                     Stock</h6>
                             </div>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={8}>
                             <div className='stockin_box' onClick={() => navigate('/stock-in/return-stock')}>
                                 <img src='/images/return_stock.gif' alt='' className='black' />
                                 <h6>Returned <br />
                                     Stock</h6>
                             </div>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={8}>
                             <div className='stockin_box' onClick={() => navigate('/stock-in/transfer-stock')}>
                                 <img src='/images/transfer_stock.gif' alt='' className='black' />
                                 <h6>Transferred  <br /> Stock</h6>

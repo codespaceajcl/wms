@@ -158,20 +158,25 @@ const WarehouseDetail = () => {
       {palletModal}
 
       <Container>
+        <div className="search_box mob_view">
+          <img src="/images/search_icon.png" alt="" />
+          <input placeholder="search anything" />
+        </div>
+
         <div className='warehouse_head'>
           <h6> <BsArrowLeft onClick={() => navigate('/warehouses')} /> PAKISTANNone_01/Storage</h6>
 
-          <div className='d-flex' style={{ gap: "10px" }}>
+          <div className='d-flex flex-wrap justify-content-center' style={{ gap: "10px" }}>
             <button onClick={() => setAddStore(true)}><AiOutlinePlus /> Add Store</button>
             <button onClick={() => setAddStages(true)}><AiOutlinePlus /> Add Stage</button>
             <button onClick={() => setAddPallet(true)}><AiOutlinePlus /> Add Pallet</button>
           </div>
         </div>
 
-        <Row className='mb-4'>
+        <Row className='mb-4 justify-content-center'>
           <Col md={8}>
             <Row style={{ gap: "15px 0" }}>
-              <Col md={6}>
+              <Col md={6} sm={6}>
                 <div className='warehouse_detail_boxes' onClick={() => navigate('/warehouse/details/location')}>
                   <img src='/images/condition_icon.png' alt='' />
                   <h6>Air Condition</h6>
@@ -180,7 +185,7 @@ const WarehouseDetail = () => {
                   </div>
                 </div>
               </Col>
-              <Col md={6}>
+              <Col md={6} sm={6}>
                 <div className='warehouse_detail_boxes' onClick={() => navigate('/warehouse/details/location')}>
                   <img src='/images/ambient_icon.png' alt='' />
                   <h6>Ambient</h6>
@@ -189,7 +194,7 @@ const WarehouseDetail = () => {
                   </div>
                 </div>
               </Col>
-              <Col md={6}>
+              <Col md={6} sm={6}>
                 <div className='warehouse_detail_boxes' onClick={() => navigate('/warehouse/details/location')}>
                   <img src='/images/stage_icon.png' alt='' />
                   <h6>Stage</h6>
@@ -198,7 +203,7 @@ const WarehouseDetail = () => {
                   </div>
                 </div>
               </Col>
-              <Col md={6}>
+              <Col md={6} sm={6}>
                 <div className='warehouse_detail_boxes' onClick={() => navigate('/warehouse/details/location')}>
                   <img src='/images/stage_icon.png' alt='' />
                   <h6>Stage</h6>
@@ -209,7 +214,7 @@ const WarehouseDetail = () => {
               </Col>
             </Row>
           </Col>
-          <Col md={4}>
+          <Col md={4} sm={8}>
             <div className='warehouse_detail_boxes_right'>
               <img src='/images/pallet_img.png' alt='' />
               <div>

@@ -22,35 +22,35 @@ const Enquiry = () => {
 
                 <div className='enquiry_main mt-5'>
                     <Row>
-                        <Col md={4}>
+                        <Col md={4} sm={6}>
                             <div className='enquiry_box'>
                                 <img src='/images/serialno_img.png' alt='' className='black' />
                                 <img src='/images/serialno_white.png' alt='' className='white' />
                                 <h6>Serial Number</h6>
                             </div>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={6}>
                             <div className='enquiry_box'>
                                 <img src='/images/partno_img.png' alt='' className='black' />
                                 <img src='/images/partno_white.png' alt='' className='white' />
                                 <h6>Part Number</h6>
                             </div>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={6}>
                             <div className='enquiry_box' onClick={() => navigate('/enquiry/nomenclature')}>
                                 <img src='/images/nomenclature_img.png' alt='' className='black' />
                                 <img src='/images/nomenclature__white.png' alt='' className='white' />
                                 <h6>Nomenclature</h6>
                             </div>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={6}>
                             <div className='enquiry_box'>
                                 <img src='/images/nameclature_img.png' alt='' className='black' />
                                 <img src='/images/nameclature_white.png' alt='' className='white' />
                                 <h6>Nomenclature</h6>
                             </div>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={6}>
                             <div className='enquiry_box'>
                                 <img src='/images/location_img.png' alt='' className='black' />
                                 <img src='/images/location_white.png' alt='' className='white' />

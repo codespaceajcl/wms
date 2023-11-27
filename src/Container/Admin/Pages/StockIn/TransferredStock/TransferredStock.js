@@ -32,12 +32,12 @@ const TransferredStock = () => {
                 </h5>
 
                 <Form style={{ padding: "0 20px" }}>
-                    <Row className='mt-5'>
-                        <Col md={5}>
+                    <Row className='mt-2'>
+                        <Col md={5} className='mt-3'>
                             <label className='react_select_label'>Order <span>*</span></label>
                             <Select options={options} placeholder="Select" className='react_select' />
                         </Col>
-                        <Col md={5}>
+                        <Col md={5} className='mt-3'>
                             <Input label={'Transactional Number'} placeholder="Enter PO/Invoice/Lot/Shipment No" isRequired={true} />
                         </Col>
                         <Col md={5} className='mt-3'>

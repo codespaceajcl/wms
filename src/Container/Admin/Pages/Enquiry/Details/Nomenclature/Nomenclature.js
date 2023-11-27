@@ -86,7 +86,7 @@ const Nomenclature = () => {
                         <h5> <BsArrowLeftShort onClick={() => setShowResult(false)} />
 
                             <span style={{ color: "#329932" }}> 4 Results Found </span>
-                            <div className='create' onClick={() => setAddConsigneeModal(true)}>
+                            <div className='create'>
                                 <img src='/images/export_icon.png' alt='' style={{ width: "20px", marginRight: "15px" }} />
                                 <img src='/images/check_icon.png' alt='' style={{ width: "25px" }} />
                             </div>

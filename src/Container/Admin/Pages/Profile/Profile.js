@@ -94,7 +94,7 @@ const Profile = () => {
 
                 <div className='profile_details'>
                     <div className='view_links' onClick={() => navigate('/profile/settings')}> <div> <img src='/images/settings_icon.png' alt='' /> Settings </div> </div>
-                    <div className='view_links'> <div> <img src='/images/notification_icon.png' alt='' /> Notifications </div>
+                    <div className='view_links' onClick={() => navigate('/all-notifications')}> <div> <img src='/images/notification_icon.png' alt='' /> Notifications </div>
                         <div>
                             <span>ON</span>
                         </div>

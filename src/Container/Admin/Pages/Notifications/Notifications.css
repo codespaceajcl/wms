@@ -1,0 +1,233 @@
+.material_main.notifications {
+    border-radius: 0px;
+    padding: 0;
+}
+
+.notifications .main_heading {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notifications .main_heading h4 {
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notifications .main_heading h4 span {
+    background-color: #A9C23F;
+    color: #fff;
+    border-radius: 100px;
+    width: 21px;
+    height: 21px;
+    font-size: 13px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.notifications .main_heading div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notifications .main_heading div p {
+    margin-bottom: 0;
+    font-size: 13px;
+    color: #003A70;
+    cursor: pointer;
+}
+
+.notifications .main_heading div svg {
+    cursor: pointer;
+    cursor: pointer;
+}
+
+.notifications_show {
+    padding: 10px 7px;
+    border-top: 1px solid #DCDEE4;
+}
+
+.notifications_show.unread {
+    background-color: #FAFBFF;
+}
+
+.notifications_show .row {
+    align-items: start;
+}
+
+.notifications_show .row .col-md-1 {
+    text-align: center;
+    padding-right: 0;
+}
+
+.notifications_show .row .col-md-1 img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    object-fit: cover;
+}
+
+.notifications_show .row .col-md-11 {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+}
+
+.notifications_show .row .col-md-11 p {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.notifications_show .row .col-md-11 span {
+    font-size: 12px;
+    color: #696F8C;
+}
+
+.notifications_show .row .col-md-11 p span {
+    font-weight: 600;
+    color: #000;
+}
+
+.notifications_show .row .col-md-11 h6{
+    margin-bottom: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.notifications_show .row .col-md-11 div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notifications_show .row .col-md-11 div button{
+    background-color: #003A70;
+    color: #fff;
+    border: none;
+    padding: 5px 13px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.notifications_show .row .col-md-11 div button:last-child{
+    background-color: transparent;
+    color: #696F8C;
+    border: 1px solid #DCDEE4;
+}
+
+.request_modal .modal-body{
+    padding: 0;
+}
+
+.request_modal .request_head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #484C52;
+    color: #fff;
+    padding: 15px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.request_modal .request_head h6{
+    margin-bottom: 0;
+    font-size: 17px;
+}
+
+.request_modal .request_div{
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.request_modal .request_div p{
+    font-size: 15px;
+    margin-bottom: 35px;
+}
+
+.request_modal .request_div p span{
+    font-weight: 600;
+}
+
+.request_modal .request_div div{
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.request_modal .request_div div button{
+    width: 45%;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #329932;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.request_modal .request_div div button:last-child{
+    background-color: #E64646;
+}
+
+.request_modal .request_div .download_btn{
+    width: 93%;
+    background-color: #00A3FF;
+    border: none;
+    padding: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+.request_modal .request_div .download_btn svg{
+    font-size: 20px;
+}
+
+.dots_dropdown{
+    position: relative;
+}
+
+.dots_dropdown div{
+    position: absolute;
+    top: 22px;
+    font-size: 15px;
+    border: 1px solid #d3d3d354;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 5px;
+    right: 0;
+    background-color: #F5F6F7;
+    flex-direction: column;
+    width: 130px;
+    font-size: 13px;
+    gap: 0 !important;
+}
+
+.dots_dropdown div a{
+    color: #484C52;
+    padding: 7px 0;
+    border-bottom: 1px solid lightgrey;
+    width: 100%;
+    text-align: center;
+}
+
+.dots_dropdown div a:last-child{
+    border-bottom: none;
+}

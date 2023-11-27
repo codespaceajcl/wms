@@ -64,12 +64,21 @@
 }
 
 @media (max-width: 767px) {
-    .material_main .create{
-        position: relative;
-        top: 10px;
-    }
-
     .material_main{
         padding: 25px 10px;
+    }
+
+    .material_main h5{
+        font-size: 20px;
+    }
+
+    .material_main .create{
+        font-size: 12px;
+        position: relative;
+    }
+
+    .create.serial_generate{
+        right: 0;
+        top: 5px;
     }
 }

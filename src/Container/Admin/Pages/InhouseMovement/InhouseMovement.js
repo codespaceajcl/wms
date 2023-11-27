@@ -122,9 +122,9 @@ const InhouseMovement = () => {
                                             <td>{c.sno}</td>
                                             <td>{c.pallet}</td>
                                             <td>{c.Curr_location}</td>
-                                            <td><Select options={storeOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select1', value)} className='react_select' /></td>
-                                            <td><Select options={rackOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select2', value)} className='react_select' /></td>
-                                            <td style={{ width: "250px" }}><Select options={locOption} onChange={(value) => handleSelectChange(i, 'select3', value)} styles={customStyles} placeholder="Select" className='react_select' /></td>
+                                            <td style={{ minWidth: "140px" }}><Select options={storeOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select1', value)} className='react_select' /></td>
+                                            <td style={{ minWidth: "140px" }}><Select options={rackOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select2', value)} className='react_select' /></td>
+                                            <td style={{ minWidth: "250px" }}><Select options={locOption} onChange={(value) => handleSelectChange(i, 'select3', value)} styles={customStyles} placeholder="Select" className='react_select' /></td>
                                         </tr>
                                     )
                                 })

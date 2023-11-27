@@ -237,7 +237,7 @@ const LocationDetail = () => {
                 </div>
 
                 <div className='searching_div'>
-                    <Row className='align-items-center'>
+                    <Row className='align-items-center' style={{gap: "10px 0"}}>
                         <Col md={7}>
                             <div className='search_bar'>
                                 <FiSearch />
@@ -274,7 +274,7 @@ const LocationDetail = () => {
                                             <td>{c.sku}</td>
                                             <td>{c.pallet}</td>
                                             <td className={c.status === 'ok' ? 'ok' : 'fault'}><span>{c.status}</span></td>
-                                            <td><Select options={[{
+                                            <td style={{minWidth: "150px"}}><Select options={[{
                                                 value: "ok", label: "ok",
                                             }, {
                                                 value: "faulty", label: "Faulty",
@@ -351,7 +351,7 @@ const LocationDetail = () => {
                     <Breadcrumbs list={["Warehouse", "Agility Port Qasim", "PakistanNone_01/Storage", "Air Condition"]} />
                 </div>
 
-                <Row className='mb-4'>
+                <Row className='mb-4' style={{ gap: "15px 0" }}>
                     <Col md={4}>
                         <div className='location_detail_box'>
                             <h6>Warehouse Info.</h6>
@@ -399,25 +399,25 @@ const LocationDetail = () => {
 
                             <div className='mt-3'>
                                 <Row>
-                                    <Col md={6}>
+                                    <Col md={6} xs={6}>
                                         <div className='location_center_boxes'>
                                             <h4>32</h4>
                                             <p>No Of <br /> Location</p>
                                         </div>
                                     </Col>
-                                    <Col md={6}>
+                                    <Col md={6} xs={6}>
                                         <div className='location_center_boxes'>
                                             <h4>233</h4>
                                             <p>No Of <br /> Inventory</p>
                                         </div>
                                     </Col>
-                                    <Col md={6}>
+                                    <Col md={6} xs={6}>
                                         <div className='location_center_boxes'>
                                             <h4>54</h4>
                                             <p>No Of Utilized <br /> Location</p>
                                         </div>
                                     </Col>
-                                    <Col md={6}>
+                                    <Col md={6} xs={6}>
                                         <div className='location_center_boxes'>
                                             <h4>234</h4>
                                             <p>No Of Empty <br /> Location</p>
@@ -450,16 +450,13 @@ const LocationDetail = () => {
                             </div>
                         </div>
                     </Col>
-                </Row>
-
-                <Row className='mt-5'>
                     <Col md={12}>
                         <div>
                             <div className='rack_filter'>
-                                <div>
+                                <div className='flex-wrap'>
                                     <h6>Select Rack</h6>
 
-                                    <div style={{ display: "flex", gap: "5px" }}>
+                                    <div style={{ display: "flex", gap: "5px", flexWrap: 'wrap' }}>
                                         <button onClick={() => setAddRack(true)}><AiOutlinePlus /> Add Rack</button>
                                         <button onClick={() => setAddFloor(true)}><AiOutlinePlus /> Add Floor</button>
                                         <button onClick={() => setAddLocation(true)}><AiOutlinePlus /> Add Location</button>
@@ -479,919 +476,923 @@ const LocationDetail = () => {
                                     <p> <span></span> Faulty/Damage</p>
                                 </div>
                             </div>
-
-                            <Row className='mt-4' style={{ transition: "all 0.3s ease" }}>
-                                <Col md={showFilterBox ? 8 : 12}>
-                                    <div className='rack_placing'>
-                                        <div style={{ position: "relative" }}>
-                                            <h4>W01AA</h4>
-
-                                            <div className='scroll_chevrons'>
-                                                <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef1, setScrollPosition1)} />
-                                                <FaChevronRight onClick={() => handleScroll(300, rackContainerRef1, setScrollPosition1)} />
-                                            </div>
-                                        </div>
-
-                                        <div ref={rackContainerRef1} className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>01</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>A1</div>
-                                                            <div className='rack_place' onClick={() => setShowDetail(true)}>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>02</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>B1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>03</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>C1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>04</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>D1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>05</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>E1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <div className='rack_placing'>
-                                        <div style={{ position: "relative" }}>
-                                            <h4>W01AB</h4>
-
-                                            <div className='scroll_chevrons'>
-                                                <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef2, setScrollPosition2)} />
-                                                <FaChevronRight onClick={() => handleScroll(300, rackContainerRef2, setScrollPosition2)} />
-                                            </div>
-                                        </div>
-
-                                        <div ref={rackContainerRef2} className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>01</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>A1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>A9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>02</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>B1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>B9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>03</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>C1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>C9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>04</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>D1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>D9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><p>05</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className='rack_head'>E1</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E2</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E3</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E4</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E5</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E6</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E7</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/filled_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A1</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E8</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/empty_rack.png' alt='' />
-                                                                <span style={{ color: "#000" }}>W01AA01A2</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className='rack_head'>E9</div>
-                                                            <div className='rack_place'>
-                                                                <img src='/images/faulty_rack.png' alt='' />
-                                                                <span style={{ color: "#fff" }}>W01AA01A3</span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </Col>
-
-                                <Col md={4} style={showFilterBox === false ? { display: "none" } : { display: "block" }}>
-                                    <div className='rack_filter_right'>
-                                        <div className='show_recent'>
-                                            <div className='search_bar'>
-                                                <input placeholder='Search' />
-                                                <select id="cars" name="cars">
-                                                    <option value="volvo">W01AA</option>
-                                                    <option value="volvo">W01AB</option>
-                                                    <option value="saab">W02AB</option>
-                                                    <option value="mercedes">W01AC</option>
-                                                    <option value="audi">W01ABB</option>
-                                                </select>
-                                                <div className='search_icon'>
-                                                    <AiOutlineSearch />
-                                                </div>
-                                            </div>
-
-                                            <h6>Recent Searches</h6>
-                                            <ul>
-                                                <li>+ W01AA01A1</li>
-                                                <li>+ W01AA01A2</li>
-                                                <li>+ W01AA01A3</li>
-                                                <li>+ W01AA01A4</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className='show_recent'>
-                                            <h6>Rack</h6>
-
-                                            <ul>
-                                                <li><input type="radio" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>W01AA</span>
-                                                            <span>103</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>W02AB</span>
-                                                            <span>23</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>W03AC</span>
-                                                            <span>12</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>W04AD</span>
-                                                            <span>22</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>W015AE</span>
-                                                            <span>11</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>W06AF</span>
-                                                            <span>22</span>
-                                                        </div>
-                                                    </label></li>
-                                            </ul>
-                                        </div>
-
-                                        <div className='show_recent floors'>
-                                            <h6>Floors</h6>
-
-                                            <ul>
-                                                <li><input type="radio" id="html" name="floor" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>01</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="floor" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>02</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="floor" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>03</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="floor" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>04</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="floor" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>05</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="floor" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>06</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="floor" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>07</span>
-                                                        </div>
-                                                    </label></li>
-                                                <li><input type="radio" id="html" name="floor" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>08</span>
-                                                        </div>
-                                                    </label></li>
-                                            </ul>
-                                        </div>
-
-                                        <div className='show_recent'>
-                                            <h6>Filter By Type</h6>
-
-                                            <ul>
-                                                <li><input type="checkbox" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>Filled</span>
-                                                        </div>
-                                                    </label>
-                                                </li>
-                                                <li><input type="checkbox" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>OK</span>
-                                                        </div>
-                                                    </label>
-                                                </li>
-                                                <li><input type="checkbox" id="html" name="fav_language" value="HTML" />
-                                                    <label for="html">
-                                                        <div>
-                                                            <span>Damage/Faulty</span>
-                                                        </div>
-                                                    </label>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
                         </div>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col md={12}>
+                        <Row className='mt-4' style={{ transition: "all 0.3s ease" }}>
+                            <Col md={showFilterBox ? 8 : 12} style={{ transition: "all 0.3s ease" }}>
+                                <div className='rack_placing'>
+                                    <div style={{ position: "relative" }}>
+                                        <h4>W01AA</h4>
+
+                                        <div className='scroll_chevrons'>
+                                            <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef1, setScrollPosition1)} />
+                                            <FaChevronRight onClick={() => handleScroll(300, rackContainerRef1, setScrollPosition1)} />
+                                        </div>
+                                    </div>
+
+                                    <div ref={rackContainerRef1} className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>01</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>A1</div>
+                                                        <div className='rack_place' onClick={() => setShowDetail(true)}>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>02</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>B1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>03</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>C1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>04</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>D1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>05</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>E1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div className='rack_placing'>
+                                    <div style={{ position: "relative" }}>
+                                        <h4>W01AB</h4>
+
+                                        <div className='scroll_chevrons'>
+                                            <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef2, setScrollPosition2)} />
+                                            <FaChevronRight onClick={() => handleScroll(300, rackContainerRef2, setScrollPosition2)} />
+                                        </div>
+                                    </div>
+
+                                    <div ref={rackContainerRef2} className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>01</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>A1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>A9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>02</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>B1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>B9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>03</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>C1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>C9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>04</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>D1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>D9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>05</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div className='rack_head'>E1</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E2</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E3</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E4</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E5</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E6</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E7</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/filled_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E8</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/empty_rack.png' alt='' />
+                                                            <span style={{ color: "#000" }}>W01AA01A2</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className='rack_head'>E9</div>
+                                                        <div className='rack_place'>
+                                                            <img src='/images/faulty_rack.png' alt='' />
+                                                            <span style={{ color: "#fff" }}>W01AA01A3</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </Col>
+
+                            <Col md={4} style={showFilterBox === false ? { display: "none", transition: "all 0.3s ease" } : { display: "block", transition: "all 0.3s ease" }}>
+                                <div className='rack_filter_right'>
+                                    <div className='show_recent'>
+                                        <div className='search_bar'>
+                                            <input placeholder='Search' />
+                                            <select id="cars" name="cars">
+                                                <option value="volvo">W01AA</option>
+                                                <option value="volvo">W01AB</option>
+                                                <option value="saab">W02AB</option>
+                                                <option value="mercedes">W01AC</option>
+                                                <option value="audi">W01ABB</option>
+                                            </select>
+                                            <div className='search_icon'>
+                                                <AiOutlineSearch />
+                                            </div>
+                                        </div>
+
+                                        <h6>Recent Searches</h6>
+                                        <ul>
+                                            <li>+ W01AA01A1</li>
+                                            <li>+ W01AA01A2</li>
+                                            <li>+ W01AA01A3</li>
+                                            <li>+ W01AA01A4</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className='show_recent'>
+                                        <h6>Rack</h6>
+
+                                        <ul>
+                                            <li><input type="radio" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>W01AA</span>
+                                                        <span>103</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>W02AB</span>
+                                                        <span>23</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>W03AC</span>
+                                                        <span>12</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>W04AD</span>
+                                                        <span>22</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>W015AE</span>
+                                                        <span>11</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>W06AF</span>
+                                                        <span>22</span>
+                                                    </div>
+                                                </label></li>
+                                        </ul>
+                                    </div>
+
+                                    <div className='show_recent floors'>
+                                        <h6>Floors</h6>
+
+                                        <ul>
+                                            <li><input type="radio" id="html" name="floor" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>01</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="floor" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>02</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="floor" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>03</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="floor" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>04</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="floor" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>05</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="floor" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>06</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="floor" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>07</span>
+                                                    </div>
+                                                </label></li>
+                                            <li><input type="radio" id="html" name="floor" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>08</span>
+                                                    </div>
+                                                </label></li>
+                                        </ul>
+                                    </div>
+
+                                    <div className='show_recent'>
+                                        <h6>Filter By Type</h6>
+
+                                        <ul>
+                                            <li><input type="checkbox" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>Filled</span>
+                                                    </div>
+                                                </label>
+                                            </li>
+                                            <li><input type="checkbox" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>OK</span>
+                                                    </div>
+                                                </label>
+                                            </li>
+                                            <li><input type="checkbox" id="html" name="fav_language" value="HTML" />
+                                                <label for="html">
+                                                    <div>
+                                                        <span>Damage/Faulty</span>
+                                                    </div>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
             </Container>

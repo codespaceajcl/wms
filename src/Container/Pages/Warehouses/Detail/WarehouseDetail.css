@@ -137,3 +137,39 @@
 .no_of_store_type .floor_loc .input_field{
     width: 50%;
 }
+
+@media (max-width: 992px) {
+    .warehouse_detail_main .container{
+        max-width: 960px;
+    }
+}
+
+@media (max-width: 767px) {
+    .warehouse_detail_main .warehouse_head h6{
+        margin-bottom: 0;
+    }
+
+    .warehouse_detail_main .warehouse_head {
+        color: #fff;
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 10px 0;
+        margin-top: 15px;
+    }
+
+    .no_of_store_type .floor_loc{
+        flex-direction: column;
+    }
+
+    .no_of_store_type .floor_loc .input_field{
+        width: 100%;
+    }
+}
+
+@media (max-width: 670px) {
+    .warehouse_detail_main .warehouse_head {
+        justify-content: center;
+    }
+}

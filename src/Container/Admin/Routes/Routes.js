@@ -24,6 +24,7 @@ import PrivacyPolicy from "../Pages/Profile/PrivacyPolicy/PrivacyPolicy";
 import Settings from "../Pages/Profile/Settings/Settings";
 import Chat from "../../Pages/Chat/Chat/Chat";
 import Message from "../../Pages/Chat/Message/Message";
+import Notifications from "../Pages/Notifications/Notifications";
 
 export const adminRoutes = [
   {
@@ -113,6 +114,10 @@ export const adminRoutes = [
   {
     path: "/profile/settings",
     component: <Settings />,
+  },
+  {
+    path: "/all-notifications",
+    component: <Notifications />,
   },
 ];
 

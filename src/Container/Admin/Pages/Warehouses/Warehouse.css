@@ -46,7 +46,7 @@
     font-weight: 300;
 }
 
-.w_location .loc{
+.w_location .loc {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -62,28 +62,28 @@
     font-weight: 300;
 }
 
-.w_location ul{
+.w_location ul {
     padding-left: 27px;
     font-size: 10px;
     margin-bottom: 0;
 }
 
-.w_location ul li{
+.w_location ul li {
     line-height: 1.1;
     color: #484C52;
 }
 
-.w_location ul li::marker{
+.w_location ul li::marker {
     color: #F0F0F0;
 }
 
-.w_location ul li span{
+.w_location ul li span {
     color: #000;
     font-weight: 700;
     font-size: 13px;
 }
 
-.w_location ul:last-child li::marker{
+.w_location ul:last-child li::marker {
     color: #F7B500;
 }
 
@@ -94,32 +94,32 @@
     border-radius: 50%;
     display: inline-block !important;
     margin-top: 2px;
-  }
+}
 
-  .w_location .w_location_detail{
+.w_location .w_location_detail {
     display: flex;
     justify-content: space-around;
     margin-bottom: 10px;
-  }
+}
 
-  .w_location .w_location_detail div{
+.w_location .w_location_detail div {
     display: flex;
     gap: 5px;
-  }
+}
 
-  .w_location .w_location_detail div p{
+.w_location .w_location_detail div p {
     margin-bottom: 0;
     font-size: 11px;
     line-height: 1.2;
 }
 
-.w_location .w_location_detail div p span{
+.w_location .w_location_detail div p span {
     color: #000;
     font-weight: 700;
     font-size: 13px;
 }
 
-.go_warehouse_btn{
+.go_warehouse_btn {
     margin-top: 10px;
     width: 100%;
     background-color: transparent;
@@ -133,23 +133,23 @@
     margin-bottom: 25px;
 }
 
-.go_warehouse_btn:hover{
+.go_warehouse_btn:hover {
     background-color: #003A70;
     color: #fff;
 }
 
-.warehouse_chart{
+.warehouse_chart {
     width: 80px;
     margin: auto;
 }
 
-.add_warehouse_head{
+.add_warehouse_head {
     padding: 0;
     margin-top: 5px;
     margin-bottom: 40px;
 }
 
-.add_warehouse_head h5 > svg {
+.add_warehouse_head h5>svg {
     position: absolute;
     left: 0;
     color: #000;
@@ -166,17 +166,17 @@
     text-transform: uppercase;
 }
 
-.add_warehouse_head p{
+.add_warehouse_head p {
     color: #484C52;
     font-size: 14px;
     text-align: center;
 }
 
-.warehouse_form input{
+.warehouse_form input {
     margin-bottom: 20px;
 }
 
-.warehouse_form .guZdik{
+.warehouse_form .guZdik {
     max-width: 100% !important;
     height: auto !important;
     border: 2px dashed #bec0c3 !important;
@@ -184,7 +184,7 @@
     padding: 30px 20px !important;
 }
 
-.warehouse_form button{
+.warehouse_form button {
     width: 100%;
     padding: 12px 0;
     border: none;
@@ -195,32 +195,61 @@
     font-weight: 500;
 }
 
-.warehouse_form button.cancel_btn{
+.warehouse_form button.cancel_btn {
     background-color: #D3D3D3;
     color: #484C52;
 }
 
-.add_warehouse_modal .modal-body{
+.add_warehouse_modal .modal-body {
     padding: 20px 40px;
 }
 
+@media (max-width: 1100px) {
+    .material_main.warehouse_main {
+        padding: 25px 10px;
+    }
+
+    .warehouse_chart {
+        width: 70px;
+        margin: auto;
+    }
+
+    .warehouse_div .warehouse_img_div img {
+        height: 200px;
+    }
+}
+
+@media (max-width: 992px) {
+    .w_location .loc {
+        justify-content: center;
+    }
+}
+
 @media (max-width: 767px) {
-    .warehouse_detail_main .warehouse_head button{
+    .warehouse_detail_main .warehouse_head button {
         padding: 5px 16px;
         font-size: 13px;
     }
 
-    .warehouse_detail_main .warehouse_head h6{
+    .warehouse_detail_main .warehouse_head h6 {
         font-size: 18px;
         margin-bottom: 20px;
     }
 
-    .warehouse_detail_boxes_right{
+    .warehouse_detail_boxes_right {
         margin-top: 20px;
         height: auto;
     }
 
-    .warehouse_detail_boxes_right div{
+    .warehouse_detail_boxes_right div {
         position: relative;
+    }
+}
+
+@media (max-width: 500px) {
+    .material_main.warehouse_main .create {
+        font-size: 12px;
+        position: relative;
+        text-align: end;
     }
 }
