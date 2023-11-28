@@ -9,6 +9,7 @@ import { Pie, Bar } from 'react-chartjs-2';
 import { MdFilterList } from "react-icons/md";
 import LocationApi from "../../../../Apis/Location.json";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa6";
+import { rackColorStyles, floorColorStyles } from "../../../../Util/Helper";
 import './LocationDetail.css';
 
 const LocationDetail = () => {
@@ -173,7 +174,7 @@ const LocationDetail = () => {
                 <div className='warehouse_store_add_detail'>
                     <div>
                         <label className='react_select_label'>Rack <span>*</span></label>
-                        <Select options={options} placeholder="Select" className='react_select' />
+                        <Select options={options} placeholder="Select" className='react_select' styles={floorColorStyles} />
                     </div>
 
                     <div className='input_field mt-3'>
@@ -202,7 +203,7 @@ const LocationDetail = () => {
                 <div className='warehouse_store_add_detail'>
                     <div>
                         <label className='react_select_label'>Rack <span>*</span></label>
-                        <Select options={options} placeholder="Select" className='react_select' />
+                        <Select options={options} placeholder="Select" className='react_select' styles={floorColorStyles} />
                     </div>
 
                     <div className='input_field mt-3'>
@@ -237,7 +238,7 @@ const LocationDetail = () => {
                 </div>
 
                 <div className='searching_div'>
-                    <Row className='align-items-center' style={{gap: "10px 0"}}>
+                    <Row className='align-items-center' style={{ gap: "10px 0" }}>
                         <Col md={7}>
                             <div className='search_bar'>
                                 <FiSearch />
@@ -254,7 +255,7 @@ const LocationDetail = () => {
                 </div>
 
                 <div>
-                    <Table responsive="sm" className='loc_detail_table'>
+                    <Table responsive className='loc_detail_table'>
                         <thead>
                             <tr>
                                 {
@@ -274,7 +275,7 @@ const LocationDetail = () => {
                                             <td>{c.sku}</td>
                                             <td>{c.pallet}</td>
                                             <td className={c.status === 'ok' ? 'ok' : 'fault'}><span>{c.status}</span></td>
-                                            <td style={{minWidth: "150px"}}><Select options={[{
+                                            <td style={{ minWidth: "150px" }}><Select options={[{
                                                 value: "ok", label: "ok",
                                             }, {
                                                 value: "faulty", label: "Faulty",
@@ -464,7 +465,7 @@ const LocationDetail = () => {
                                 </div>
 
                                 <div className='mt-4'>
-                                    <Select options={options} placeholder="All Racks" className='react_select_inhouse dc_doc' />
+                                    <Select options={options} placeholder="All Racks" styles={rackColorStyles} className='react_select_inhouse dc_doc' />
                                     <div>
                                         <MdFilterList onClick={() => setShowFilterBox(!showFilterBox)} />
                                     </div>
@@ -1238,12 +1239,12 @@ const LocationDetail = () => {
                                     <div className='show_recent'>
                                         <div className='search_bar'>
                                             <input placeholder='Search' />
-                                            <select id="cars" name="cars">
-                                                <option value="volvo">W01AA</option>
-                                                <option value="volvo">W01AB</option>
-                                                <option value="saab">W02AB</option>
-                                                <option value="mercedes">W01AC</option>
-                                                <option value="audi">W01ABB</option>
+                                            <select name="rack">
+                                                <option value="W01AA">W01AA</option>
+                                                <option value="W01AB">W01AB</option>
+                                                <option value="W02AB">W02AB</option>
+                                                <option value="W01AC">W01AC</option>
+                                                <option value="W01ABB">W01ABB</option>
                                             </select>
                                             <div className='search_icon'>
                                                 <AiOutlineSearch />

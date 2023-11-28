@@ -8,6 +8,7 @@ import { useState } from 'react';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import Select from 'react-select';
 import InhouseApi from "../../../../Apis/Inhouse.json";
+import { partColorStyles, materialColorStyles } from "../../../../Util/Helper";
 import './InhouseMovement.css';
 
 const InhouseMovement = () => {
@@ -37,11 +38,20 @@ const InhouseMovement = () => {
     ]
 
     const customStyles = {
+        control: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: 'white', borderRadius: "8px", cursor: "pointer", fontSize: "13px", boxShadow: "none",
+            borderColor: state.isFocused || state.isHovered || state.isActive || state.onHovered ? '#A9C23F' : '#bec0c3',
+            '&:hover': {
+                borderColor: state.isFocused || state.isActive ? '#A9C23F' : '#bec0c3',
+            },
+        }),
         option: (provided, state) => {
             return ({
                 ...provided,
                 background: state.value === 'W01AA01A1 | W02AA01A1' ? '#95D6A4' : state.value === 'W01AA01A2 | W02AA01A3' ? '#95D6A4' : state.value === 'W01AA01A3 | W02AA02A1' ? '#FF8F8F' : '#00FFFF',
                 color: '#484C52',
+                fontSize: "13px"
             })
         }
     };
@@ -89,7 +99,7 @@ const InhouseMovement = () => {
 
                 <Row className='mt-5'>
                     <Col md={12}>
-                        <Select options={options} placeholder="Select Inhouse Movement" className='react_select_inhouse' />
+                        <Select styles={partColorStyles} options={options} placeholder="Select Inhouse Movement" className='react_select_inhouse' />
                     </Col>
                 </Row>
 
@@ -104,7 +114,7 @@ const InhouseMovement = () => {
                             </div>
                         }
                     </div>
-                    <Table striped bordered responsive="sm">
+                    <Table striped bordered responsive>
                         <thead>
                             <tr>
                                 {
@@ -122,9 +132,9 @@ const InhouseMovement = () => {
                                             <td>{c.sno}</td>
                                             <td>{c.pallet}</td>
                                             <td>{c.Curr_location}</td>
-                                            <td style={{ minWidth: "140px" }}><Select options={storeOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select1', value)} className='react_select' /></td>
-                                            <td style={{ minWidth: "140px" }}><Select options={rackOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select2', value)} className='react_select' /></td>
-                                            <td style={{ minWidth: "250px" }}><Select options={locOption} onChange={(value) => handleSelectChange(i, 'select3', value)} styles={customStyles} placeholder="Select" className='react_select' /></td>
+                                            <td style={{ minWidth: "140px" }}><Select styles={materialColorStyles} options={storeOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select1', value)} /></td>
+                                            <td style={{ minWidth: "140px" }}><Select styles={materialColorStyles} options={rackOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select2', value)} /></td>
+                                            <td style={{ minWidth: "250px" }}><Select options={locOption} onChange={(value) => handleSelectChange(i, 'select3', value)} styles={customStyles} placeholder="Select" /></td>
                                         </tr>
                                     )
                                 })

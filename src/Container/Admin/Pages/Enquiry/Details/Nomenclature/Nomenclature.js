@@ -42,7 +42,7 @@ const Nomenclature = () => {
                     <AiOutlineClose onClick={() => setNomenModal(!nomenModal)} style={{ cursor: "pointer", fontSize: "17px" }} />
                 </div>
                 <div className='consignee_table detail'>
-                    <Table responsive={true}>
+                    <Table responsive>
                         <thead>
                             <tr>
                                 {skuHead.map((d) => (<th>{d}</th>))}

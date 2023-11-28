@@ -33,7 +33,7 @@ const Consignee = () => {
           <AiOutlineClose onClick={() => setConsigneeModal(!consigneeModal)} style={{ cursor: "pointer" }} />
         </div>
         <div className='consignee_table detail'>
-          <Table responsive={true}>
+          <Table responsive>
             <thead>
               <tr>
                 {detailHead.map((d) => (<th>{d}</th>))}
@@ -105,7 +105,7 @@ const Consignee = () => {
           </Row>
         </div>
         <div className='consignee_table detail'>
-          <Table responsive={true}>
+          <Table responsive>
             <thead>
               <tr>
                 {moreHead.map((d) => (<th>{d}</th>))}
@@ -154,7 +154,7 @@ const Consignee = () => {
           </div>
         </div>
         <div className='consignee_table detail'>
-          <Table responsive={true}>
+          <Table responsive>
             <thead>
               <tr>
                 {skuHead.map((d) => (<th>{d}</th>))}
@@ -269,7 +269,7 @@ const Consignee = () => {
         </div>
 
         <div className='consignee_table'>
-          <Table striped bordered responsive="sm">
+          <Table striped bordered responsive>
             <thead>
               <tr>
                 {

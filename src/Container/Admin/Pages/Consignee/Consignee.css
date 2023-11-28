@@ -185,6 +185,7 @@
 .consignee_name_head .search_box input{
     max-width: 400px;
     width: 400px;
+    color: #000;
 }
 
 @media (max-width: 1200px) {

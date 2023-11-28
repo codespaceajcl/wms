@@ -133,6 +133,12 @@
     border: 1px solid #E3E8E7;
     border-radius: 15px;
     padding: 15px;
+    position: absolute;
+    bottom: 5px;
+}
+
+.send_msg_box.show .col-md-9{
+    width: 60%;
 }
 
 .send_msg_box .col-md-9 textarea {

@@ -9,6 +9,7 @@ import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { useState } from 'react';
 import DcApi from "../../../../Apis/DcDocument.json";
 import './DcDocument.css';
+import { partColorStyles } from "../../../../Util/Helper";
 import GridView from './GridView';
 
 const DcDocument = () => {
@@ -86,23 +87,23 @@ const DcDocument = () => {
 
                             {
                                 showFilter && <div className='filter_div'>
-                                <div>
-                                    <label>From</label>
-                                    <input type='date' />
+                                    <div>
+                                        <label>From</label>
+                                        <input type='date' />
+                                    </div>
+                                    <div>
+                                        <label>To</label>
+                                        <input type='date' />
+                                    </div>
+                                    <div className='checkbox_div'>
+                                        <input type='checkbox' />
+                                        <label>In-Transit</label>
+                                    </div>
+                                    <div className='checkbox_div'>
+                                        <input type='checkbox' />
+                                        <label>Delivered</label>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label>To</label>
-                                    <input type='date' />
-                                </div>
-                                <div className='checkbox_div'>
-                                    <input type='checkbox' />
-                                    <label>In-Transit</label>
-                                </div>
-                                <div className='checkbox_div'>
-                                    <input type='checkbox' />
-                                    <label>Delivered</label>
-                                </div>
-                            </div>
                             }
                         </div>
                     </div>
@@ -111,7 +112,7 @@ const DcDocument = () => {
 
                 <Row className='mt-5'>
                     <div className='d-flex align-items-center'>
-                        <Select options={options} placeholder="Select DC" className='react_select_inhouse dc_doc' />
+                        <Select styles={partColorStyles} options={options} placeholder="Select DC" className='react_select_inhouse dc_doc' />
                         <div className='change_table_icons'>
                             <img src='/images/change_grid_view.png' alt='' onClick={() => showView('table')} className={view === 'table' ? 'active' : null} />
                             <img src='/images/change_table_view.png' alt='' onClick={() => showView('grid')} className={view === 'grid' ? 'active' : null} />
@@ -127,7 +128,7 @@ const DcDocument = () => {
                                 <div className='select_inhouse_table'>
                                     <h6 style={{ fontSize: "15px" }}>Delivery Challan Documents </h6>
                                 </div>
-                                <Table bordered responsive="lg" size='lg'>
+                                <Table bordered responsive>
                                     <thead>
                                         <tr>
                                             {

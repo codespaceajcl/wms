@@ -94,7 +94,7 @@ const Chat = () => {
                 </Col>
               </Row>
             </div>
-            <div className='send_msg_box'>
+            <div className={showRightProfile ? 'send_msg_box show' : 'send_msg_box'}>
               <Row className='justify-content-center'>
                 <Col md={9}>
                   <textarea rows={3}></textarea>
@@ -112,7 +112,7 @@ const Chat = () => {
             </div>
           </div>
         </Col>
-        <Col md={showRightProfile ? 4 : 0} style={showRightProfile ? {display: "block"} : {display: "none"}} className='ps-0'>
+        <Col md={showRightProfile ? 4 : 0} style={showRightProfile ? { display: "block" } : { display: "none" }} className='ps-0'>
           <div className='chating_user_box'>
             <div className='close_right_box'>
               <IoCloseCircleOutline onClick={() => setShowRightProfile(false)} />

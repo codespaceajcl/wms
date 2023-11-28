@@ -1,12 +1,13 @@
 import React from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import Input from '../../../../Components/Input/Input';
 import { BsArrowLeftShort } from "react-icons/bs";
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { useState } from 'react';
+import { materialColorStyles } from "../../../../Util/Helper";
 
 const RMA = () => {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ const RMA = () => {
                 <p>Please fill out this form with the required information</p>
 
                 <Form onSubmit={materialSubmitHandler} className='mt-5'>
-                    <Row className='justify-content-around'>
+                    <Row className='justify-content-around align-items-center'>
                         <Col md={6}>
                             <Input label={'Company Name'} />
                         </Col>
@@ -47,7 +48,7 @@ const RMA = () => {
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>City</label>
-                            <Select options={options} placeholder="Select City" className='react_select' />
+                            <Select options={options} placeholder="Select City" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <Input label={'Country'} />

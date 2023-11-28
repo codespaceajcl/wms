@@ -53,7 +53,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
 
     const onMessageHandler = () => {
         setNewChatModal(!newChatModal)
-      }
+    }
 
     const modal = (
         <Modal centered show={newChatModal} onHide={() => setNewChatModal(false)} size='sm' className="new_chat">
@@ -339,7 +339,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                             </Row>
                         </div>
 
-                        <div className="mt-3" ref={rightNavRef}>
+                        <div className="chat_layout_right" ref={rightNavRef}>
                             {children}
                         </div>
                     </div>

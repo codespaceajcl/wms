@@ -53,10 +53,10 @@ const Notifications = () => {
                 </div>
                 <div className='notifications_show unread'>
                     <Row>
-                        <Col md={1}>
+                        <Col md={1} sm={1} xs={2}>
                             <img src='/images/notification_img4.png' alt='' />
                         </Col>
-                        <Col md={11}>
+                        <Col md={11} sm={11} xs={10}>
                             <h6>Admin</h6>
                             <p>Your request to revert <span>119054</span> transaction have been approved by <span>Admin Owais</span></p>
                             <span>8 min ago</span>
@@ -65,10 +65,10 @@ const Notifications = () => {
                 </div>
                 <div className='notifications_show'>
                     <Row>
-                        <Col md={1}>
+                        <Col md={1} sm={1} xs={2}>
                             <img src='/images/notification_img1.png' alt='' />
                         </Col>
-                        <Col md={11}>
+                        <Col md={11} sm={11} xs={10}>
                             <h6>Edward Curr</h6>
                             <p>Your request to revert <span>119054</span> transaction have been approved by <span>Admin Owais</span></p>
                             <div>
@@ -81,10 +81,10 @@ const Notifications = () => {
                 </div>
                 <div className='notifications_show'>
                     <Row>
-                        <Col md={1}>
+                        <Col md={1} sm={1} xs={2}>
                             <img src='/images/notification_img3.png' alt='' />
                         </Col>
-                        <Col md={11}>
+                        <Col md={11} sm={11} xs={10}>
                             <h6>Maria Hill</h6>
                             <p>Your request to revert <span>119054</span> transaction have been approved by <span>Admin Owais</span></p>
                             <span>1 day ago</span>
@@ -93,10 +93,10 @@ const Notifications = () => {
                 </div>
                 <div className='notifications_show'>
                     <Row>
-                        <Col md={1}>
+                        <Col md={1} sm={1} xs={2}>
                             <img src='/images/notification_img3.png' alt='' />
                         </Col>
-                        <Col md={11}>
+                        <Col md={11} sm={11} xs={10}>
                             <h6>Maria Hill</h6>
                             <p>Your request to revert <span>119054</span> transaction have been approved by <span>Admin Owais</span></p>
                             <span>1 day ago</span>
@@ -105,10 +105,10 @@ const Notifications = () => {
                 </div>
                 <div className='notifications_show'>
                     <Row>
-                        <Col md={1}>
+                        <Col md={1} sm={1} xs={2}>
                             <img src='/images/notification_img3.png' alt='' />
                         </Col>
-                        <Col md={11}>
+                        <Col md={11} sm={11} xs={10}>
                             <h6>Maria Hill</h6>
                             <p>Your request to revert <span>119054</span> transaction have been approved by <span>Admin Owais</span></p>
                             <span>1 day ago</span>
@@ -117,10 +117,10 @@ const Notifications = () => {
                 </div>
                 <div className='notifications_show'>
                     <Row>
-                        <Col md={1}>
+                        <Col md={1} sm={1} xs={2}>
                             <img src='/images/notification_img3.png' alt='' />
                         </Col>
-                        <Col md={11}>
+                        <Col md={11} sm={11} xs={10}>
                             <h6>Maria Hill</h6>
                             <p>Your request to revert <span>119054</span> transaction have been approved by <span>Admin Owais</span></p>
                             <span>1 day ago</span>
@@ -129,10 +129,10 @@ const Notifications = () => {
                 </div>
                 <div className='notifications_show'>
                     <Row>
-                        <Col md={1}>
+                        <Col md={1} sm={1} xs={2}>
                             <img src='/images/notification_img3.png' alt='' />
                         </Col>
-                        <Col md={11}>
+                        <Col md={11} sm={11} xs={10}>
                             <h6>Maria Hill</h6>
                             <p>Your request to revert <span>119054</span> transaction have been approved by <span>Admin Owais</span></p>
                             <span>1 day ago</span>
@@ -141,10 +141,10 @@ const Notifications = () => {
                 </div>
                 <div className='notifications_show'>
                     <Row>
-                        <Col md={1}>
+                        <Col md={1} sm={1} xs={2}>
                             <img src='/images/notification_img3.png' alt='' />
                         </Col>
-                        <Col md={11}>
+                        <Col md={11} sm={11} xs={10}>
                             <h6>Maria Hill</h6>
                             <p>Your request to revert <span>119054</span> transaction have been approved by <span>Admin Owais</span></p>
                             <span>1 day ago</span>

@@ -290,7 +290,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <Table striped bordered responsive="sm">
+          <Table striped bordered responsive>
             <thead>
               <tr>
                 {

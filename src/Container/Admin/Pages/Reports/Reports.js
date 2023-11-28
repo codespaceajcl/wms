@@ -12,6 +12,7 @@ import StockOutTab from './StockOutTab/StockOutTab';
 import StockReturn from './StockReturn/StockReturn';
 import StockTranfer from './StockTransfer/StockTransfer';
 import { useNavigate } from 'react-router-dom';
+import { materialColorStyles } from "../../../../Util/Helper";
 
 const Reports = () => {
     const navigate = useNavigate();
@@ -34,19 +35,19 @@ const Reports = () => {
                     <Row className='mt-5'>
                         <Col md={4}>
                             <label className='react_select_label'>Warehouse</label>
-                            <Select options={options} placeholder="Select Warehouse" className='react_select' />
+                            <Select options={options} placeholder="Select Warehouse" styles={materialColorStyles} />
                         </Col>
                         <Col md={4}>
                             <label className='react_select_label'>Business Type</label>
-                            <Select options={options} placeholder="Select Business" className='react_select' />
+                            <Select options={options} placeholder="Select Business" styles={materialColorStyles} />
                         </Col>
                         <Col md={4}>
                             <label className='react_select_label'>Type</label>
-                            <Select options={options} placeholder="Select Type" className='react_select' />
+                            <Select options={options} placeholder="Select Type" styles={materialColorStyles} />
                         </Col>
                         <Col md={4} className='mt-3'>
                             <label className='react_select_label'>Industry</label>
-                            <Select options={options} placeholder="Select Industry" className='react_select' />
+                            <Select options={options} placeholder="Select Industry" styles={materialColorStyles} />
                         </Col>
                         <Col md={4} className='mt-3'>
                             <Input label={'SKU'} placeholder="Enter SKU" />

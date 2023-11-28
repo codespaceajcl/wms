@@ -88,15 +88,14 @@ img {
   }
 
   body {
-    overflow: auto;
+    overflow: auto !important;
   }
 
   .user_layout {
-    padding: 20px 0px;
+    padding: 0px 0px;
   }
 
   .margin-top-100 {
     margin-top: 130px;
   }
 }
-

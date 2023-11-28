@@ -5,6 +5,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { Col, Container, Modal, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { materialColorStyles } from "../../../../Util/Helper";
 import Select from 'react-select'
 
 const WarehouseDetail = () => {
@@ -49,7 +50,7 @@ const WarehouseDetail = () => {
 
               <div>
                 <label className='react_select_label'>Storage Type of Store 1 <span>*</span></label>
-                <Select options={options} placeholder="Select Store Type" className='react_select' />
+                <Select options={options} placeholder="Select Store Type" styles={materialColorStyles} />
               </div>
 
               <div className='input_field mt-3'>

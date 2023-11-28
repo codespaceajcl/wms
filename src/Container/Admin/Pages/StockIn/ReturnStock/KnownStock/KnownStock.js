@@ -6,6 +6,7 @@ import { Col, Form, Row, Table } from 'react-bootstrap';
 import Input from '../../../../../../Components/Input/Input';
 import { useNavigate } from 'react-router-dom';
 import { MdClose } from "react-icons/md";
+import { materialColorStyles, partColorStyles } from "../../../../../../Util/Helper";
 import { FileUploader } from "react-drag-drop-files";
 
 const KnownStock = () => {
@@ -32,10 +33,10 @@ const KnownStock = () => {
                 </h5>
 
                 <Form style={{ padding: "0 20px" }}>
-                    <Row className='mt-2'>
+                    <Row className='mt-2 align-items-center'>
                         <Col md={5} className='mt-3'>
                             <label className='react_select_label'>Order <span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
                         <Col md={5} className='mt-3'>
                             <Input label={'Transactional Number'} placeholder="Enter PO/Invoice/Lot/Shipment No" isRequired={true} />
@@ -48,18 +49,15 @@ const KnownStock = () => {
                         </Col>
                         <Col md={5} className='mt-3'>
                             <label className='react_select_label'>Business Type <span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
                         <Col md={5} className='mt-3'>
                             <Input label={'Warehouse'} placeholder="PakistanNone01_Agility Port Qasim" isRequired={true} />
                         </Col>
                         <Col md={5} className='mt-3'>
                             <label className='react_select_label'>Customer <span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
-                        {/* <Col md={9} className='mt-4'>
-                            <button className='submit_btn' type='submit'>Generate Report</button>
-                        </Col> */}
                     </Row>
                 </Form>
 
@@ -68,7 +66,7 @@ const KnownStock = () => {
 
                     <Row className='my-2 mx-2 align-items-center'>
                         <Col md={8}>
-                            <Select options={options} placeholder="Search Part No/Noms/NSN" className='react_select_inhouse stock' />
+                            <Select options={options} placeholder="Search Part No/Noms/NSN" styles={partColorStyles} className='react_select_inhouse stock' />
                         </Col>
                         <Col md={4}>
                             <p className='serialization_para'>

@@ -54,12 +54,13 @@
 
 .layout_content_section {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  flex-wrap: nowrap;
 }
 
 .layout_content_sidebar_section {
   /* width: 260px; */
-  width: 22vw;
+  /* width: 22vw; */
   background-color: #fff;
   /* box-shadow: 0px 30px 40px 0px #0000001A; */
   border-radius: 20px;
@@ -68,14 +69,22 @@
   margin-bottom: 15px;
 }
 
-.layout_content_sidebar_section.close {
+/* .layout_content_sidebar_section.close {
   width: 70px;
-}
+} */
 
 .layout_content_section .layout_content {
-  width: 100vw;
+  width: 77%;
   padding: 0 10px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+}
+
+.layout_content_section .layout_content.shrink{
+  width: 94%;
+}
+
+.layout_content.shrink .user_header{
+  width: 94%;
 }
 
 .layout_page_section {
@@ -265,20 +274,20 @@
 
 .right_layout_overlay {
   overflow-y: scroll;
-  height: 87vh;
-  margin-top: 20px;
+  height: 85vh;
+  margin-top: 60px;
   overflow-x: hidden;
 }
 
 .left_layout_overlay {
   overflow-y: scroll;
-  height: 100vh;
-  width: 30vw;
+  height: 96vh;
+  width: 23%;
   transition: all 0.3s ease;
 }
 
 .left_layout_overlay.shrink {
-  width: 9vw;
+  width: 6%;
 }
 
 .left_layout_overlay::-webkit-scrollbar {
@@ -475,8 +484,7 @@
   z-index: 999999;
   top: 0;
   left: 0;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.97);
+  background-color: #003A70;
   overflow-x: hidden;
   transition: 0.3s;
 }
@@ -508,7 +516,7 @@
 
 .overlay .nav-active {
   font-size: 22px !important;
-  color: #1bc51d !important;
+  color: #A9C23F !important;
   margin: 0;
   padding: 6px 0 !important;
   text-decoration: none !important;
@@ -540,8 +548,7 @@
 }
 
 .overlay-content-number {
-  font-weight: 200 !important;
-  color: rgba(234, 245, 224, 0.897);
+  color: #fff;
 }
 
 .mobile_sidebar_logout_btn {
@@ -561,11 +568,12 @@
 .mobile_sidebar_avatar {
   display: flex;
   align-items: center;
-  padding: 7px;
+  padding: 4px;
   background-color: #212121;
   width: 80px;
   height: 80px;
   border-radius: 100%;
+  border: 2px solid #fff;
 }
 
 .mobile_sidebar_avatar img {
@@ -698,10 +706,13 @@
 .left_layout_overlay.chat_main_div {
   display: flex;
   width: 27%;
+  height: 100vh;
 }
 
 .layout_content.chat_main_div {
   width: 73%;
+  height: 100vh;
+  position: relative;
 }
 
 .layout_content_sidebar_section.close.chat_main_div {
@@ -791,7 +802,7 @@
   margin: 10px 5px 10px 0;
   transition: all 0.3s ease;
   overflow-y: scroll;
-  height: 78vh;
+  height: 75vh;
 }
 
 .inboxes::-webkit-scrollbar {
@@ -868,16 +879,28 @@
   font-size: 22px;
 }
 
-.search_box.web_view{
+.search_box.web_view {
   display: flex;
 }
 
-.search_box.mob_view{
+.search_box.mob_view {
   display: none;
 }
 
+.user_header{
+  position: fixed;
+  width: 73%;
+  background-color: #F5F6F7;
+  z-index: 2;
+  padding-bottom: 10px;
+}
+
+.chat_layout_right{
+  margin-top: 80px;
+}
+
 @media (max-width: 1200px) {
-  .location_bg_layout .user_layout.warehouse_header .container{
+  .location_bg_layout .user_layout.warehouse_header .container {
     max-width: 1100px;
   }
 }
@@ -891,12 +914,29 @@
     border: 2px solid #fff;
     background-color: #fff;
   }
-}
 
-@media (max-width: 600px) {
-  .warehouse_header .search_box input {
-      min-width: 200px;
+  .right_layout_overlay {
+    overflow-y: scroll;
+    height: auto;
+    margin-top: 80px;
+    overflow-x: hidden;
   }
+
+  .layout_content .user_header {
+    position: fixed;
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    background-color: #F5F6F7;
+    z-index: 2;
+    padding-bottom: 10px;
+    top: 0px;
+  }
+
+  .layout_content .user_header>div{
+    padding: 10px 10px 10px 0;
+    margin-right: 0px;
+}
 }
 
 @media (max-width: 767px) {
@@ -908,11 +948,21 @@
     flex-direction: column-reverse;
   }
 
-  .search_box.web_view{
+  .search_box.web_view {
     display: none;
   }
-  
-  .search_box.mob_view{
+
+  .search_box.mob_view {
     display: flex;
+  }
+
+  .right_layout_overlay {
+    margin-top: 150px;
+  }
+}
+
+@media (max-width: 600px) {
+  .warehouse_header .search_box input {
+    min-width: 200px;
   }
 }

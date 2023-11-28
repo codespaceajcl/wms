@@ -39,6 +39,7 @@
     align-items: center;
     padding-top: 25px;
     cursor: pointer;
+    min-height: 185px;
 }
 
 .warehouse_detail_boxes img {

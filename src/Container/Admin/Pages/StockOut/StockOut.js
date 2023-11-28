@@ -16,6 +16,7 @@ import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import './StockOut.css';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
+import { materialColorStyles, nomenStyles } from "../../../../Util/Helper";
 
 const StockOut = () => {
     const navigate = useNavigate();
@@ -139,7 +140,7 @@ const StockOut = () => {
                                     <img src='/images/brand_loader.gif' alt='' width={100} />
                                     <p>Auto Serial No Selection Mode</p>
                                 </div> : <>
-                                    <Table className='stock_out_pallet_table'>
+                                    <Table className='stock_out_pallet_table' responsive>
                                         <TableHead>
                                             <TableRow className=''>
                                                 <TableCell></TableCell>
@@ -190,55 +191,55 @@ const StockOut = () => {
                 <p>Please fill out this form with the required information</p>
 
                 <Form>
-                    <Row className='mt-5 mx-5 justify-content-center'>
+                    <Row className='mt-5 justify-content-center'>
                         <Col md={6}>
                             <label className='react_select_label'>Source/ Dispatch Warehouse <span>*</span></label>
-                            <Select options={options} placeholder="Select Warehouse" className='react_select' />
+                            <Select options={options} placeholder="Select Warehouse" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>Business Type <span>*</span></label>
-                            <Select options={options} placeholder="Select Business" className='react_select' />
+                            <Select options={options} placeholder="Select Business" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>Select Destination <span>*</span></label>
-                            <Select options={options} placeholder="Select Destination" className='react_select' />
+                            <Select options={options} placeholder="Select Destination" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>Destination Consignee/Warehouse<span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>Customer<span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <Input label={'Dispatch Date'} type="Date" isRequired={true} />
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>Builty Number <span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>Seal Number <span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>PO/Order Number <span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
                         <Col md={6}>
                             <label className='react_select_label'>Vehicle Number <span>*</span></label>
-                            <Select options={options} placeholder="Select" className='react_select' />
+                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
                         </Col>
                     </Row>
                 </Form>
 
                 <hr />
 
-                <Row className='mx-5 mb-5'>
+                <Row className='mb-5'>
                     <Col md={12}>
                         <label className='react_select_label'>Part No/ SKU/ NSN/ Nomenclature <span>*</span></label>
-                        <Select options={partOption} onChange={(e) => setSelectPart(e)} placeholder="Search Part No/Noms/NSN" className='react_select_inhouse stock_out' />
+                        <Select styles={nomenStyles} options={partOption} onChange={(e) => setSelectPart(e)} placeholder="Search Part No/Noms/NSN" className='react_select_inhouse stock_out' />
                     </Col>
                 </Row>
 
@@ -271,10 +272,10 @@ const StockOut = () => {
                             }
 
                             <div className='mt-4 mx-2 px-2'>
-                                <Row>
-                                    <Col md={showCart ? 7 : 12}>
+                                <Row style={{ transition: "all 0.3s ease" }}>
+                                    <Col md={showCart ? 7 : 12} style={{ transition: "all 0.3s ease" }}>
                                         <Row className={showCart ? 'adjust_height' : ''}>
-                                            <Col md={showCart ? 4 : 2} onClick={() => setShowModal(true)}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6} onClick={() => setShowModal(true)}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/filled_rack.png' alt='' className='rack' />
@@ -285,18 +286,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -304,7 +305,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/empty_rack.png' alt='' className='rack' />
@@ -315,18 +316,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -334,7 +335,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/faulty_rack.png' alt='' className='rack' />
@@ -345,18 +346,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -364,7 +365,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/filled_rack.png' alt='' className='rack' />
@@ -375,18 +376,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -394,7 +395,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/empty_rack.png' alt='' className='rack' />
@@ -405,18 +406,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -424,7 +425,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/faulty_rack.png' alt='' className='rack' />
@@ -435,18 +436,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -454,7 +455,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/filled_rack.png' alt='' className='rack' />
@@ -465,18 +466,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -484,7 +485,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/empty_rack.png' alt='' className='rack' />
@@ -495,18 +496,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -514,7 +515,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/faulty_rack.png' alt='' className='rack' />
@@ -525,18 +526,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -544,7 +545,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/filled_rack.png' alt='' className='rack' />
@@ -555,18 +556,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -574,7 +575,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/empty_rack.png' alt='' className='rack' />
@@ -585,18 +586,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -604,7 +605,7 @@ const StockOut = () => {
                                                 </div>
                                             </Col>
 
-                                            <Col md={showCart ? 4 : 2}>
+                                            <Col md={showCart ? 4 : 2} sm={3} xs={6}>
                                                 <div className='stockout_pallet_box'>
                                                     <div>
                                                         <img src='/images/faulty_rack.png' alt='' className='rack' />
@@ -615,18 +616,18 @@ const StockOut = () => {
 
                                                     <div className='location'>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/from_loc.png' className='f_loc' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W01AA0148 </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
-                                                            <Col md={3}>
+                                                            <Col md={3} xs={3}>
                                                                 <img src='/images/to_loc.png' />
                                                             </Col>
-                                                            <Col md={9}>
+                                                            <Col md={9} xs={9}>
                                                                 <p> W02AA0348 </p>
                                                             </Col>
                                                         </Row>
@@ -636,7 +637,7 @@ const StockOut = () => {
                                         </Row>
                                     </Col>
                                     {
-                                        showCart && <Col md={5}>
+                                        showCart && <Col md={5} style={{ transition: "all 0.3s ease" }}>
                                             <div className='main_cart'>
                                                 <h4>Cart</h4>
 

@@ -161,7 +161,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
               </div>
             </div>
 
-            <div className={sidebarToggle ? "layout_content_sidebar_section close mb-5" : "layout_content_sidebar_section mb-5"}>
+            <div className={sidebarToggle ? "layout_content_sidebar_section close mb-2" : "layout_content_sidebar_section mb-2"}>
               <div className="user_chat">
 
                 <div className="chat_head">
@@ -245,7 +245,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
 
           </div>
 
-          <div className="layout_content">
+          <div className={sidebarToggle ? "layout_content shrink" : "layout_content"}>
             <div className="user_header">
 
               <Row className="align-items-center make_col_reverse">
@@ -305,7 +305,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
               </Row>
             </div>
 
-            <div className="right_layout_overlay mb-5" ref={rightNavRef}>
+            <div className="right_layout_overlay" ref={rightNavRef}>
               {children}
             </div>
           </div>

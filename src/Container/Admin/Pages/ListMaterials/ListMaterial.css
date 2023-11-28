@@ -4,7 +4,7 @@
     padding: 25px 30px;
     margin-top: 15px;
     border-radius: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
 }
 
 .material_main h5{
@@ -61,6 +61,12 @@
     border-radius: 25px;
     background-color: #003A70;
     color: #fff;
+}
+
+@media (max-width: 992px) {
+    .material_main{
+        margin-bottom: 0px;
+    }
 }
 
 @media (max-width: 767px) {
