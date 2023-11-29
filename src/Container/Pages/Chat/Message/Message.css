@@ -1,7 +1,31 @@
 .no_msg_received {
-    height: 70vh;
+    height: 68vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.show_web_msg{
+    display: block;
+}
+
+.show_mob_msg{
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .show_web_msg{
+        display: none;
+    }
+    
+    .show_mob_msg{
+        display: block;
+        width: 100% !important;
+        overflow: auto !important;
+        border-radius: 10px !important;
+        padding: 15px !important;
+        margin-top: 10px !important;
+        height: auto !important;
+    }
 }

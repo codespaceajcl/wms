@@ -8,8 +8,9 @@ import { BiChevronRight } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsFullscreen } from 'react-icons/bs'
 import Notification from "../Notification/Notification";
+import MobileSidebar from "../Header/MobileSideBar";
 
-function WarehouseHeader({ fullScreen, closeScreen, handle }) {
+function WarehouseHeader({ sideBarItems, fullScreen, closeScreen, handle }) {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const navbarRef = useRef();
@@ -32,9 +33,14 @@ function WarehouseHeader({ fullScreen, closeScreen, handle }) {
 
     return (
         <>
+            <MobileSidebar
+                navbarRef={navbarRef}
+                NavHandler={NavHandler}
+                sideBarItems={sideBarItems}
+            />
             <div className="user_layout warehouse_header">
                 <Container>
-                    <Navbar expand="lg">
+                    <Navbar collapseOnSelect expand="lg">
                         <Navbar.Brand>
                             <div className="d-flex align-items-center" style={{ gap: "20px" }}>
                                 <div>
@@ -46,9 +52,9 @@ function WarehouseHeader({ fullScreen, closeScreen, handle }) {
                                 </div>
                             </div>
                         </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="ms-auto">
+                        <Navbar.Toggle onClick={NavHandler} />
+                        {/* <Navbar.Collapse> */}
+                            <Nav className="ms-auto warehouse_nav">
                                 <div className="nav_header_right">
                                     <div className="nav_header_right">
                                         <div>
@@ -82,7 +88,7 @@ function WarehouseHeader({ fullScreen, closeScreen, handle }) {
 
                                 </div>
                             </Nav>
-                        </Navbar.Collapse>
+                        {/* </Navbar.Collapse> */}
                     </Navbar>
                 </Container>
 

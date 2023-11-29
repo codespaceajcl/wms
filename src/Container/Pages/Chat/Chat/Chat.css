@@ -327,3 +327,13 @@
 .show_chat .chating_user_box::-webkit-scrollbar-thumb {
     background-color: transparent;
 }
+
+@media (max-width: 767px) {
+    .make_none{
+        display: none;
+    }
+
+    .send_msg_box .col-md-9{
+        width: 90%;
+    }
+}

@@ -483,7 +483,7 @@ const LocationDetail = () => {
 
                 <Row>
                     <Col md={12}>
-                        <Row className='mt-4' style={{ transition: "all 0.3s ease" }}>
+                        <Row className='mt-4 make_reverse_loc_div' style={{ transition: "all 0.3s ease", gap: "10px 0" }}>
                             <Col md={showFilterBox ? 8 : 12} style={{ transition: "all 0.3s ease" }}>
                                 <div className='rack_placing'>
                                     <div style={{ position: "relative" }}>

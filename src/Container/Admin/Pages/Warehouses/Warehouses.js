@@ -116,7 +116,9 @@ const Warehouses = () => {
               <Input label={'No of Stores'} placeholder={"Enter No. of Stores"} isRequired={true} type={'text'} />
             </Col>
             <Col md={12}>
-              <FileUploader handleChange={handleChange} name="file" types={["JPG", "PNG", "GIF"]} />
+              <div className='file_upload'>
+                <FileUploader handleChange={handleChange} name="file" types={["JPG", "PNG", "GIF"]} />
+              </div>
             </Col>
             <Col md={12} className='mt-4'>
               <div><button type='submit'>Add</button></div>

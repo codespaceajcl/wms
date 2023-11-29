@@ -37,11 +37,11 @@ const Reports = () => {
                             <label className='react_select_label'>Warehouse</label>
                             <Select options={options} placeholder="Select Warehouse" styles={materialColorStyles} />
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className='mt-3'>
                             <label className='react_select_label'>Business Type</label>
                             <Select options={options} placeholder="Select Business" styles={materialColorStyles} />
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className='mt-3'>
                             <label className='react_select_label'>Type</label>
                             <Select options={options} placeholder="Select Type" styles={materialColorStyles} />
                         </Col>

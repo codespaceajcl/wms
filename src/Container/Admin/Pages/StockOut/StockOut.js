@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
-import { Col, Row, Form, Modal } from 'react-bootstrap';
+import { Col, Row, Form, Modal, Container } from 'react-bootstrap';
 import { BsArrowLeftShort } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ import Checkbox from '@mui/material/Checkbox';
 import './StockOut.css';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { materialColorStyles, nomenStyles } from "../../../../Util/Helper";
+import { TableContainer } from '@mui/material';
 
 const StockOut = () => {
     const navigate = useNavigate();
@@ -87,7 +88,7 @@ const StockOut = () => {
     };
 
     const stockOutModel = (
-        <Modal show={showModal} onHide={() => setShowModal(false)} size='lg' className='stock_out_modal'>
+        <Modal show={showModal} centered onHide={() => setShowModal(false)} size='lg' className='stock_out_modal'>
             <Modal.Body>
                 <div className='stock_out_model_head' style={{ backgroundColor: "#003A70" }}>
                     <div>
@@ -140,35 +141,40 @@ const StockOut = () => {
                                     <img src='/images/brand_loader.gif' alt='' width={100} />
                                     <p>Auto Serial No Selection Mode</p>
                                 </div> : <>
-                                    <Table className='stock_out_pallet_table' responsive>
-                                        <TableHead>
-                                            <TableRow className=''>
-                                                <TableCell></TableCell>
-                                                <TableCell colSpan={4}>S No.</TableCell>
-                                                <TableCell colSpan={4}>Serial No</TableCell>
-                                                <TableCell colSpan={4}>Part No</TableCell>
-                                                <TableCell>Description</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {generateElements()}
-                                        </TableBody>
-                                    </Table>
-                                    {
-                                        selectCheckbox &&
-                                        <Row className='justify-content-center my-3'>
-                                            <Col md={5}>
-                                                <button className='add_btn' onClick={() => {
-                                                    setIsCartEmpty(false)
-                                                    setShowModal(false)
-                                                }}>Add</button>
-                                            </Col>
-                                            <Col md={5}>
-                                                <button className='discard_btn'>Discard</button>
-                                            </Col>
-                                        </Row>
-                                    }
+                                    <TableContainer>
+                                        <Table className='stock_out_pallet_table'>
+                                            <TableHead>
+                                                <TableRow className=''>
+                                                    <TableCell></TableCell>
+                                                    <TableCell colSpan={4}>S No.</TableCell>
+                                                    <TableCell colSpan={4}>Serial No</TableCell>
+                                                    <TableCell colSpan={4}>Part No</TableCell>
+                                                    <TableCell>Description</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {generateElements()}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
                                 </>
+                        }
+                        {
+                            selectCheckbox &&
+                            <Container>
+                                <Row className='justify-content-center my-3' style={{ gap: "10px 0" }}>
+                                    <Col md={5}>
+                                        <button className='add_btn' onClick={() => {
+                                            setIsCartEmpty(false)
+                                            setShowModal(false)
+                                        }}>Add</button>
+                                    </Col>
+                                    <Col md={5}>
+                                        <button className='discard_btn'>Discard</button>
+                                    </Col>
+                                </Row>
+                            </Container>
                         }
                     </div> : <div style={{ margin: "60px 0", textAlign: "center" }}> <p style={{ fontSize: "20px", fontWeight: "600" }}>No Quantity Added</p> </div>
                 }
@@ -272,7 +278,7 @@ const StockOut = () => {
                             }
 
                             <div className='mt-4 mx-2 px-2'>
-                                <Row style={{ transition: "all 0.3s ease" }}>
+                                <Row style={{ transition: "all 0.3s ease", gap: "10px 0" }}>
                                     <Col md={showCart ? 7 : 12} style={{ transition: "all 0.3s ease" }}>
                                         <Row className={showCart ? 'adjust_height' : ''}>
                                             <Col md={showCart ? 4 : 2} sm={3} xs={6} onClick={() => setShowModal(true)}>
@@ -686,7 +692,7 @@ const StockOut = () => {
 
                                 {
                                     !isCartEmpty &&
-                                    <Row className='mt-3 btn_actions'>
+                                    <Row className='mt-3 btn_actions' style={{gap: "10px 0"}}>
                                         <Col md={6}>
                                             <button onClick={() => setShow(true)}>Dispatch</button>
                                         </Col>

@@ -176,12 +176,14 @@
     margin-bottom: 20px;
 }
 
-.warehouse_form .guZdik {
-    max-width: 100% !important;
+.warehouse_form .file_upload label{
+    max-width: 100%;
     height: auto !important;
     border: 2px dashed #bec0c3 !important;
     border-radius: 10px !important;
-    padding: 30px 20px !important;
+    padding: 20px 10px !important;
+    min-width: auto !important;
+    gap: 10px;
 }
 
 .warehouse_form button {
@@ -198,6 +200,10 @@
 .warehouse_form button.cancel_btn {
     background-color: #D3D3D3;
     color: #484C52;
+}
+
+.add_warehouse_modal{
+    padding-left: 0 !important;
 }
 
 .add_warehouse_modal .modal-body {
@@ -244,12 +250,19 @@
     .warehouse_detail_boxes_right div {
         position: relative;
     }
+
+    .warehouse_form .file_upload label div{
+        flex-direction: column;
+    }
+
+    .add_warehouse_modal .modal-body {
+        padding: 20px 20px;
+    }
 }
 
 @media (max-width: 500px) {
     .material_main.warehouse_main .create {
         font-size: 12px;
         position: relative;
-        text-align: end;
     }
 }

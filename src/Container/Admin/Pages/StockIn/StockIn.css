@@ -61,13 +61,13 @@
     cursor: pointer;
 }
 
-.react_select_inhouse.stock .css-1jqq78o-placeholder{
+/* .react_select_inhouse.stock .css-1jqq78o-placeholder{
     font-size: 13px;
 }
 
 .react_select_inhouse.stock .css-1hb7zxy-IndicatorsContainer{
     padding: 0 6px;
-}
+} */
 
 .report_summary_table.stock_in_shipment tbody td{
     text-align: center;

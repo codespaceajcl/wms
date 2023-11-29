@@ -101,6 +101,14 @@
     font-weight: 600;
 }
 
+.in_transit .status svg{
+    transform: scaleX(-1) !important;
+}
+
+.in_transit.download .status svg{
+    transform: scaleX(1) !important;
+}
+
 .in_transit .data {
     padding: 5px 15px;
 }
@@ -291,6 +299,29 @@
     color: #000;
 }
 
+.dc_document_search{
+    display: flex;
+    align-items: center;
+}
+
+.material_main .web_head{
+    display: block;
+}
+
+.material_main .mob_head{
+    display: none;
+}
+
+@media (max-width: 1120px) {
+    .material_main .web_head{
+        display: none;
+    }
+    
+    .material_main .mob_head{
+        display: block;
+    }
+}
+
 @media (max-width: 1000px) {
     .download_report {
         position: relative;
@@ -305,5 +336,12 @@
         display: flex;
         gap: 12px;
         justify-content: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .dc_document_search{
+        flex-direction: column;
+        gap: 10px 0;
     }
 }

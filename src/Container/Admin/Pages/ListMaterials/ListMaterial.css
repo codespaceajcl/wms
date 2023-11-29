@@ -76,11 +76,14 @@
 
     .material_main h5{
         font-size: 20px;
+        padding: 0 35px;
     }
 
     .material_main .create{
-        font-size: 12px;
+        font-size: 14px;
         position: relative;
+        margin-top: 6px;
+        margin-bottom: 6px
     }
 
     .create.serial_generate{

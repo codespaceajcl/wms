@@ -75,7 +75,8 @@ const DcDocument = () => {
             <SuccessModal show={show} setShow={() => setShow(!show)} />
 
             <div className='material_main'>
-                <h5> <BsArrowLeftShort onClick={() => navigate(-1)} /> Delivery Challan Documents
+                <h5> <BsArrowLeftShort onClick={() => navigate(-1)} /> <span className='web_head'>Delivery Challan Documents</span>
+                <span className='mob_head'>Delivery Challan <br /> Documents</span>
 
                     <div className='download_report'>
                         <div>
@@ -111,7 +112,7 @@ const DcDocument = () => {
                 <p>Change the location of the equipment present in warehouse</p>
 
                 <Row className='mt-5'>
-                    <div className='d-flex align-items-center'>
+                    <div className='dc_document_search'>
                         <Select styles={partColorStyles} options={options} placeholder="Select DC" className='react_select_inhouse dc_doc' />
                         <div className='change_table_icons'>
                             <img src='/images/change_grid_view.png' alt='' onClick={() => showView('table')} className={view === 'table' ? 'active' : null} />

@@ -259,13 +259,18 @@ const Consignee = () => {
         <div>
           <h5> <BsArrowLeftShort onClick={() => navigate(-1)} />
 
-            <div className="search_box consignee">
+            <div className="search_box consignee web_view">
               <img src="/images/search_icon.png" alt="" />
               <input placeholder="search anything" />
             </div>
             Consignee
             <div className='create' onClick={() => setAddConsigneeModal(true)}><AiOutlineUserAdd style={{ fontSize: "17px" }} /> Add Consignee</div>
           </h5>
+        </div>
+
+        <div className="search_box consignee mob_view">
+          <img src="/images/search_icon.png" alt="" />
+          <input placeholder="search anything" />
         </div>
 
         <div className='consignee_table'>

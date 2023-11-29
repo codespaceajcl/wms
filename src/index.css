@@ -9,7 +9,7 @@
 
 body {
   background-color: #F5F6F7 !important;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
   flex-direction: column;
 }
@@ -51,7 +51,7 @@ img {
 .warehouse_detail_layout {
   background-image: url('/public/images/warehouse_detail_bg.png');
   background-size: cover;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   min-height: 100vh;
   position: relative;
   padding-bottom: 80px;
@@ -60,7 +60,7 @@ img {
 .location_bg_layout {
   background-image: url('/public/images/location_bg.png');
   background-size: cover;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   min-height: 100vh;
   position: relative;
   padding-bottom: 80px;
@@ -68,6 +68,8 @@ img {
 
 .user_layout {
   padding: 25px;
+  max-width: 1600px;
+  margin: auto;
 }
 
 .modal {
@@ -79,7 +81,8 @@ img {
 }
 
 .margin-top-100 {
-  margin-top: 100px;
+  margin-top: 0;
+  padding-top: 90px;
 }
 
 @media (max-width: 992px) {
@@ -96,6 +99,7 @@ img {
   }
 
   .margin-top-100 {
-    margin-top: 130px;
+    margin-top: 0;
+    padding-top: 100px;
   }
 }

@@ -1,6 +1,8 @@
-.report_tabs {
+.report_tabs{
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px 0;
 }
 
 .report_tabs button {
@@ -160,4 +162,10 @@
 .stock_expended_row .expended_row .make_red{
     color: #FF5733;
     font-size: 14px;
+}
+
+@media (max-width: 500px) {
+    .report_tabs button{
+        padding: 10px 30px;
+    }
 }

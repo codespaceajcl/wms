@@ -1,6 +1,7 @@
 import { MdClose } from "react-icons/md";
 import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
   const { pathname } = useLocation();
@@ -20,7 +21,14 @@ function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
             <img src="/images/user_img.png" alt="" />
           </div>
           <div>
-            <h6>Admin</h6>
+            <NavDropdown title="Admin">
+              <NavDropdown.Item>
+                <Link to='/profile'>Profile</Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/">
+                <Link>Logout</Link>
+              </NavDropdown.Item>
+            </NavDropdown>
           </div>
         </div>
 
@@ -30,11 +38,17 @@ function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
               to={item.path}
               className={pathname === item.path ? "nav-active" : "nav-link"}
             >
-              <span className="overlay-content-number"> { index < 9 ? `0${index + 1}` : `${index + 1}` } - </span>
+              <span className="overlay-content-number"> {index < 9 ? `0${index + 1}` : `${index + 1}`} - </span>
               {item.title}
             </Link>
           );
         })}
+        <Link to='messages/message' className={pathname === 'messages/message' ? "nav-active" : "nav-link"}>
+          <span>12 - Inbox</span>
+        </Link>
+        <Link to='/faqs' className={pathname === '/faqs' ? "nav-active" : "nav-link"}>
+          <span>12 - FAQS</span>
+        </Link>
       </div>
     </div>
   );

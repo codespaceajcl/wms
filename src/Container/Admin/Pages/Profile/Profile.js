@@ -82,7 +82,7 @@ const Profile = () => {
 
                 <div className='mt-3'>
                     <div className='profile_img'>
-                        <img src='/images/profile_Edit_img.png' alt='' />
+                        <img src='/images/profile_edit_img.png' alt='' />
                         <img src='/images/camera_img.png' alt='' />
                     </div>
                     <div className='profile_info'>

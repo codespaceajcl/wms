@@ -52,6 +52,22 @@ export const rackColorStyles = {
             fontSize: "13px",
         };
     },
+    dropdownIndicator: (baseStyles, state) => ({
+        ...baseStyles,
+        backgroundColor: "#000",
+        padding: "10px",
+        borderTopRightRadius: "20px",
+        borderBottomRightRadius: "20px",
+        color: state.isFocused ? '#000' : '#000', // Change the color as needed
+        '&:hover': {
+            color: state.isFocused ? '#000' : '#000', // Change the color as needed
+        },
+    }),
+    // indicatorContainer: (baseStyles) => ({
+    //     ...baseStyles,
+    //     backgroundColor: '#000',
+    //     color: "red"
+    //   }),
 };
 
 export const partColorStyles = {
@@ -70,6 +86,17 @@ export const partColorStyles = {
             fontSize: "13px",
         };
     },
+    dropdownIndicator: (baseStyles, state) => ({
+        ...baseStyles,
+        backgroundColor: "#A9C23F",
+        padding: "10px",
+        borderTopRightRadius: "20px",
+        borderBottomRightRadius: "20px",
+        color: state.isFocused ? '#fff' : '#fff', // Change the color as needed
+        '&:hover': {
+            color: state.isFocused ? '#fff' : '#fff', // Change the color as needed
+        },
+    }),
 };
 
 export const nomenStyles = {
@@ -88,6 +115,17 @@ export const nomenStyles = {
             fontSize: "13px",
         };
     },
+    dropdownIndicator: (baseStyles, state) => ({
+        ...baseStyles,
+        backgroundColor: "#A9C23F",
+        padding: "10px",
+        borderTopRightRadius: "8px",
+        borderBottomRightRadius: "8px",
+        color: state.isFocused ? '#fff' : '#fff', // Change the color as needed
+        '&:hover': {
+            color: state.isFocused ? '#fff' : '#fff', // Change the color as needed
+        },
+    }),
 };
 
 export const floorColorStyles = {
