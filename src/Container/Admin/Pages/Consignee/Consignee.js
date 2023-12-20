@@ -7,8 +7,10 @@ import { BiChevronLeft } from "react-icons/bi";
 import { Col, Modal, Row, Table, Form } from "react-bootstrap"
 import ConsigeeApi from "../../../../Apis/Consigee.json";
 import './Consignee.css';
+import { Field, Formik } from "formik";
 import Input from '../../../../Components/Input/Input';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
+import { consigneeCreateSchema } from '../../../../Util/Validations';
 
 const Consignee = () => {
   const navigate = useNavigate();
@@ -213,32 +215,80 @@ const Consignee = () => {
 
       <div className='warehouse_form'>
         <Form onSubmit={addConsigneeHandler}>
-          <Row>
-            <Col md={6}>
-              <Input label={'Industry Name'} placeholder={"Enter Industry Name"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'Consignee Name'} placeholder={"Enter Consignee Name"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={12}>
-              <Input label={'Consignee Address'} placeholder={"Enter Consignee Address"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'Commence Date'} placeholder={"Select Date"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'POC Name'} placeholder={"Enter POC Name"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'Contact'} placeholder={"Enter Contact"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={12} className='mt-4'>
-              <div><button type='submit'>Submit</button></div>
-            </Col>
-            <Col md={12}>
-              <div><button type="button" className='cancel_btn' onClick={() => setAddConsigneeModal(false)}>Cancel</button></div>
-            </Col>
-          </Row>
+          <Formik
+            validationSchema={consigneeCreateSchema}
+            initialValues={{
+              industryName: "",
+              consigneeName: "",
+              consigneeAddress: "",
+              commerceDate: new Date().toISOString().split('T')[0],
+              pocName: "",
+              contact: "",
+            }}
+            onSubmit={(values, { resetForm }) => {
+              setAddConsigneeModal(false)
+              setShow(true);
+            }}
+          >
+            {({ handleSubmit }) => (
+              <Row>
+                <Col md={6}>
+                  <Field
+                    component={Input}
+                    name="industryName"
+                    label="Industry Name"
+                    placeholder="Enter Industry Name"
+                  />
+                </Col>
+                <Col md={6}>
+                  <Field
+                    component={Input}
+                    name="consigneeName"
+                    label="Consignee Name"
+                    placeholder="Enter Consignee Name"
+                  />
+                </Col>
+                <Col md={12}>
+                  <Field
+                    component={Input}
+                    name="consigneeAddress"
+                    label="Consignee Address"
+                    placeholder="Enter Consignee Address"
+                  />
+                </Col>
+                <Col md={6}>
+                  <Field
+                    component={Input}
+                    type="Date"
+                    name="commerceDate"
+                    label="Commerce Date"
+                  />
+                </Col>
+                <Col md={6}>
+                  <Field
+                    component={Input}
+                    name="pocName"
+                    label="Poc Name"
+                    placeholder="Enter POC Name"
+                  />
+                </Col>
+                <Col md={6}>
+                  <Field
+                    component={Input}
+                    name="contact"
+                    label="Contact"
+                    placeholder="Enter Contact"
+                  />
+                </Col>
+                <Col md={12} className='mt-4'>
+                  <div><button type='button' onClick={handleSubmit}>Submit</button></div>
+                </Col>
+                <Col md={12}>
+                  <div><button type="button" className='cancel_btn' onClick={() => setAddConsigneeModal(false)}>Cancel</button></div>
+                </Col>
+              </Row>
+            )}
+          </Formik>
         </Form>
       </div>
     </Modal.Body>

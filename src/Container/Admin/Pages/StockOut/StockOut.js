@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
-import { Col, Row, Form, Modal, Container } from 'react-bootstrap';
+import { Col, Row, Modal, Container } from 'react-bootstrap';
 import { BsArrowLeftShort } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
@@ -8,16 +8,12 @@ import Input from '../../../../Components/Input/Input';
 import Select from 'react-select';
 import { FiChevronRight } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import './StockOut.css';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { materialColorStyles, nomenStyles } from "../../../../Util/Helper";
-import { TableContainer } from '@mui/material';
+import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Checkbox } from '@mui/material';
+import { Field, Formik } from 'formik';
+import { stockOutSchema } from '../../../../Util/Validations';
 
 const StockOut = () => {
     const navigate = useNavigate();
@@ -196,49 +192,134 @@ const StockOut = () => {
                 </h5>
                 <p>Please fill out this form with the required information</p>
 
-                <Form>
-                    <Row className='mt-5 justify-content-center'>
-                        <Col md={6}>
-                            <label className='react_select_label'>Source/ Dispatch Warehouse <span>*</span></label>
-                            <Select options={options} placeholder="Select Warehouse" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={6}>
-                            <label className='react_select_label'>Business Type <span>*</span></label>
-                            <Select options={options} placeholder="Select Business" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={6}>
-                            <label className='react_select_label'>Select Destination <span>*</span></label>
-                            <Select options={options} placeholder="Select Destination" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={6}>
-                            <label className='react_select_label'>Destination Consignee/Warehouse<span>*</span></label>
-                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={6}>
-                            <label className='react_select_label'>Customer<span>*</span></label>
-                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={6}>
-                            <Input label={'Dispatch Date'} type="Date" isRequired={true} />
-                        </Col>
-                        <Col md={6}>
-                            <label className='react_select_label'>Builty Number <span>*</span></label>
-                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={6}>
-                            <label className='react_select_label'>Seal Number <span>*</span></label>
-                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={6}>
-                            <label className='react_select_label'>PO/Order Number <span>*</span></label>
-                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={6}>
-                            <label className='react_select_label'>Vehicle Number <span>*</span></label>
-                            <Select options={options} placeholder="Select" styles={materialColorStyles} />
-                        </Col>
-                    </Row>
-                </Form>
+                <Formik
+                    validationSchema={stockOutSchema}
+                    initialValues={{
+                        skuNumber: "",
+                        consignee: "",
+                        sourceWarehouseSelected: false,
+                        businessTypeSelected: false,
+                        destinationSelected: false,
+                        destinationWarehouseSelected: false,
+                        customerSelected: false,
+                        dispatchDate: new Date().toISOString().split('T')[0],
+                        builtyNumberSelected: false,
+                        sealNumberSelected: false,
+                        orderNumberSelected: false,
+                        vehicleNumber: false
+                    }}
+                    onSubmit={(values, { resetForm }) => {
+                        console.log(values);
+                        setShow(true);
+                    }}
+                >
+                    {({
+                        handleSubmit,
+                        errors,
+                        touched,
+                    }) => (
+                        <Row className='mt-5 justify-content-center'>
+                            <Col md={6}>
+                                <label className='react_select_label'>Source/ Dispatch Warehouse <span>*</span></label>
+                                <Select options={options} placeholder="Select Warehouse" styles={materialColorStyles} />
+
+                                {errors.sourceWarehouseSelected && touched.sourceWarehouseSelected ? (
+                                    <p className='error_para'> {errors.sourceWarehouseSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <label className='react_select_label'>Business Type <span>*</span></label>
+                                <Select options={options} placeholder="Select Business" styles={materialColorStyles} />
+
+                                {errors.businessTypeSelected && touched.businessTypeSelected ? (
+                                    <p className='error_para'> {errors.businessTypeSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <label className='react_select_label'>Select Destination <span>*</span></label>
+                                <Select options={options} placeholder="Select Destination" styles={materialColorStyles} />
+
+                                {errors.destinationSelected && touched.destinationSelected ? (
+                                    <p className='error_para'> {errors.destinationSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <label className='react_select_label'>Destination Consignee/Warehouse<span>*</span></label>
+                                <Select options={options} placeholder="Select" styles={materialColorStyles} />
+
+                                {errors.destinationWarehouseSelected && touched.destinationWarehouseSelected ? (
+                                    <p className='error_para'> {errors.destinationWarehouseSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <label className='react_select_label'>Customer<span>*</span></label>
+                                <Select options={options} placeholder="Select" styles={materialColorStyles} />
+
+                                {errors.customerSelected && touched.customerSelected ? (
+                                    <p className='error_para'> {errors.customerSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <Field
+                                    component={Input}
+                                    type="Date"
+                                    name="dispatchDate"
+                                    label="Dispatch Date"
+                                />
+                            </Col>
+                            <Col md={6}>
+                                <label className='react_select_label'>Builty Number <span>*</span></label>
+                                <Select options={options} placeholder="Select" styles={materialColorStyles} menuPortalTarget={document.body} />
+
+                                {errors.builtyNumberSelected && touched.builtyNumberSelected ? (
+                                    <p className='error_para'> {errors.builtyNumberSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <label className='react_select_label'>Seal Number <span>*</span></label>
+                                <Select options={options} placeholder="Select" styles={materialColorStyles} />
+
+                                {errors.sealNumberSelected && touched.sealNumberSelected ? (
+                                    <p className='error_para'> {errors.sealNumberSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <label className='react_select_label'>PO/Order Number <span>*</span></label>
+                                <Select options={options} placeholder="Select" styles={materialColorStyles} />
+
+                                {errors.orderNumberSelected && touched.orderNumberSelected ? (
+                                    <p className='error_para'> {errors.orderNumberSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <label className='react_select_label'>Vehicle Number <span>*</span></label>
+                                <Select options={options} placeholder="Select" styles={materialColorStyles} />
+
+                                {errors.vehicleNumber && touched.vehicleNumber ? (
+                                    <p className='error_para'> {errors.vehicleNumber} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                        </Row>
+                    )}
+                </Formik>
 
                 <hr />
 
@@ -692,7 +773,7 @@ const StockOut = () => {
 
                                 {
                                     !isCartEmpty &&
-                                    <Row className='mt-3 btn_actions' style={{gap: "10px 0"}}>
+                                    <Row className='mt-3 btn_actions' style={{ gap: "10px 0" }}>
                                         <Col md={6}>
                                             <button onClick={() => setShow(true)}>Dispatch</button>
                                         </Col>

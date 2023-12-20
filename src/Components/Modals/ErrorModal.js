@@ -5,7 +5,7 @@ import {AiFillCloseCircle} from "react-icons/ai"
 
 const ErrorModal = ({ show, setShow }) => {
     return (
-        <Modal centered show={show} onHide={setShow} className='success'>
+        <Modal centered show={show} onHide={setShow} className='error'>
             <Modal.Body>
                 <AiFillCloseCircle />
                 <h2>Error!</h2>

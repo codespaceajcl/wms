@@ -51,3 +51,15 @@
     top: 10px;
     background-color: #fff;
 }
+
+.error_msg{
+    font-size: 10px;
+    color: red;
+}
+
+.error_para{
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: red;
+    font-weight: 300;
+}

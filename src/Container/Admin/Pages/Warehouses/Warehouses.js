@@ -1,7 +1,7 @@
 import React from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
 import './Warehouse.css';
-import { Col, Form, Modal, Row } from 'react-bootstrap';
+import { Col, Modal, Row } from 'react-bootstrap';
 import { BsArrowLeftShort } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai"
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,9 @@ import { useState } from 'react';
 import Input from '../../../../Components/Input/Input';
 import { FileUploader } from "react-drag-drop-files";
 import ErrorModal from '../../../../Components/Modals/ErrorModal';
+import { Field, Formik } from "formik";
+import { warehouseCreateSchema } from '../../../../Util/Validations';
+import { errorNotify } from '../../../../Util/Toast';
 
 ChartJS.register(
   ArcElement,
@@ -75,13 +78,6 @@ const Warehouses = () => {
     },
   };
 
-  const addWarehouseHandler = (e) => {
-    e.preventDefault();
-
-    setAddWarehouseModal(false)
-    setShow(true)
-  }
-
   const modal = <Modal show={addWarehouseModal} onHide={() => setAddWarehouseModal(false)} size='lg' className='add_warehouse_modal'>
     <Modal.Body>
       <div className='add_warehouse_head'>
@@ -92,42 +88,100 @@ const Warehouses = () => {
       </div>
 
       <div className='warehouse_form'>
-        <Form onSubmit={addWarehouseHandler}>
-          <Row>
-            <Col md={6}>
-              <Input label={'Warehouse Name'} placeholder={"Enter Warehouse Name"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'Commerce Date'} placeholder={"Enter Warehouse Name"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={12}>
-              <Input label={'Warehouse Address'} placeholder={"Enter Warehouse Address"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'POC Name'} placeholder={"Enter POC Name"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'POC Contact'} placeholder={"Enter POC Contact"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'No of Stages'} placeholder={"Enter No. of Stages"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={6}>
-              <Input label={'No of Stores'} placeholder={"Enter No. of Stores"} isRequired={true} type={'text'} />
-            </Col>
-            <Col md={12}>
-              <div className='file_upload'>
-                <FileUploader handleChange={handleChange} name="file" types={["JPG", "PNG", "GIF"]} />
-              </div>
-            </Col>
-            <Col md={12} className='mt-4'>
-              <div><button type='submit'>Add</button></div>
-            </Col>
-            <Col md={12}>
-              <div><button type="button" className='cancel_btn' onClick={() => setAddWarehouseModal(false)}>Cancel</button></div>
-            </Col>
-          </Row>
-        </Form>
+        <Formik
+          validationSchema={warehouseCreateSchema}
+          initialValues={{
+            warehouseName: "",
+            commerceDate: new Date().toISOString().split('T')[0],
+            warehouseAddress: "",
+            poc: "",
+            pocContact: "",
+            noOfStages: "",
+            noOfStores: "",
+          }}
+          onSubmit={(values, { resetForm }) => {
+            console.log(file)
+            if (!file) {
+              errorNotify("Upload File")
+              return;
+            }
+
+            setAddWarehouseModal(false)
+            setShow(true);
+          }}
+        >
+          {({ handleSubmit }) => (
+            <Row>
+              <Col md={6}>
+                <Field
+                  component={Input}
+                  name="warehouseName"
+                  label="Warehouse Name"
+                  placeholder="Enter Warehouse Name"
+                />
+              </Col>
+              <Col md={6}>
+                <Field
+                  component={Input}
+                  type="Date"
+                  name="commerceDate"
+                  label="Commerce Date"
+                />
+              </Col>
+              <Col md={12}>
+                <Field
+                  component={Input}
+                  name="warehouseAddress"
+                  label="Warehouse Address"
+                  placeholder="Enter Warehouse Address"
+                />
+              </Col>
+              <Col md={6}>
+                <Field
+                  component={Input}
+                  name="poc"
+                  label="POC Name"
+                  placeholder="Enter POC Name"
+                />
+              </Col>
+              <Col md={6}>
+                <Field
+                  component={Input}
+                  name="pocContact"
+                  label="POC Contact"
+                  placeholder="Enter POC Contact"
+                />
+              </Col>
+              <Col md={6}>
+                <Field
+                  component={Input}
+                  name="noOfStages"
+                  label="No of Stages"
+                  placeholder="Enter No. of Stages"
+                />
+              </Col>
+              <Col md={6}>
+                <Field
+                  component={Input}
+                  name="noOfStores"
+                  label="No of Stores"
+                  placeholder="Enter No. of Stores"
+                />
+              </Col>
+              <Col md={12}>
+                <div className='file_upload'>
+                  <FileUploader required={true} handleChange={handleChange} name="file" types={["JPG", "PNG", "GIF"]} />
+                </div>
+              </Col>
+              <Col md={12} className='mt-4'>
+                <div><button type='button' onClick={handleSubmit}>Add</button></div>
+              </Col>
+              <Col md={12}>
+                <div><button type="button" className='cancel_btn' onClick={() => setAddWarehouseModal(false)}>Cancel</button></div>
+              </Col>
+            </Row>
+          )}
+        </Formik>
       </div>
     </Modal.Body>
   </Modal>

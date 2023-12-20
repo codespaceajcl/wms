@@ -67,14 +67,15 @@ img {
 }
 
 .user_layout {
-  padding: 25px;
+  /* padding: 25px; */
+  padding: 15px;
   max-width: 1600px;
   margin: auto;
 }
 
-.modal {
+/* .modal {
   z-index: 10000000 !important;
-}
+} */
 
 .fade.modal-backdrop.show {
   opacity: 0.3;

@@ -13,6 +13,8 @@ import StockReturn from './StockReturn/StockReturn';
 import StockTranfer from './StockTransfer/StockTransfer';
 import { useNavigate } from 'react-router-dom';
 import { materialColorStyles } from "../../../../Util/Helper";
+import { Field, Formik } from 'formik';
+import { reportListSchema } from '../../../../Util/Validations';
 
 const Reports = () => {
     const navigate = useNavigate();
@@ -31,41 +33,108 @@ const Reports = () => {
             <div className='material_main' style={{ padding: "25px 0" }}>
                 <h5> <BsArrowLeftShort onClick={() => navigate(-1)} style={{ left: "10px" }} /> Warehouse Inventory Report</h5>
 
-                <Form style={{ padding: "0 20px" }}>
-                    <Row className='mt-5'>
-                        <Col md={4}>
-                            <label className='react_select_label'>Warehouse</label>
-                            <Select options={options} placeholder="Select Warehouse" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={4} className='mt-3'>
-                            <label className='react_select_label'>Business Type</label>
-                            <Select options={options} placeholder="Select Business" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={4} className='mt-3'>
-                            <label className='react_select_label'>Type</label>
-                            <Select options={options} placeholder="Select Type" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={4} className='mt-3'>
-                            <label className='react_select_label'>Industry</label>
-                            <Select options={options} placeholder="Select Industry" styles={materialColorStyles} />
-                        </Col>
-                        <Col md={4} className='mt-3'>
-                            <Input label={'SKU'} placeholder="Enter SKU" />
-                        </Col>
-                        <Col md={4} className='mt-3'>
-                            <Input label={'Consignee'} placeholder="Enter Consignee" />
-                        </Col>
-                        <Col md={4} className='mt-3'>
-                            <Input label={'From'} type="Date" />
-                        </Col>
-                        <Col md={4} className='mt-3'>
-                            <Input label={'To'} type="Date" />
-                        </Col>
-                        <Col md={9} className='mt-4'>
-                            <button className='submit_btn' type='submit'>Generate Report</button>
-                        </Col>
-                    </Row>
-                </Form>
+                <Formik
+                    validationSchema={reportListSchema}
+                    initialValues={{
+                        skuNumber: "",
+                        consignee: "",
+                        fromDate: new Date().toISOString().split('T')[0],
+                        toDate: new Date().toISOString().split('T')[0],
+                        warehouseSelected: false,
+                        businessTypeSelected: false,
+                        typeSelected: false,
+                        inudstrySelected: false
+                    }}
+                    onSubmit={(values, { resetForm }) => {
+                        console.log(values);
+                        setShow(true);
+                    }}
+                >
+                    {({
+                        handleSubmit,
+                        errors,
+                        touched,
+                    }) => (
+                        <Row className='mt-5' style={{padding: "0 25px"}}>
+                            <Col md={4}>
+                                <label className='react_select_label'>Warehouse</label>
+                                <Select options={options} placeholder="Select Warehouse" styles={materialColorStyles} />
+
+                                {errors.warehouseSelected && touched.warehouseSelected ? (
+                                    <p className='error_para'> {errors.warehouseSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={4}>
+                                <label className='react_select_label'>Business Type</label>
+                                <Select options={options} placeholder="Select Business" styles={materialColorStyles} />
+
+                                {errors.businessTypeSelected && touched.businessTypeSelected ? (
+                                    <p className='error_para'> {errors.businessTypeSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={4}>
+                                <label className='react_select_label'>Type</label>
+                                <Select options={options} placeholder="Select Type" styles={materialColorStyles} />
+
+                                {errors.typeSelected && touched.typeSelected ? (
+                                    <p className='error_para'> {errors.typeSelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={4}>
+                                <label className='react_select_label'>Industry</label>
+                                <Select options={options} placeholder="Select Industry" styles={materialColorStyles} />
+
+                                {errors.inudstrySelected && touched.inudstrySelected ? (
+                                    <p className='error_para'> {errors.inudstrySelected} </p>
+                                ) : (
+                                    <p className='error_para' style={{ color: "transparent" }}> no error</p>
+                                )}
+                            </Col>
+                            <Col md={4}>
+                                <Field
+                                    component={Input}
+                                    name="skuNumber"
+                                    label="SKU"
+                                    placeholder="Enter SKU"
+                                />
+                            </Col>
+                            <Col md={4}>
+                                <Field
+                                    component={Input}
+                                    name="consignee"
+                                    label="Consignee"
+                                    placeholder="Enter Consignee"
+                                />
+                            </Col>
+                            <Col md={4}>
+                                <Field
+                                    component={Input}
+                                    type="Date"
+                                    name="fromDate"
+                                    label="From"
+                                />
+                            </Col>
+                            <Col md={4}>
+                                <Field
+                                    component={Input}
+                                    type="Date"
+                                    name="toDate"
+                                    label="To"
+                                />
+                            </Col>
+                            <Col md={9} className='mt-2'>
+                                <button className='submit_btn' type="button"
+                                    onClick={handleSubmit}>Generate Report</button>
+                            </Col>
+                        </Row>
+                    )}
+                </Formik>
 
                 <div className='mt-5'>
                     <div className='report_tabs'>

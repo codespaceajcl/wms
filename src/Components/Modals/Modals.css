@@ -1,8 +1,8 @@
-.success .modal-content{
+.success .modal-content, .error .modal-content{
     border-radius: 25px;
 }
 
-.success .modal-body div{
+.success .modal-body div, .error .modal-body div{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,19 +15,25 @@
     margin-bottom: 15px;
 }
 
-.success .modal-body svg{
+.success .modal-body svg, .error .modal-body svg{
     color: red;
     font-size: 50px;
     margin-bottom: 15px;
 }
 
-.success .modal-body h2{
+.success .modal-body h2, .error .modal-body h2{
     font-weight: 600;
 }
 
-.success .modal-body p{
+.success .modal-body p, .error .modal-body p{
     color: #484C52;
     text-align: center;
+    font-weight: 500;
+}
+
+.error .modal-body{
+    text-align: center;
+    padding: 50px 0;
 }
 
 .success .close_btn {

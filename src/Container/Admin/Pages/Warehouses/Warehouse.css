@@ -173,8 +173,12 @@
 }
 
 .warehouse_form input {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
+
+/* .warehouse_form .error_para{
+    margin-bottom: 10px !important;
+} */
 
 .warehouse_form .file_upload label{
     max-width: 100%;

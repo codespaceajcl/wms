@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import MainLayout from "./Layouts/MainLayout";
 import ChatLayout from "./Layouts/ChatLayout";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const handle = useFullScreenHandle();
@@ -32,6 +33,18 @@ const App = () => {
 
   return (
     <FullScreen handle={handle}>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light" />
+
       <BrowserRouter>
         <Routes>
           {adminLayout}

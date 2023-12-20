@@ -1,4 +1,4 @@
-.material_main{
+.material_main {
     background-color: #fff;
     /* box-shadow: 0px 30px 40px 0px #0000001A; */
     padding: 25px 30px;
@@ -7,7 +7,7 @@
     margin-bottom: 5px;
 }
 
-.material_main h5{
+.material_main h5 {
     text-align: center;
     font-weight: 700;
     font-size: 22px;
@@ -16,7 +16,7 @@
     text-transform: uppercase;
 }
 
-.material_main h5 > svg{
+.material_main h5>svg {
     position: absolute;
     left: 0;
     color: #000;
@@ -24,7 +24,7 @@
     cursor: pointer;
 }
 
-.material_main .create{
+.material_main .create {
     position: absolute;
     right: 0;
     top: 5px;
@@ -36,25 +36,57 @@
     text-transform: capitalize;
 }
 
-.material_main form .col-md-6, .material_main .col-md-12{
-    margin-bottom: 20px;
+.material_main .form-select {
+    font-size: 14px;
+    padding: 7px 15px;
+    cursor: pointer;
+    border: 1px solid #bec0c3;
 }
 
-.material_main > p{
+.material_main .form-select:focus {
+    box-shadow: none !important;
+    border-color: #A9C23F;
+}
+
+.form-select option {
+    font-size: 14px;
+    cursor: pointer !important;
+    border: 3px solid red !important;
+}
+
+.form-select::-webkit-scrollbar {
+    width: 10px;
+}
+
+.form-select::-webkit-scrollbar-thumb {
+    background-color: #bec0c3;
+    border-radius: 5px;
+}
+
+.form-select::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.material_main form .col-md-6,
+.material_main .col-md-12 {
+    margin-bottom: 8px;
+}
+
+.material_main>p {
     color: #484C52;
     font-size: 14px;
     text-align: center;
 }
 
-.form-check label{
+.form-check label {
     font-size: 14px;
 }
 
-.form-check .form-check-input{
+.form-check .form-check-input {
     border: 1px solid #000;
 }
 
-.submit_btn{
+.submit_btn {
     width: 100%;
     padding: 8px 0;
     border: none;
@@ -64,29 +96,29 @@
 }
 
 @media (max-width: 992px) {
-    .material_main{
+    .material_main {
         margin-bottom: 0px;
     }
 }
 
 @media (max-width: 767px) {
-    .material_main{
+    .material_main {
         padding: 25px 10px;
     }
 
-    .material_main h5{
+    .material_main h5 {
         font-size: 20px;
         padding: 0 35px;
     }
 
-    .material_main .create{
+    .material_main .create {
         font-size: 14px;
         position: relative;
         margin-top: 6px;
         margin-bottom: 6px
     }
 
-    .create.serial_generate{
+    .create.serial_generate {
         right: 0;
         top: 5px;
     }
