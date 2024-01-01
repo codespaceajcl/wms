@@ -1,25 +1,92 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
-import { Col, Container, Form, Modal, Row, Table } from 'react-bootstrap';
+import { Col, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import { BsArrowLeftShort, BsFilter } from "react-icons/bs";
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { useState } from 'react';
-import DcApi from "../../../../Apis/DcDocument.json";
 import './DcDocument.css';
-import { partColorStyles } from "../../../../Util/Helper";
+import { login, partColorStyles } from "../../../../Util/Helper";
 import GridView from './GridView';
+import { listDeliveryChallan, postDcDocument, revertDocument } from '../../../../Redux/Action/Admin';
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../../../../Util/Loader';
+import { successNotify } from '../../../../Util/Toast';
 
 const DcDocument = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const fileInputRef = useRef();
+
     const [show, setShow] = useState(false)
     const [view, setView] = useState('table')
     const [revertModal, setRevertModal] = useState(false)
+    const [pageNum, setPageNum] = useState(0)
     const [showFilter, setShowFilter] = useState(false)
+    const [getRevert, setGetRevert] = useState({})
+    const [getDc, setGetDc] = useState({})
+    const [uploadFile, setUploadFile] = useState(null)
+    const [showConfirm, setShowConfirm] = useState(false)
 
-    const tableHead = ["S.No", "Order No", "DC No", "Vehicle", "Origin", "Destination", "Date", "Requested", "Status", "Action"]
+    const tableHead = ["S.No", "DC No", "Vehicle", "Origin", "Destination", "Date", "Transaction By", "Transaction Number", "Status", "Action"]
+
+    const { loading, getDcData } = useSelector((state) => state.getDc)
+    const { loading: postLoading, revertData } = useSelector((state) => state.postRevert)
+    const { loading: dcLoading, dcDocumentData } = useSelector((state) => state.postDc)
+
+    useEffect(() => {
+        if (revertData?.response === 'success') {
+            successNotify("Revert Successfully!")
+            dispatch({ type: "REVERT_DOCUMENT_RESET" })
+            setRevertModal(false)
+
+            const formData = new FormData();
+
+            formData.append("email", login.email)
+            formData.append("token", login.token)
+
+            dispatch(listDeliveryChallan(pageNum, formData))
+        }
+    }, [revertData])
+
+    useEffect(() => {
+        if (dcDocumentData?.response === 'success') {
+            successNotify("Dc Uploaded Successfully!")
+            dispatch({ type: "POST_DC_DOCUMENT_RESET" })
+            setShowConfirm(false)
+
+            const formData = new FormData();
+
+            formData.append("email", login.email)
+            formData.append("token", login.token)
+
+            dispatch(listDeliveryChallan(pageNum, formData))
+        }
+    }, [dcDocumentData])
+
+    const [totalElements] = useState(getDcData?.count);
+    const [elementsPerPage] = useState(getDcData?.response?.length);
+    const [numberOfPages, setNumberOfPages] = useState(0);
+    const [showNext, setShowNext] = useState(false)
+
+    useEffect(() => {
+        const pages = Math.ceil(totalElements / elementsPerPage);
+        setNumberOfPages(pages);
+        setShowNext(pageNum >= numberOfPages)
+    }, [totalElements, elementsPerPage]);
+
+
+    useEffect(() => {
+        const formData = new FormData();
+
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+
+        dispatch(listDeliveryChallan(pageNum, formData))
+
+    }, [pageNum])
 
     const options = [
         { value: 'PakistanStorage_None01/Agility Port Qasim', label: 'PakistanStorage_None01/Agility Port Qasim' }
@@ -27,6 +94,16 @@ const DcDocument = () => {
 
     const showView = (view) => {
         setView(view)
+    }
+
+    const revertDoneHandler = () => {
+        const formData = new FormData();
+
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+        formData.append("transaction", getRevert.id)
+
+        dispatch(revertDocument(formData))
     }
 
     const revertViewModal = (
@@ -44,12 +121,12 @@ const DcDocument = () => {
                     <Row>
                         <Col md={6}>
                             <div>
-                                DC NO: <span>212092023162642</span>
+                                DC NO: <span>{getRevert.dc}</span>
                             </div>
                         </Col>
                         <Col md={6}>
                             <div>
-                                Order NO: <span>212092023162642</span>
+                                Transactional No: <span>{getRevert.transactionalNumber}</span>
                             </div>
                         </Col>
                     </Row>
@@ -59,7 +136,7 @@ const DcDocument = () => {
                     <p>Do you really want to revert this transaction?</p>
 
                     <div className='d-flex justify-content-between' style={{ gap: "5px" }}>
-                        <button onClick={() => setRevertModal(!revertModal)}> Yes</button>
+                        <button onClick={revertDoneHandler}> {postLoading ? <Spinner animation='border' size='sm' /> : 'Yes'} </button>
                         <button onClick={() => setRevertModal(!revertModal)} className='no_btn'> No</button>
                     </div>
                 </div>
@@ -67,16 +144,57 @@ const DcDocument = () => {
         </Modal >
     )
 
+    const revertHandler = (c) => {
+        setGetRevert(c)
+        setRevertModal(true)
+    }
+
+    const uploadRef = (c) => {
+        fileInputRef.current.click();
+        setGetDc(c)
+    }
+
+    const uploadDcHandler = (e) => {
+        const file = e.target.files[0]
+        setUploadFile(file)
+        setShowConfirm(true)
+    }
+
+    const uploadFileHandler = () => {
+        const formData = new FormData();
+
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+        formData.append("signedDocument", uploadFile)
+        formData.append("id", getDc.id)
+
+        dispatch(postDcDocument(formData, getDc.id))
+    }
+
+    const modal = <Modal show={showConfirm} centered className='logout_modal'>
+        <Modal.Body>
+            <h3>Are you sure you want to Upload the File?</h3>
+            <div className='d-flex justify-content-center' style={{ gap: "20px" }}>
+                <button onClick={uploadFileHandler}> {dcLoading ? <Spinner animation="border" size="sm" /> : 'Yes'}</button>
+                <button className='no_btn' onClick={() => {
+                    setUploadFile(null)
+                    setShowConfirm(false)
+                }}>No</button>
+            </div>
+        </Modal.Body>
+    </Modal>
+
     return (
         <div>
             {revertViewModal}
+            {modal}
             <Breadcrumbs list={["Dashboard", "DC Document"]} />
 
             <SuccessModal show={show} setShow={() => setShow(!show)} />
 
             <div className='material_main'>
                 <h5> <BsArrowLeftShort onClick={() => navigate(-1)} /> <span className='web_head'>Delivery Challan Documents</span>
-                <span className='mob_head'>Delivery Challan <br /> Documents</span>
+                    <span className='mob_head'>Delivery Challan <br /> Documents</span>
 
                     <div className='download_report'>
                         <div>
@@ -125,52 +243,71 @@ const DcDocument = () => {
                     {
                         view === 'table' &&
                         <Col md={12}>
-                            <div className='consignee_table inhouse dc_doc mt-4'>
-                                <div className='select_inhouse_table'>
-                                    <h6 style={{ fontSize: "15px" }}>Delivery Challan Documents </h6>
-                                </div>
-                                <Table bordered responsive>
-                                    <thead>
-                                        <tr>
+                            {
+                                loading ? <div className='my-5'> <Loader /> </div> :
+                                    <div className='consignee_table inhouse dc_doc mt-4'>
+                                        <div className='select_inhouse_table'>
+                                            <h6 style={{ fontSize: "15px" }}>Delivery Challan Documents </h6>
+                                        </div>
+                                        <Table bordered responsive hover>
+                                            <thead>
+                                                <tr>
+                                                    {
+                                                        tableHead.map((th) => (
+                                                            <th>{th}</th>
+                                                        ))
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    getDcData?.response?.map((c, i) => {
+                                                        return (
+                                                            <tr>
+                                                                <td> {i + 1}</td>
+                                                                <td>{c.dc}</td>
+                                                                <td>{c.vehicleNumber}</td>
+                                                                <td>{c.origin}</td>
+                                                                <td>{c.destination}</td>
+                                                                <td>{c.date}</td>
+                                                                <td>{c.transactionBy}</td>
+                                                                <td>{c.transactionalNumber}</td>
+                                                                <td style={c.status === 'In-transit' ? { color: "#B99C00" } : { color: "#329932" }}>{c.status}</td>
+                                                                <td>
+                                                                    <button className='upload_dc' onClick={() => uploadRef(c)}>
+                                                                        <input ref={fileInputRef} onChange={uploadDcHandler} type='file' style={{ display: "none" }} />
+                                                                        Upload DC
+                                                                    </button>
+                                                                    <button className='revert' onClick={() => revertHandler(c)}>Revert</button>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                }
+                                            </tbody>
+                                        </Table>
+
+                                        <div className='pagination_div'>
                                             {
-                                                tableHead.map((th) => (
-                                                    <th>{th}</th>
-                                                ))
+                                                pageNum > 1 &&
+                                                <h6 onClick={() => setPageNum(pageNum - 1)}>Previous</h6>
                                             }
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            DcApi.map((c, i) => {
-                                                return (
-                                                    <tr>
-                                                        <td>{c.s_no}</td>
-                                                        <td><a href=''>{c.order_no}</a></td>
-                                                        <td>{c.dc_number}</td>
-                                                        <td>{c.vehicle_no}</td>
-                                                        <td>{c.Origin}</td>
-                                                        <td>{c.destination}</td>
-                                                        <td>{c.Date}</td>
-                                                        <td>{c.requested}</td>
-                                                        <td style={c.status === 'In-transit' ? { color: "#B99C00" } : { color: "#329932" }}>{c.status}</td>
-                                                        <td>
-                                                            <button className='upload_dc'>Upload DC</button>
-                                                            <button className='revert' onClick={() => setRevertModal(true)}>Revert</button>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-                                    </tbody>
-                                </Table>
-                            </div>
+                                            <p>Pg No: {pageNum}</p>
+
+                                            {
+                                                showNext &&
+                                                <h6 onClick={() => setPageNum(pageNum + 1)}>Next</h6>
+                                            }
+                                        </div>
+                                    </div>
+                            }
                         </Col>
                     }
 
                     {
                         view === 'grid' &&
                         <Col md={12} className='mt-4 grid_view_col'>
-                            <GridView revertModal={revertModal} setRevertModal={() => setRevertModal(!revertModal)} />
+                            <GridView setGetDc={setGetDc} setShowConfirm={setShowConfirm} setUploadFile={setUploadFile} setGetRevert={setGetRevert}  loading={loading} pageNum={pageNum} setPageNum={setPageNum} showNext={showNext} getDcData={getDcData} revertModal={revertModal} setRevertModal={() => setRevertModal(!revertModal)} />
                         </Col>
                     }
                 </Row>

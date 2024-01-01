@@ -1,14 +1,14 @@
 .report_tabs{
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px 0;
+    /* justify-content: center; */
+    /* flex-wrap: wrap; */
+    /* gap: 10px 0; */
 }
 
 .report_tabs button {
     border: none;
     background-color: transparent;
-    padding: 10px 40px;
+    padding: 10px 30px;
     color: rgba(170, 170, 170, 1);
     font-weight: 500;
     font-size: 12px;

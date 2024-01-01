@@ -1,26 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumbs from "../../../../Components/Breadcrumbs/Breadcrumbs";
 import "./ListMaterial.css";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import Input from "../../../../Components/Input/Input";
 import SelectField from "../../../../Components/SelectField/SelectField.js";
 import { BsArrowLeftShort } from "react-icons/bs";
-import { materialColorStyles } from "../../../../Util/Helper.js";
+import { businessTypes, materialColorStyles, currencies, login } from "../../../../Util/Helper.js";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../../../Components/Modals/SuccessModal";
-import { currencies } from "../../../../Util/Helper.js";
 import { Field, Formik } from "formik";
 import { listOfMaterialSchema } from "../../../../Util/Validations.js";
+import { useDispatch, useSelector } from "react-redux";
+import { ListMaterialPost } from "../../../../Redux/Action/Admin.js";
+import { errorNotify, successNotify } from "../../../../Util/Toast.js";
 
 const ListMaterials = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  const { loading, postMaterialData, error } = useSelector((state) => state.postMaterial)
+
+  useEffect(() => {
+    if (postMaterialData?.response === 'success') {
+      successNotify(postMaterialData?.message)
+      dispatch({ type: "LIST_MATERIAL_POST_RESET" })
+    }
+    if (error) {
+      errorNotify(error)
+      dispatch({ type: "LIST_MATERIAL_POST_RESET" })
+    }
+  }, [error, postMaterialData])
 
   return (
     <>
@@ -32,23 +42,35 @@ const ListMaterials = () => {
 
         <Formik
           validationSchema={listOfMaterialSchema}
-          initialValues={{
-            skuNumber: "",
-            nomenclatureDescription: "",
-            nsn: "",
-            uom: "",
-            supplier: "",
-            medium: "",
-            side: "",
-            type: "",
-            unitPrice: "",
-            customer: "",
-            businessTypeSelected: null,
-            currencySelected: null,
-          }}
+          initialValues={{ skuNumber: "", nomenclatureDescription: "", nsn: "", uom: "", supplier: "", medium: "", side: "", type: "", unitPrice: "", customer: "", businessTypeSelected: null, currencySelected: null }}
           onSubmit={(values, { resetForm }) => {
-            console.log(values);
-            setShow(true);
+
+            const formData = new FormData()
+            formData.append("email", login.email)
+            formData.append("token", login.token)
+            formData.append("partNo", values.skuNumber)
+            formData.append("nomenclature", values.nomenclatureDescription)
+            formData.append("uom", values.uom)
+            formData.append("unitPrice", values.unitPrice)
+            formData.append("customer", values.customer)
+            formData.append("businessType", values.businessTypeSelected)
+            formData.append("nsn", values.nsn)
+            formData.append("supplier", values.supplier)
+            formData.append("medium", values.medium)
+            formData.append("side", values.side)
+            formData.append("type", values.type)
+            formData.append("currency", values.currencySelected)
+
+            // for(let v of formData){
+            //   console.log(v)
+            // }
+
+            dispatch(ListMaterialPost(formData))
+            resetForm()
+            values.businessTypeSelected = null
+            values.currencySelected = null
+
+            // setShow(true);
           }}
         >
           {({ handleSubmit }) => (
@@ -57,7 +79,7 @@ const ListMaterials = () => {
                 <label className="react_select_label">Business Type</label>
                 <Field name={'businessTypeSelected'}
                   component={SelectField}
-                  options={options}
+                  options={businessTypes}
                   styleCss={materialColorStyles}
                   placeholder="Select Business Type"
                 />
@@ -113,9 +135,13 @@ const ListMaterials = () => {
                 <button
                   className="submit_btn"
                   type="button"
+                  disabled={loading}
                   onClick={handleSubmit}
                 >
-                  Submit
+                  {
+                    loading ? <Spinner animation="border" size="sm" /> :
+                      'Submit'
+                  }
                 </button>
               </Col>
             </Row>

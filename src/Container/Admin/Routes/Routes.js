@@ -3,7 +3,6 @@ import LocationDetail from "../../Pages/Warehouses/LocationDetail/LocationDetail
 import Consignee from "../Pages/Consignee/Consignee";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import DcDocument from "../Pages/DcDocument/DcDocument";
-import Nomenclature from "../Pages/Enquiry/Details/Nomenclature/Nomenclature";
 import Enquiry from "../Pages/Enquiry/Enquiry";
 import InhouseMovement from "../Pages/InhouseMovement/InhouseMovement";
 import ListMaterials from "../Pages/ListMaterials/ListMaterials";
@@ -25,6 +24,7 @@ import Settings from "../Pages/Profile/Settings/Settings";
 import Chat from "../../Pages/Chat/Chat/Chat";
 import Message from "../../Pages/Chat/Message/Message";
 import Notifications from "../Pages/Notifications/Notifications";
+import EnquiryDetail from "../Pages/Enquiry/Details/Details";
 
 export const adminRoutes = [
   {
@@ -52,8 +52,8 @@ export const adminRoutes = [
     component: <Enquiry />,
   },
   {
-    path: "/enquiry/nomenclature",
-    component: <Nomenclature />,
+    path: "/enquiry/detail",
+    component: <EnquiryDetail />,
   },
   {
     path: "/inhouse-movement",
@@ -123,7 +123,7 @@ export const adminRoutes = [
 
 export const warehouseRoutes = [
   {
-    path: "/warehouse/details",
+    path: "/warehouse/details/:id",
     component: <WarehouseDetail />,
   },
   {

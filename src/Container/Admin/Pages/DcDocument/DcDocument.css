@@ -24,15 +24,26 @@
     width: 100%;
 }
 
+.consignee_table.inhouse.dc_doc .table{
+    transition: all 0.2s ease;
+}
+
+.table-hover>tbody>tr:hover>* {
+    /* --bs-table-color-state: var(--bs-table-hover-color); */
+    --bs-table-bg-state: #d3d3d32e !important;
+}
+
 .consignee_table.inhouse.dc_doc .table>thead>tr>th {
     padding: 10px 7px;
     font-size: 13px;
+    transition: all 0.2s ease !important;
 }
 
 .consignee_table.inhouse.dc_doc .table>tbody>tr>td {
     padding: 12px 5px;
     border: 1px solid #E7E7E7;
     font-size: 13px;
+    transition: all 0.2s ease !important;
 }
 
 .consignee_table.dc_doc .table>tbody>tr>td button {
@@ -61,6 +72,15 @@
     background-color: #fff;
     border-radius: 15px;
     margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.in_transit:hover{
+    transition: all 0.3s ease;
+    box-shadow: rgb(1 1 1 / 44%) 0px 4px 12px;
+    transform: scale(1.04);
+    cursor: pointer;
+    
 }
 
 .in_transit.download .status {
@@ -157,6 +177,14 @@
     justify-content: center;
 }
 
+.in_transit .data .upload_dc img{
+    width: 14px;
+}
+
+.in_transit .data .revert img{
+    width: 14px;
+}
+
 .in_transit .data .revert {
     font-size: 13px;
     border: none;
@@ -172,11 +200,11 @@
     justify-content: center;
 }
 
-.in_transit .data button img {
+.in_transit .data .download img {
     width: 14px;
 }
 
-.in_transit.download button{
+.in_transit.download .download{
     font-size: 13px;
     border: none;
     display: flex;
@@ -189,6 +217,7 @@
     margin: 10px 0;
     width: 100%;
     justify-content: center;
+    text-decoration: none;
 }
 
 .revert_detail{

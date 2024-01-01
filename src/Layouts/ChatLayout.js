@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import useOverflowHidden from "../Components/UseOverflowHidden/UseOverflowHidden";
 import { adminSideBarItems } from "../Container/Admin/Routes/Routes";
 import ChatHeader from "../Components/Header/ChatHeader";
@@ -7,12 +7,13 @@ import { useEffect } from "react";
 
 const ChatLayout = ({ fullClickBtn, fullClickClose, handle }) => {
     const { pathname } = useLocation();
+    const { id } = useParams()
 
     useEffect(() => {
         window.scrollTo(0, 0);
-      }, [pathname]);
+    }, [pathname]);
 
-    const shouldApplyOverflowHidden = pathname !== '/warehouse/details' && pathname !== '/warehouse/details/location' ? true : false;
+    const shouldApplyOverflowHidden = pathname !== `/warehouse/details/${id}` && pathname !== '/warehouse/details/location' ? true : false;
     useOverflowHidden(shouldApplyOverflowHidden);
 
     return (

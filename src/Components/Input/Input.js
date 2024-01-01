@@ -9,10 +9,10 @@ const Input = ({ field: { name, onBlur, onChange, value },
     <div className='input_field'>
       <label>{label} {isRequired && <span>*</span>} </label>
       <input placeholder={placeholder}
-        onBlur={() => {
-          setFieldTouched(name);
-          onBlur(name);
-        }}
+        // onBlur={() => {
+        // setFieldTouched(name);
+        // onBlur(name);
+        // }}
         style={hasError && { borderColor: "red" }}
         onChange={text => onChange(name)(text)}
         value={value}

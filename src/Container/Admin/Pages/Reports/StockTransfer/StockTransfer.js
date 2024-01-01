@@ -8,22 +8,25 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
-import stockInApi from "../../../../../Apis/StockIn.json";
+import { useDispatch, useSelector } from 'react-redux';
+import { getStockTransferReport } from '../../../../../Redux/Action/Admin';
+import { login } from '../../../../../Util/Helper';
+import Loader from '../../../../../Util/Loader';
 
 function Row(props) {
-    const { row, isOpen, onToggle } = props;
+    const { index, row, isOpen, onToggle } = props;
 
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-                <TableCell align='center'>{row.sno}</TableCell>
-                <TableCell align='center'>{row.Code}</TableCell>
-                <TableCell align='center'>{row.Action}</TableCell>
-                <TableCell align='center'>{row.Vehicle_No}</TableCell>
-                <TableCell align='center'>{row.Suppllier}</TableCell>
-                <TableCell align='center'>{row.Date}</TableCell>
-                <TableCell align='center'>{row.Business_Type}</TableCell>
-                <TableCell align='center'>{row.Warehouse} <span aria-label="expand row"
+                <TableCell align='center'>{index + 1}</TableCell>
+                <TableCell align='center'>{row.transactionalNumber}</TableCell>
+                <TableCell align='center'>{row.transactionBy}</TableCell>
+                <TableCell align='center'>{row.truckNumber}</TableCell>
+                <TableCell align='center'>{row.supplier}</TableCell>
+                <TableCell align='center'>{row.date}</TableCell>
+                <TableCell align='center'>{row.businessType}</TableCell>
+                <TableCell align='center'>{row.warehouse} <span aria-label="expand row"
                     onClick={onToggle} className='show_warehouse_chevron'>
                     {isOpen ? <FaChevronDown /> : <FaChevronRight />}
                 </span></TableCell>
@@ -43,21 +46,19 @@ function Row(props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {row.detail.map((d) => (
-                                        <TableRow key={d.partno} className='expended_row'>
-                                            <TableCell>
-                                                {d.partno}
-                                            </TableCell>
-                                            <TableCell>{d.description}</TableCell>
-                                            <TableCell>{d.serialno}</TableCell>
-                                            <TableCell>
-                                                {d.palletno}
-                                            </TableCell>
-                                            <TableCell className={d.status === 'ok' ? 'make_green' : d.status === 'Filled' ? 'make_blue' : 'make_red'}>
-                                                {d.status}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                    <TableRow key={row.partNo} className='expended_row'>
+                                        <TableCell>
+                                            {row.partNo}
+                                        </TableCell>
+                                        <TableCell>{row.description}</TableCell>
+                                        <TableCell>{row.serialNo}</TableCell>
+                                        <TableCell>
+                                            {row.palletId}
+                                        </TableCell>
+                                        <TableCell className={row.status === 'ok' ? 'make_green' : row.status === 'Filled' ? 'make_blue' : 'make_red'}>
+                                            {row.status}
+                                        </TableCell>
+                                    </TableRow>
                                 </TableBody>
                             </Table>
                         </Box>
@@ -68,9 +69,33 @@ function Row(props) {
     );
 }
 
-export default function StockTranfer() {
+export default function StockTransferTab() {
     const [openRow, setOpenRow] = React.useState(null);
-    const tableHead = ['#', 'Transaction Code', 'Action By', 'Vehicle No', 'Suppllier', 'Date', 'Business Type', 'Warehouse']
+    const tableHead = ['S.No.', 'Transaction Code', 'Action By', 'Truck No', 'Suppllier', 'Date', 'Business Type', 'Warehouse']
+
+
+    const dispatch = useDispatch()
+
+    const { loading, getStockTransferData } = useSelector((state) => state.inventoryStockTransferData)
+    const { loading: stockTransferLoading, getStockTransferFilterData } = useSelector((state) => state.inventoryStockTransferFilterData)
+
+    React.useEffect(() => {
+        const formData = new FormData();
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+
+        dispatch(getStockTransferReport(formData))
+
+        return () => {
+            dispatch({ type: "GET_STOCK_TRANSFER_FILTER_RESET" })
+        }
+    }, [])
+
+    React.useEffect(() => {
+        if (getStockTransferFilterData?.response?.length > 0) {
+            dispatch({ type: "GET_STOCK_TRANSFER_RESET" })
+        }
+    }, [getStockTransferFilterData])
 
     const handleRowToggle = (row) => {
         setOpenRow((prevRow) => (prevRow === row ? null : row));
@@ -78,16 +103,35 @@ export default function StockTranfer() {
 
     return (
         <TableContainer>
-            <Table aria-label="collapsible table" className='stock_out_table'>
-                <TableHead>
-                    <TableRow className='super_head'>
-                        {tableHead.map((th) => (<TableCell align='center'>{th}</TableCell>))}
-                    </TableRow>
-                </TableHead>
-                <TableBody className='stock_out_tab'>
-                    {stockInApi.map((row) => (<Row key={row.sno} row={row} isOpen={openRow === row} onToggle={() => handleRowToggle(row)} />))}
-                </TableBody>
-            </Table>
+            {
+                (loading || stockTransferLoading) ? <Loader /> :
+                    <Table aria-label="collapsible table" className='stock_out_table'>
+                        <TableHead>
+                            <TableRow className='super_head'>
+                                {tableHead.map((th) => (<TableCell align='center'>{th}</TableCell>))}
+                            </TableRow>
+                        </TableHead>
+
+                        {
+                            getStockTransferFilterData?.response ? <>
+                                {
+                                    getStockTransferFilterData?.response?.length > 0 &&
+                                    <TableBody className='stock_out_tab'>
+                                        {getStockTransferFilterData?.response.map((row, i) => (<Row key={i} index={i} row={row} isOpen={openRow === row} onToggle={() => handleRowToggle(row)} />))}
+                                    </TableBody>
+                                }
+                            </> : <>
+                                {
+                                    getStockTransferData?.response?.length > 0 &&
+                                    <TableBody className='stock_out_tab'>
+                                        {getStockTransferData?.response.map((row, i) => (<Row key={i} index={i} row={row} isOpen={openRow === row} onToggle={() => handleRowToggle(row)} />))}
+                                    </TableBody>
+                                }
+                            </>
+                        }
+                    </Table>
+            }
+            {/* {(loading || stockTransferLoading) && <Loader />} */}
         </TableContainer>
     );
 }

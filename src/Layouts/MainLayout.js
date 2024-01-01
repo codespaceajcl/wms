@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import WarehouseHeader from "../Components/WarehouseHeader/WarehouseHeader";
 import useOverflowHidden from "../Components/UseOverflowHidden/UseOverflowHidden";
 import Footer from "../Components/Footer/Footer";
@@ -9,16 +9,18 @@ import { useEffect } from "react";
 
 const MainLayout = ({ fullClickBtn, fullClickClose, handle }) => {
   const { pathname } = useLocation();
+  const { id } = useParams()
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  const shouldApplyOverflowHidden = pathname !== '/warehouse/details' && pathname !== '/warehouse/details/location' ? true : false;
+  const shouldApplyOverflowHidden = pathname !== `/warehouse/details/${id}` && pathname !== '/warehouse/details/location' ? true : false;
   useOverflowHidden(shouldApplyOverflowHidden);
 
+
   return (
-    <div className={pathname === '/warehouse/details' ? "warehouse_detail_layout" : "location_bg_layout"}>
+    <div className={pathname === `/warehouse/details/${id}` ? "warehouse_detail_layout" : "location_bg_layout"}>
       <WarehouseHeader sideBarItems={adminSideBarItems} fullScreen={fullClickBtn} closeScreen={fullClickClose} handle={handle} />
 
       <div className="margin-top-100">

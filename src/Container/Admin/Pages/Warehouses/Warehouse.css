@@ -180,6 +180,14 @@
     margin-bottom: 10px !important;
 } */
 
+.map_wrapper{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border: 1px solid #bec0c3;
+}
+
 .warehouse_form .file_upload label{
     max-width: 100%;
     height: auto !important;
@@ -212,6 +220,34 @@
 
 .add_warehouse_modal .modal-body {
     padding: 20px 40px;
+}
+
+.store_details h6{
+    margin-bottom: 0;
+    text-align: center;
+    background-color: #003A70;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.location_even{
+    background-color: #ecf0df;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+
+.location_odd{
+    background-color: #d5dac4;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+
+.locFloor {
+    padding: 20px;
+    background-color: #e4e8d6;
+    margin-top: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 @media (max-width: 1100px) {

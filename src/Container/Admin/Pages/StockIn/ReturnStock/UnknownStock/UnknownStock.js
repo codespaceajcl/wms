@@ -51,7 +51,6 @@ const UnknownStock = () => {
                             errorNotify("Select File")
                             return
                         }
-                        console.log(values);
                     }}
                 >
                     {({

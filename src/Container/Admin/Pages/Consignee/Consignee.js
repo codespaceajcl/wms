@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
 import { AiOutlineUserAdd, AiOutlineClose } from "react-icons/ai"
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { BiChevronLeft } from "react-icons/bi";
 import { Col, Modal, Row, Table, Form } from "react-bootstrap"
-import ConsigeeApi from "../../../../Apis/Consigee.json";
 import './Consignee.css';
 import { Field, Formik } from "formik";
 import Input from '../../../../Components/Input/Input';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { consigneeCreateSchema } from '../../../../Util/Validations';
+import { useDispatch, useSelector } from 'react-redux';
+import { listConsignee } from '../../../../Redux/Action/Admin';
+import { login } from '../../../../Util/Helper';
+import Loader from '../../../../Util/Loader';
 
 const Consignee = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [consigneeModal, setConsigneeModal] = useState(false)
   const [moreModal, setMoreModal] = useState(false)
   const [skuModal, setSkuModal] = useState(false)
+  const [pageNum, setPageNum] = useState(0)
   const [addConsigneeModal, setAddConsigneeModal] = useState(false)
   const [show, setShow] = useState(false)
 
@@ -25,6 +31,30 @@ const Consignee = () => {
   const moreHead = ["Serial No", "Business Type", "Status", "Track", "Date"]
   const skuHead = ["Transaction ID", "Order/Invoice No", "Vehicle No", "Warehouse", "Destination",
     "Business Type", "Date", "Document", "Action"]
+
+  const { loading, getConsigneeData } = useSelector((state) => state.getConsignee)
+
+  const [totalElements, setTotalElements] = useState(getConsigneeData?.totalConsignees);
+  const [elementsPerPage] = useState(getConsigneeData?.response?.length);
+  const [numberOfPages, setNumberOfPages] = useState(0);
+  const [showNext, setShowNext] = useState(false)
+
+  useEffect(() => {
+    const pages = Math.ceil(totalElements / elementsPerPage);
+    setNumberOfPages(pages);
+    setShowNext(pageNum >= numberOfPages)
+  }, [totalElements, elementsPerPage]);
+
+
+  useEffect(() => {
+    const formData = new FormData();
+
+    formData.append("email", login.email)
+    formData.append("token", login.token)
+
+    dispatch(listConsignee(pageNum, formData))
+
+  }, [pageNum])
 
   const consigneeDetailModal = (
     <Modal show={consigneeModal}
@@ -323,35 +353,55 @@ const Consignee = () => {
           <input placeholder="search anything" />
         </div>
 
-        <div className='consignee_table'>
-          <Table striped bordered responsive>
-            <thead>
-              <tr>
-                {
-                  tableHead.map((th) => (
-                    <th>{th}</th>
-                  ))
-                }
-              </tr>
-            </thead>
-            <tbody>
-              {
-                ConsigeeApi.map((c) => {
-                  return (
+        {
+          loading ? <div className='py-5'>
+            <Loader />
+          </div> :
+            <>
+              <div className='consignee_table'>
+                <Table striped bordered responsive>
+                  <thead>
                     <tr>
-                      <td>{c.sno}</td>
-                      <td><b>{c.name}</b> <br />
-                        <span>{c.address}</span>
-                      </td>
-                      <td style={{ fontWeight: "600" }}>{c.contact}</td>
-                      <td><button onClick={() => setConsigneeModal(!consigneeModal)}>View</button></td>
+                      {
+                        tableHead.map((th) => (
+                          <th>{th}</th>
+                        ))
+                      }
                     </tr>
-                  )
-                })
-              }
-            </tbody>
-          </Table>
-        </div>
+                  </thead>
+                  <tbody>
+                    {
+                      getConsigneeData?.response?.map((c, i) => {
+                        return (
+                          <tr>
+                            <td>{i + 1}</td>
+                            <td><b>{c.name}</b> <br />
+                              <span>{c.address}</span>
+                            </td>
+                            <td style={{ fontWeight: "600" }}>{c.contact}</td>
+                            <td><button onClick={() => setConsigneeModal(!consigneeModal)}>View</button></td>
+                          </tr>
+                        )
+                      })
+                    }
+                  </tbody>
+                </Table>
+              </div>
+
+              <div className='pagination_div'>
+                {
+                  pageNum > 1 &&
+                  <h6 onClick={() => setPageNum(pageNum - 1)}>Previous</h6>
+                }
+                <p>Pg No: {pageNum}</p>
+
+                {
+                  showNext &&
+                  <h6 onClick={() => setPageNum(pageNum + 1)}>Next</h6>
+                }
+              </div>
+            </>
+        }
       </div>
     </div>
   )

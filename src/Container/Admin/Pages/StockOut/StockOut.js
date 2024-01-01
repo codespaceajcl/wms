@@ -209,7 +209,6 @@ const StockOut = () => {
                         vehicleNumber: false
                     }}
                     onSubmit={(values, { resetForm }) => {
-                        console.log(values);
                         setShow(true);
                     }}
                 >

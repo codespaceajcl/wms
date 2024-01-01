@@ -1,41 +1,180 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
-import { Col, Row, Table } from 'react-bootstrap';
+import { Col, Row, Spinner, Table } from 'react-bootstrap';
 import { BsArrowLeftShort } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai"
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import Select from 'react-select';
-import InhouseApi from "../../../../Apis/Inhouse.json";
-import { partColorStyles, materialColorStyles } from "../../../../Util/Helper";
+import { partColorStyles, materialColorStyles, login } from "../../../../Util/Helper";
 import './InhouseMovement.css';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    changePalletMovement, getAllPalletInhouseMovement,
+    getAllWarehousesInhouseMovement
+} from '../../../../Redux/Action/Admin';
+import Loader from '../../../../Util/Loader';
+import { successNotify } from '../../../../Util/Toast';
 
 const InhouseMovement = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [show, setShow] = useState(false)
-    const [showSave, setShowSave] = useState(false)
-    const [selectedValues, setSelectedValues] = useState([]);
+    const [warehouseName, setWarehouseName] = useState('')
+    const [rackOption, setRackOption] = useState([])
+    const [locationOption, setLocationOption] = useState([])
+    const [getPalletId, setGetPalletId] = useState('')
+    const [warehouseId, setWarehouseId] = useState('')
+
+    const [rowOptions, setRowOptions] = useState([]);
+
+    const [inhouseChange, setInhouseChange] = useState({
+        store: "",
+        rack: "",
+        location: ""
+    })
+    const [changeStage, setChangeStage] = useState({})
 
     const tableHead = ["S.No", "Pallet No", "Current Location", "Store", "Rack", "Location"]
 
-    const options = [
-        { value: 'PakistanStorage_None01/Agility Port Qasim', label: 'PakistanStorage_None01/Agility Port Qasim' }
-    ]
+    const { getWarehouseMovementData } = useSelector((state) => state.getWarehousesInhouse)
+    const { loading, getPalletsMovementData } = useSelector((state) => state.getPalletsInhouse)
+    const { loading: saveLoading, palletSaveData } = useSelector((state) => state.palletChange)
 
-    const storeOption = [
-        { value: "W01", label: "W01" },
-        { value: "W02", label: "W02" },
-        { value: "W03", label: "W03" },
-        { value: "W04", label: "W04" },
-    ]
+    useEffect(() => {
+        if (palletSaveData?.response === "success") {
+            successNotify("Pallot change successfully!")
+            dispatch({ type: "CHANGE_PALLET_MOVEMENT_RESET" })
 
-    const rackOption = [
-        { value: "W01AA", label: "W01AA" },
-        { value: "W01AB", label: "W01AB" },
-        { value: "W01AC", label: "W01AC" },
-        { value: "W01AD", label: "W01AD" },
-    ]
+            setInhouseChange({
+                store: "",
+                rack: "",
+                location: ""
+            })
+
+            setChangeStage({})
+            setRowOptions([])
+
+            const formData = new FormData();
+            formData.append("email", login.email)
+            formData.append("token", login.token)
+
+            dispatch(getAllPalletInhouseMovement(formData, warehouseId))
+        }
+    }, [palletSaveData])
+
+    useEffect(() => {
+        const formData = new FormData();
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+
+        dispatch(getAllWarehousesInhouseMovement(formData))
+    }, [])
+
+    const options = getWarehouseMovementData?.response?.map((m) => {
+        return {
+            value: m.id,
+            label: m.name
+        }
+    })
+
+    const selectInhouseHandler = (data) => {
+        setWarehouseName(data.label)
+        setWarehouseId(data.value)
+
+        const formData = new FormData();
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+
+        dispatch(getAllPalletInhouseMovement(formData, data.value))
+    }
+
+    const storeData = getPalletsMovementData?.stores?.map((p) => {
+        return {
+            value: p.sgi, label: p.sgi
+        }
+    })
+
+    const stageData = getPalletsMovementData?.stages?.map((p) => {
+        return {
+            value: p.sgi, label: p.sgi
+        }
+    })
+
+    const storeOption = storeData?.concat(stageData);
+
+    const handleStoreChange = (data, c) => {
+        const hasStage = data.value.includes("STAGE")
+
+        const updatedRowOptions = [...rowOptions];
+
+        if (hasStage) {
+            setChangeStage({
+                [c.id]: hasStage
+            })
+            setGetPalletId(c.id)
+            setInhouseChange({
+                ...inhouseChange,
+                store: data.value
+            })
+        }
+        else {
+            setInhouseChange({
+                ...inhouseChange,
+                store: data.value
+            })
+
+            const findRack = getPalletsMovementData?.racks?.filter((r) => r.store === data.value);
+            const rackFilter = findRack?.map((r) => {
+                return {
+                    value: r.sgi,
+                    label: r.sgi,
+                };
+            });
+
+            updatedRowOptions[c.id] = {
+                ...updatedRowOptions[c.id],
+                storeOptions: storeOption,
+                rackOptions: rackFilter,
+            };
+
+            setRackOption(rackFilter)
+        }
+
+        setRowOptions(updatedRowOptions);
+    };
+
+    const handleRackChange = (data, c) => {
+        setInhouseChange({
+            ...inhouseChange,
+            rack: data.value
+        })
+        const findLoc = getPalletsMovementData?.locations?.filter((r) => r.rack === data.value)
+        const locationDetails = getPalletsMovementData?.locationDetails
+
+        const finalData = findLoc.map((item) => ({
+            value: item.sgi,
+            label: `${item.sgi} | ${locationDetails[item.sgi]?.tag}`,
+        })) || [];
+
+        const updatedRowOptions = [...rowOptions];
+        updatedRowOptions[c.id] = {
+            ...updatedRowOptions[c.id],
+            rackOptions: rackOption,
+            locationOptions: finalData,
+        };
+
+        setLocationOption(finalData)
+        setRowOptions(updatedRowOptions);
+    }
+
+    const handleLocationChange = (data, c) => {
+        setGetPalletId(c.id)
+        setInhouseChange({
+            ...inhouseChange,
+            location: data.value
+        })
+    }
 
     const customStyles = {
         control: (baseStyles, state) => ({
@@ -47,42 +186,75 @@ const InhouseMovement = () => {
             },
         }),
         option: (provided, state) => {
+            const locationDetails = getPalletsMovementData?.locationDetails
             return ({
                 ...provided,
-                background: state.value === 'W01AA01A1 | W02AA01A1' ? '#95D6A4' : state.value === 'W01AA01A2 | W02AA01A3' ? '#95D6A4' : state.value === 'W01AA01A3 | W02AA02A1' ? '#FF8F8F' : '#00FFFF',
-                color: '#484C52',
+                background: locationDetails[state.value]?.status === 'faulty' ? '#ffabab' : '#95D6A4',
                 fontSize: "13px"
+
             })
         }
     };
 
-    const locOption = [
-        { value: "W01AA01A1 | W02AA01A1", label: "W01AA01A1 | W02AA01A1" },
-        { value: "W01AA01A2 | W02AA01A3", label: "W01AA01A2 | W02AA01A3" },
-        { value: "W01AA01A3 | W02AA02A1", label: "W01AA01A3 | W02AA02A1" },
-        { value: "W01AA01A4 | W02AA02A2", label: "W01AA01A4 | W02AA02A2" },
-    ]
+    const saveChangeHandler = () => {
 
-    const handleSelectChange = (index, field, value) => {
-        const updatedValues = [...selectedValues];
-        updatedValues[index] = {
-            ...updatedValues[index],
-            [field]: value,
-        };
-        setSelectedValues(updatedValues);
+        if (!changeStage) {
 
-        const { select1, select2, select3 } = updatedValues[index];
+            const data = {
+                warehouse: warehouseId,
+                pallot: getPalletId,
+                store: inhouseChange.store,
+                rack: inhouseChange.rack,
+                location: inhouseChange.location,
+                email: login.email,
+                token: login.token
+            }
 
-        if (select1?.value && select2?.value && select3?.value) {
-            setShowSave(true)
+            let findData = JSON.stringify(data)
+            dispatch(changePalletMovement(findData))
         }
-    };
+        else {
+            const data = {
+                warehouse: warehouseId,
+                pallot: getPalletId,
+                location: inhouseChange.store,
+                email: login.email,
+                token: login.token
+            }
 
-    const showModal = () => {
-        setShow(true)
-        setSelectedValues([])
-        setShowSave(false)
+            let findData = JSON.stringify(data)
+            dispatch(changePalletMovement(findData))
+        }
+
     }
+
+    const handleDownload = () => {
+        const headers = ['No', 'Pallot No', 'Current Location', 'Store', 'Rack', 'Location']; // Adjust headers as needed
+        const rows = getPalletsMovementData?.response?.map((c, i) => {
+            const rowOption = rowOptions[c.id] || {};
+            const isChangeStage = changeStage[c.id] || null;
+
+            return [
+                i + 1,
+                c.pallotNo,
+                c.location,
+                rowOption.storeOptions || '',
+                !isChangeStage ? rowOption.rackOptions || '' : '',
+                !isChangeStage ? rowOption.locationOptions || '' : '',
+            ];
+        });
+
+        const csvContent = `${headers.join(',')}\n${rows.map(row => row.join(',')).join('\n')}`;
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'inhouseMovementReport.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     return (
         <div>
@@ -94,54 +266,94 @@ const InhouseMovement = () => {
                 <h5> <BsArrowLeftShort onClick={() => navigate(-1)} />
                     Inhouse Movement
 
-                    <div className='create'><AiOutlinePlus style={{ fontSize: "20px" }} /> Download Report</div>
+                    {
+                        getPalletsMovementData?.response?.length > 0 ?
+                            <div className='create' onClick={handleDownload}>
+                                <AiOutlinePlus style={{ fontSize: "20px" }} /> Download Report</div> :
+
+                            <div className='create'>
+                                <AiOutlinePlus style={{ fontSize: "20px" }} /> Download Report</div>
+                    }
                 </h5>
 
                 <Row className='mt-5'>
                     <Col md={12}>
-                        <Select styles={partColorStyles} options={options} placeholder="Select Inhouse Movement" className='react_select_inhouse' />
+                        <Select styles={partColorStyles} options={options} placeholder="Select Inhouse Movement" className='react_select_inhouse'
+                            onChange={selectInhouseHandler} />
                     </Col>
                 </Row>
-
-                <div className='consignee_table inhouse'>
-                    <div className='select_inhouse_table'>
-                        <h6>PakistanStorage_None01/Agility Port Qasim</h6>
-
-                        {
-                            showSave && <div>
-                                <button onClick={() => setShow(false)}>No</button>
-                                <button className='make_green' onClick={showModal}>Save</button>
-                            </div>
-                        }
-                    </div>
-                    <Table striped bordered responsive>
-                        <thead>
-                            <tr>
-                                {
-                                    tableHead.map((th) => (
-                                        <th>{th}</th>
-                                    ))
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
+                {
+                    loading ? <Loader /> :
+                        <div className='consignee_table inhouse'>
                             {
-                                InhouseApi.map((c, i) => {
-                                    return (
-                                        <tr>
-                                            <td>{c.sno}</td>
-                                            <td>{c.pallet}</td>
-                                            <td>{c.Curr_location}</td>
-                                            <td style={{ minWidth: "140px" }}><Select styles={materialColorStyles} options={storeOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select1', value)} /></td>
-                                            <td style={{ minWidth: "140px" }}><Select styles={materialColorStyles} options={rackOption} placeholder="Select" onChange={(value) => handleSelectChange(i, 'select2', value)} /></td>
-                                            <td style={{ minWidth: "250px" }}><Select options={locOption} onChange={(value) => handleSelectChange(i, 'select3', value)} styles={customStyles} placeholder="Select" /></td>
-                                        </tr>
-                                    )
-                                })
+                                getPalletsMovementData?.response?.length > 0 && <>
+                                    <div className='select_inhouse_table'>
+                                        <h6>{warehouseName}</h6>
+
+                                        {
+                                            !changeStage ? <>
+                                                {
+                                                    (inhouseChange?.store.length > 0 && inhouseChange?.rack.length > 0 && inhouseChange?.location.length > 0) && <div>
+                                                        <button onClick={() => setShow(false)}>No</button>
+                                                        <button className='make_green' onClick={saveChangeHandler}>
+                                                            {saveLoading ? <Spinner animation='border' size='sm' /> : "Save"}</button>
+                                                    </div>
+                                                }
+                                            </> : <>
+                                                {
+                                                    (inhouseChange?.store.length > 0) && <div>
+                                                        <button onClick={() => setShow(false)}>No</button>
+                                                        <button className='make_green' onClick={saveChangeHandler}>
+                                                            {saveLoading ? <Spinner animation='border' size='sm' /> : "Save"}</button>
+                                                    </div>
+                                                }
+                                            </>
+                                        }
+                                    </div>
+                                    <Table striped bordered responsive>
+                                        <thead>
+                                            <tr>
+                                                {
+                                                    tableHead.map((th) => (
+                                                        <th>{th}</th>
+                                                    ))
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                getPalletsMovementData?.response?.map((c, i) => {
+                                                    const rowOption = rowOptions[c.id] || {};
+                                                    const isChangeStage = changeStage[c.id] || null;
+
+                                                    return (
+                                                        <tr>
+                                                            <td>{i + 1}</td>
+                                                            <td>{c.pallotNo}</td>
+                                                            <td>{c.location}</td>
+                                                            <td style={{ minWidth: "140px" }}><Select styles={materialColorStyles}
+                                                                options={rowOption.storeOptions || storeOption}
+                                                                placeholder="Select" onChange={(data) => handleStoreChange(data, c)} /></td>
+
+                                                            <td style={{ minWidth: "140px" }}>
+                                                                {!isChangeStage && <Select styles={materialColorStyles}
+                                                                    options={rowOption.rackOptions || []}
+                                                                    placeholder="Select" onChange={(data) => handleRackChange(data, c)} />}</td>
+
+                                                            <td style={{ minWidth: "250px" }}>
+                                                                {!isChangeStage && <Select
+                                                                    options={rowOption.locationOptions || []}
+                                                                    styles={customStyles} placeholder="Select" onChange={(data) => handleLocationChange(data, c)} />}</td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </Table>
+                                </>
                             }
-                        </tbody>
-                    </Table>
-                </div>
+                        </div>
+                }
             </div>
         </div>
     )

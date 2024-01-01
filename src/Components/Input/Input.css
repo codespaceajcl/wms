@@ -1,10 +1,10 @@
 .input_field{
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
 }
 
 .input_field label, .react_select_label{
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
     font-weight: 400;
 }
@@ -30,6 +30,11 @@
 }
 
 .input_field input:focus-visible{
+    outline: none;
+    border: 1px solid #A9C23F;
+}
+
+.input_field textarea:focus-visible {
     outline: none;
     border: 1px solid #A9C23F;
 }
@@ -62,4 +67,13 @@
     font-size: 11px;
     color: red;
     font-weight: 300;
+}
+
+.input_field textarea{
+    border: 1px solid #bec0c3;
+    padding: 7px 7px;
+    border-radius: 8px;
+    color: hsl(0, 0%, 50%);
+    font-size: 14px;
+    width: 100%;
 }

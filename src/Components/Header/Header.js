@@ -150,7 +150,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                       </Link>
                       <p className="chat_num">2</p>
                     </li>
-                    <li>
+                    <li className={pathname.split("/")[1] === 'faqs' && "nav_active"}>
                       <Link to='/faqs' style={sidebarToggle ? { padding: '12px 0px 12px 15px' } : null}>
                         <img src={'/images/faq_icon.png'} alt="" />
                         <span style={sidebarToggle ? { display: "none" } : null}>FAQ</span>

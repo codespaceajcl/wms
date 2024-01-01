@@ -8,10 +8,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
-import { useDispatch, useSelector } from 'react-redux';
-import { getStockOutReport } from '../../../../../Redux/Action/Admin';
-import { login } from '../../../../../Util/Helper';
 import Loader from '../../../../../Util/Loader';
+import { getInventoryAvailableStockReport } from '../../../../../Redux/Action/Admin';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../../../../Util/Helper';
 
 function Row(props) {
     const { index, row, isOpen, onToggle } = props;
@@ -20,12 +20,12 @@ function Row(props) {
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell align='center'>{index + 1}</TableCell>
-                <TableCell align='center'>{row.transactionalNumber}</TableCell>
-                <TableCell align='center'>{row.transactionBy}</TableCell>
-                <TableCell align='center'>{row.truckNumber}</TableCell>
-                <TableCell align='center'>{row.supplier}</TableCell>
+                <TableCell align='center'>{row.nomenclature}</TableCell>
+                <TableCell align='center'>{row.location}</TableCell>
+                <TableCell align='center'>{row.pallot}</TableCell>
                 <TableCell align='center'>{row.date}</TableCell>
-                <TableCell align='center'>{row.businessType}</TableCell>
+                <TableCell align='center'>{row.tag}</TableCell>
+                <TableCell align='center'>{row.quantity}</TableCell>
                 <TableCell align='center'>{row.warehouse} <span aria-label="expand row"
                     onClick={onToggle} className='show_warehouse_chevron'>
                     {isOpen ? <FaChevronDown /> : <FaChevronRight />}
@@ -39,23 +39,21 @@ function Row(props) {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Part No</TableCell>
-                                        <TableCell>Description</TableCell>
                                         <TableCell>Serial No</TableCell>
                                         <TableCell>Pallet ID</TableCell>
                                         <TableCell>Status</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow key={row.partNo} className='expended_row'>
+                                    <TableRow className='expended_row'>
                                         <TableCell>
                                             {row.partNo}
                                         </TableCell>
-                                        <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.serialNo}</TableCell>
                                         <TableCell>
-                                            {row.palletId}
+                                            {row.pallodId}
                                         </TableCell>
-                                        <TableCell className={row.status === 'ok' ? 'make_green' : row.status === 'Filled' ? 'make_blue' : 'make_red'}>
+                                        <TableCell className={row.status === 'ok' ? 'make_green' : row.status === 'filled' ? 'make_blue' : 'make_red'}>
                                             {row.status}
                                         </TableCell>
                                     </TableRow>
@@ -69,33 +67,23 @@ function Row(props) {
     );
 }
 
-export default function StockOutTab() {
-    const [openRow, setOpenRow] = React.useState(null);
-    const tableHead = ['S.No.', 'Transaction Code', 'Action By', 'Truck No', 'Suppllier', 'Date', 'Business Type', 'Warehouse']
-
-
+const AvailableStock = () => {
     const dispatch = useDispatch()
 
-    const { loading, getStockOutData } = useSelector((state) => state.inventoryStockOutData)
-    const { loading: stockOutLoading, getStockOutFilterData } = useSelector((state) => state.inventoryStockOutFilterData)
+    const { loading, inventoryAvailableStockData } = useSelector((state) => state.getInventoryAvailableStock)
 
     React.useEffect(() => {
         const formData = new FormData();
         formData.append("email", login.email)
         formData.append("token", login.token)
 
-        dispatch(getStockOutReport(formData))
+        dispatch({ type: "GET_INVENTORY_REPORTS_FILTER_RESET" })
 
-        return () => {
-            dispatch({ type: "GET_STOCK_OUT_FILTER_RESET" })
-        }
+        dispatch(getInventoryAvailableStockReport(formData))
     }, [])
 
-    React.useEffect(() => {
-        if (getStockOutFilterData?.response?.length > 0) {
-            dispatch({ type: "GET_STOCK_OUT_RESET" })
-        }
-    }, [getStockOutFilterData])
+    const [openRow, setOpenRow] = React.useState(null);
+    const tableHead = ['S.No.', 'NomenClature', 'Location', 'Pallot', 'Date', 'Tag', 'Quantity', 'Warehouse']
 
     const handleRowToggle = (row) => {
         setOpenRow((prevRow) => (prevRow === row ? null : row));
@@ -110,24 +98,19 @@ export default function StockOutTab() {
                     </TableRow>
                 </TableHead>
                 {
-                    (loading || stockOutLoading) && <>
-                        {
-                            getStockOutFilterData?.response?.length > 0 && <>
-                                <TableBody className='stock_out_tab'>
-                                    {getStockOutFilterData?.response.map((row, i) => (<Row key={i} index={i} row={row} isOpen={openRow === row} onToggle={() => handleRowToggle(row)} />))}
-                                </TableBody>
-                            </>
-                        }
-                        {
-                            getStockOutData?.response?.length > 0 &&
-                            <TableBody className='stock_out_tab'>
-                                {getStockOutData?.response.map((row, i) => (<Row key={i} index={i} row={row} isOpen={openRow === row} onToggle={() => handleRowToggle(row)} />))}
-                            </TableBody>
-                        }
-                    </>
+                    inventoryAvailableStockData?.response?.length > 0 &&
+                    <TableBody className='stock_out_tab'>
+                        {inventoryAvailableStockData?.response?.map((row, i) => (<Row key={i} index={i} row={row} isOpen={openRow === row} onToggle={() => handleRowToggle(row)} />))}
+                    </TableBody>
                 }
             </Table>
-            {(loading || stockOutLoading) && <Loader />}
+            {loading && <Loader />}
         </TableContainer>
     );
+
+
+
+
 }
+
+export default React.memo(AvailableStock)

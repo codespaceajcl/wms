@@ -4,7 +4,9 @@ import './Loading.css'
 const Loading = () => {
     return (
         <div className='loading_main'>
-            <img src='/images/loading.png' alt='' />
+            <div class="spinner"></div>
+            <h6>Loading...</h6>
+            {/* <img src='/images/loading.png' alt='' /> */}
         </div>
     )
 }

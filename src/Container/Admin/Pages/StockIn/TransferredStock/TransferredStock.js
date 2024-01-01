@@ -50,7 +50,6 @@ const TransferredStock = () => {
                             errorNotify("Select File")
                             return
                         }
-                        console.log(values);
                     }}
                 >
                     {({

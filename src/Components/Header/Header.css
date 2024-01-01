@@ -275,7 +275,8 @@
 
 .right_layout_overlay {
   overflow-y: scroll;
-  height: 85vh;
+  height: 87vh;
+  min-height: 87vh;
   margin-top: 60px;
   overflow-x: hidden;
 }

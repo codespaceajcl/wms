@@ -48,6 +48,18 @@ img {
   background-color: transparent;
 }
 
+.table-responsive::-webkit-scrollbar {
+  width: 0px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  box-shadow: none;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
 .warehouse_detail_layout {
   background-image: url('/public/images/warehouse_detail_bg.png');
   background-size: cover;
@@ -84,6 +96,41 @@ img {
 .margin-top-100 {
   margin-top: 0;
   padding-top: 90px;
+}
+
+.logout_modal .modal-body {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.logout_modal .modal-body h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.logout_modal .modal-body button {
+  width: 30%;
+  padding: 5px;
+  border: none;
+  background-color: #15a615;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 7px;
+}
+
+.logout_modal .modal-body button.no_btn {
+  background-color: red;
+}
+
+.product_even{
+  background-color: #ecf0df;
+  padding: 10px 0;
+}
+
+.product_odd{
+  background-color: #d5dac4;
+  padding: 10px 0;
 }
 
 @media (max-width: 992px) {

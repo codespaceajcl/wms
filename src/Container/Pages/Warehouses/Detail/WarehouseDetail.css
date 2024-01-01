@@ -48,9 +48,9 @@
 
 .warehouse_detail_boxes div {
     color: #484C52;
-    font-size: 35px;
+    font-size: 23px;
     font-weight: 700;
-    padding: 10px 0;
+    padding: 17px 0;
     background-color: #F5F6F7;
     width: 100%;
     text-align: center;
@@ -72,7 +72,7 @@
     align-items: center;
     padding-top: 25px;
     margin-bottom: 15px;
-    height: 100%;
+    height: 370px;
     position: relative;
 }
 
@@ -139,6 +139,77 @@
     width: 50%;
 }
 
+.pallet_modal_main .store_head{
+    background-image: url('/public/images/add_rack_head_bg.png');
+    color: #fff;
+    background-size: cover;
+    width: fit-content;
+    padding: 5px 20px;
+    border-radius: 100px;
+    font-weight: 500;
+    position: absolute;
+    top: -14px;
+}
+
+.pallet_modal_main .modal-body{
+    padding: 30px;
+}
+
+.pallet_modal_main .modal-content{
+    border-radius: 25px !important;
+}
+
+.pallet_modal_main .pallet_input_field{
+    display: flex;
+    margin-top: 16px;
+    width: 100%;
+    border: 1px solid #484c524f;
+    border-radius: 20px;
+}
+
+.pallet_modal_main .pallet_input_field .input_field{
+    width: 90%;
+}
+
+.pallet_modal_main .pallet_input_field .input_field input{
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.pallet_modal_main .pallet_input_field button{
+    padding: 6px 0px;
+    width: 50%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #A9C23F;
+    color: #000;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.pallet_img{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.pallet_img img{
+    width: 135px;
+}
+
+.pallet_img h4{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.pallet_img p{
+    margin-bottom: 0;
+    font-size: 13px;
+    max-width: 230px;
+}
+
 @media (max-width: 992px) {
     .warehouse_detail_main .container{
         max-width: 960px;
@@ -158,6 +229,7 @@
         flex-wrap: wrap;
         gap: 10px 0;
         margin-top: 15px;
+        flex-direction: column;
     }
 
     .no_of_store_type .floor_loc{

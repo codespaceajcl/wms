@@ -50,7 +50,6 @@ const KnownStock = () => {
                             errorNotify("Select File")
                             return
                         }
-                        console.log(values);
                     }}
                 >
                     {({

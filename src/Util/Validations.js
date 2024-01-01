@@ -105,6 +105,9 @@ export const rmaListSchema = Yup.object().shape({
     country: Yup.string()
         .required('Country is Required'),
 
+    city: Yup.string()
+        .required('Country is Required'),
+
     phone: Yup.string()
         .required('Phone is Required'),
 
@@ -112,16 +115,14 @@ export const rmaListSchema = Yup.object().shape({
         .email('Invalid email address')
         .required('Email is required'),
 
-    no_products: Yup.number()
-        .required('No of Products is Required'),
+    // noOfProducts: Yup.number()
+    //     .required('No of Products is Required'),
 
-    countrySelected: Yup.boolean()
-        .oneOf([true], 'You must select a Country')
-        .required('Country selection is required'),
+    // countrySelected: Yup.boolean()
+    //     .required('Country selection is required'),
 
-    citySelected: Yup.boolean()
-        .oneOf([true], 'You must select a City')
-        .required('City selection is required'),
+    // citySelected: Yup.boolean()
+    //     .required('City selection is required'),
 });
 
 //Warehouse

@@ -1,3 +1,8 @@
+export const login = {
+    email: "msohaibajcl@gmail.com",
+    token: "D9sd5fYm041kMm1B"
+}
+
 export const dashboardColorStyles = {
     control: (baseStyles, state) => ({
         ...baseStyles,
@@ -336,4 +341,29 @@ export const currencies = [
     { label: "Yemeni Rial", value: "YER" },
     { label: "Zambian Kwacha", value: "ZMK" },
     { label: "Zimbabwean dollar", value: "ZWL" }
+];
+
+//Business Type
+
+export const businessTypes = [
+    {
+        label: 'T&T',
+        value: 't&t',
+    },
+    {
+        label: 'Aviation',
+        value: 'aviation',
+    },
+    {
+        label: 'JHPL',
+        value: 'Jhpl',
+    },
+    {
+        label: 'Claiser',
+        value: 'claiser',
+    },
+    {
+        label: 'IT Wings',
+        value: 'it wings',
+    },
 ];
