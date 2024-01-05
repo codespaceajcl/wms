@@ -10,7 +10,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { useDispatch, useSelector } from 'react-redux';
 import readXlsxFile from 'read-excel-file';
 import {
-    businessTypeWarehouse, bussinessTypeCustomer, generateSerialNo, getAvailLocationStockIn,
+    businessTypeWarehouse, bussinessTypeCustomer, createStockIn, generateSerialNo, getAvailLocationStockIn,
     getAvailPalletStockIn, getAvailStagesStockIn, getSerialNoExist
 } from '../../../../../Redux/Action/Admin';
 import { errorNotify } from '../../../../../Util/Toast';
@@ -21,6 +21,8 @@ const ShipmentStock = () => {
     const dispatch = useDispatch();
     const [file, setFile] = useState(null);
     const [show, setShow] = useState(false)
+    const [stockInShow, setStockInShow] = useState(false)
+    const [stockInSgi, setStockInSgi] = useState('')
     const [serialNo, setSerialNo] = useState(0)
     const [businessTypeId, setBusinessTypeId] = useState('')
     const [customerId, setGetCustomerId] = useState('')
@@ -29,25 +31,33 @@ const ShipmentStock = () => {
     const [showSterilizeData, setShowSterilizeData] = useState([])
     const [assignPallet, setAssignPallet] = useState([])
     const [selectedAvailLocations, setSelectedAvailLocations] = useState([]);
-    const [noOfLoc, setNoOfLoc] = useState(1)
     const [showRack, setShowRack] = useState([])
-
-    const handleChange = (file) => {
-        setFile(file);
-    };
+    const [showRacks, setShowRacks] = useState([])
+    const [selectedBusiness, setSelectedBusiness] = useState(null)
+    const [stockInDetail, setStockInDetail] = useState({
+        orderNo: '',
+        transactionalNo: '',
+        vehicleNo: '',
+        recievingDate: new Date().toISOString().split('T')[0],
+    })
 
     const { getBusinessWarehouses } = useSelector((state) => state.getBusinessWarehouseType)
     const { loading, getSerialization } = useSelector((state) => state.getSerialzationNumber)
     const { getBusinessCustomers } = useSelector((state) => state.getBusinessCustomerType)
     const { loading: serialLoading, getExistingSerial } = useSelector((state) => state.getExistingSerialNumber)
+    const { loading: createLoading, postStockIn } = useSelector((state) => state.postStockInApi)
 
     const { getAvailPallet } = useSelector((state) => state.getPalletStockIn)
     const { getLoctionPallet } = useSelector((state) => state.getLocationStockIn)
     const { getStagesPallet } = useSelector((state) => state.getStagesStockIn)
 
-    // console.log(getLoctionPallet)
-
-    // console.log(getExistingSerial)
+    useEffect(() => {
+        if (postStockIn?.response === "success") {
+            setStockInShow(true)
+            setStockInSgi(postStockIn?.sgi)
+            dispatch({ type: "CREATE_STOCK_IN_RESET" })
+        }
+    }, [postStockIn])
 
     useEffect(() => {
         if (getExistingSerial) {
@@ -198,120 +208,462 @@ const ShipmentStock = () => {
         </Modal.Body>
     </Modal>
 
-    const fileHandler = (e, i) => {
+    const fileHandler = (e, s, i) => {
         if (e.target.files[0]) {
-            readXlsxFile(e.target.files[0]).then((rows) => {
-                const getExistingSerialNo = getExistSerialNo
+            const filePath = e.target.value;
+            const fileName = filePath.match(/[^\\]*$/)[0];
+            const currentObject = showSterilizeData[i];
+
+            readXlsxFile(e.target.files[0]).then((rows, indexs) => {
                 const palletData = {};
                 let findError = false;
-                let arrOfSameBoxId = []
+                let arrOfSameBoxId = [];
 
-                rows.slice(1).forEach(row => {
+                if (s?.type === 'UIM') {
+                    if (rows[0]?.length === 3) {
+                        rows.slice(1).forEach((row, rowIndex) => {
+                            const palletNo = row[0];
+                            const boxId = row[1].toString();
+                            const status = row[2];
 
-                    const palletNo = row[0];
-                    const boxId = row[1].toString();
+                            if (getExistSerialNo.includes(boxId)) {
+                                arrOfSameBoxId.push(boxId);
+                                findError = true;
+                                return;
+                            }
 
-                    if (getExistingSerialNo.includes(boxId)) {
-                        arrOfSameBoxId.push(boxId)
-                        findError = true
-                        return
+                            if (!palletData[palletNo]) {
+                                palletData[palletNo] = [];
+                            }
+
+                            if (!palletData[palletNo].includes(boxId)) {
+                                palletData[palletNo].push({
+                                    boxId,
+                                    status
+                                });
+                            }
+                        });
+                    } else {
+                        e.target.value = '';
+                        errorNotify("Invalid File Type");
+                        return;
                     }
+                } else {
+                    if (rows[0]?.length === 2) {
+                        rows.slice(1).forEach((row, rowIndex) => {
+                            const palletNo = row[0];
+                            const boxId = row[0].toString();
+                            const status = row[1];
 
-                    if (!palletData[palletNo]) {
-                        palletData[palletNo] = [];
+                            if (getExistSerialNo.includes(boxId)) {
+                                arrOfSameBoxId.push(boxId);
+                                findError = true;
+                                return;
+                            }
+
+                            if (!palletData[palletNo]) {
+                                palletData[palletNo] = [];
+                            }
+
+                            if (!palletData[palletNo].includes(boxId)) {
+                                palletData[palletNo].push({
+                                    boxId,
+                                    status
+                                });
+                            }
+                        });
+                    } else {
+                        e.target.value = '';
+                        errorNotify("Invalid File Type");
+                        return;
                     }
-
-                    if (!palletData[palletNo].includes(boxId)) {
-                        palletData[palletNo].push(boxId);
-                    }
-                });
-
-                if (findError) {
-                    errorNotify("Following are the same boxId found -- " + arrOfSameBoxId.join(', '))
-                    return
                 }
 
-                const currentObject = showSterilizeData[i];
+                if (!findError) {
+                    const uniqueBoxIds = Array.from(new Set(Object.values(palletData).flatMap(items => items.map(item => item.boxId))));
+                    setGetExistSerialNo((prevData) => [...prevData, ...uniqueBoxIds]);
+
+                } else {
+                    errorNotify("Following are the same boxId found -- " + arrOfSameBoxId.join(', '));
+                    e.target.value = '';
+                    return;
+                }
+
                 currentObject.qty = Object.keys(palletData).length;
                 currentObject.palletData = palletData;
 
-                setAssignPallet((prevData) => [...prevData, showSterilizeData[i]])
-            })
+                setAssignPallet((prevData) => [...prevData, { ...showSterilizeData[i], ...currentObject }]);
+            });
+
+
+            // readXlsxFile(e.target.files[0]).then((rows, indexs) => {
+            //     const palletData = {};
+            //     let findError = false;
+            //     let arrOfSameBoxId = [];
+
+            //     if (s?.type === 'UIM') {
+            //         if (rows[0]?.length === 3) {
+            //             rows.slice(1).forEach((row, rowIndex) => {
+
+            //                 const palletNo = row[0];
+            //                 const boxId = row[1].toString();
+
+            //                 if (getExistSerialNo.includes(boxId)) {
+            //                     arrOfSameBoxId.push(boxId)
+            //                     findError = true
+            //                     return;
+            //                 }
+
+            //                 if (!palletData[palletNo]) {
+            //                     palletData[palletNo] = [];
+            //                 }
+
+            //                 if (!palletData[palletNo].includes(boxId)) {
+            //                     setGetExistSerialNo((prevData) => [...prevData, boxId])
+            //                     palletData[palletNo].push(boxId);
+            //                     arrOfSameBoxId = []
+            //                 }
+            //             });
+            //         }
+            //         else {
+            //             e.target.value = ''
+            //             errorNotify("Invalid File Type")
+            //             return
+            //         }
+            //     }
+            //     else {
+            //         if (rows[0]?.length === 2) {
+            //             rows.slice(1).forEach((row, rowIndex) => {
+
+            //                 const palletNo = row[0];
+            //                 const boxId = row[0].toString();
+
+            //                 if (getExistSerialNo.includes(boxId)) {
+            //                     arrOfSameBoxId.push(boxId)
+            //                     findError = true
+            //                     return;
+            //                 }
+
+            //                 else if (!palletData[palletNo]) {
+            //                     palletData[palletNo] = [];
+
+            //                     setGetExistSerialNo((prevData) => [...prevData, boxId])
+            //                     palletData[palletNo].push(boxId);
+            //                     arrOfSameBoxId = []
+            //                 }
+
+            //                 // if (!palletData[palletNo].includes(boxId)) {
+            //                 //     setGetExistSerialNo((prevData) => [...prevData, boxId])
+            //                 //     palletData[palletNo].push(boxId);
+            //                 //     arrOfSameBoxId = []
+            //                 // }
+
+            //             });
+            //         }
+            //         else {
+            //             e.target.value = ''
+            //             errorNotify("Invalid File Type")
+            //             return
+            //         }
+            //     }
+
+            //     if (findError) {
+            //         errorNotify("Following are the same boxId found -- " + arrOfSameBoxId.join(', '))
+            //         e.target.value = ''
+            //         return
+            //     }
+
+            //     currentObject.qty = Object.keys(palletData).length;
+            //     currentObject.palletData = palletData;
+
+            //     setAssignPallet((prevData) => [...prevData, { ...showSterilizeData[i], ...currentObject }]);
+            //     // setAssignPallet((prevData) => [...prevData, showSterilizeData[i]])
+            // })
         }
     }
 
     const searchPartHandler = (p) => {
         const findData = getBusinessCustomers?.response?.find((c) => c.partNo === p.value)
         setShowSterilizeData((prevData) => [...prevData, findData]);
+
+        setSelectedBusiness(null)
     }
 
-    const availLocHandler = (e, data) => {
+    const availLocHandler = (e, data, assignPalletIndex, locationIndex, palletNo) => {
+
         setSelectedAvailLocations((prevData) => {
-            const currentObject = { ...data };
-            const locationKey = e.target.value;
 
-            const newLocation = {
-                [locationKey]: [
-                    {
-                        store: "",  // Add actual store value
-                        rack: "",   // Add actual rack value
-                        location: "",  // Add actual location value
-                    }
-                ]
-            };
+            const newData = [...prevData];
+            const existingLocation = newData[assignPalletIndex]?.location;
 
-            if (!currentObject.location) {
-                currentObject.location = [newLocation];
-            } else {
-                const existingLocationIndex = currentObject.location.findIndex(loc => loc.hasOwnProperty(locationKey));
+            if (existingLocation) {
+                const existingLocationIndex = existingLocation.findIndex(loc => loc.hasOwnProperty(e.target.value));
 
-                if (existingLocationIndex !== -1) {
-                    currentObject.location[existingLocationIndex][locationKey][0] = newLocation[locationKey][0];
+                if (existingLocationIndex === -1) {
+                    existingLocation.push({
+                        [e.target.value]: [
+                            {
+                                store: "",
+                                rack: "",
+                                location: "",
+                            }
+                        ],
+                        pallet: palletNo
+                    });
                 } else {
-                    currentObject.location.push(newLocation);
+                    e.target.value = ''
+                    // existingLocation[existingLocationIndex][e.target.value][0] = {
+                    //     store: "",
+                    //     rack: "",
+                    //     location: "",
+                    // };
                 }
             }
+            else {
+                newData[assignPalletIndex] = {
+                    ...newData[assignPalletIndex],
+                    location: [{
+                        [e.target.value]: [
+                            {
+                                store: "",
+                                rack: "",
+                                location: "",
+                            }
+                        ],
+                        pallet: palletNo
+                    }],
+                    data: data
+                };
+            }
 
-            return [...prevData, currentObject];
+            return newData;
         });
     };
 
-    // console.log(businessTypeId, "business type id")
-    // console.log(customerId, "customer id")
-    // console.log(getExistingSerial, "existing serial No")
-    // console.log(getAvailPallet)
-    // console.log(getLoctionPallet, "LOC")
-    // console.log(getStagesPallet, "STAGE")
-
-    // console.log(getExistSerialNo, "GET SERIAL NO")
-
-    // console.log(showSterilizeData)
-    // console.log(selectedAvailLocations)
-
     const StoreArr = getLoctionPallet && Object.keys(getLoctionPallet?.response).concat(getStagesPallet?.response);
 
-    const storeSelectHandler = (e) => {
+    const storeSelectHandler = (e, currentIndex, locationData, loctionIndex) => {
+
+        const updatedRowOptions = [...showRacks];
+
+        let uniquePallet;
+
+        const currentObject = locationData.location[currentIndex];
+
+        for (const key in currentObject) {
+            if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
+                uniquePallet = key;
+                currentObject[key][0].store = e.target.value;
+            }
+        }
 
         const data = getLoctionPallet?.response[e.target.value];
 
         if (data) {
             const keysArray = Object.keys(data);
             const filteredKeys = keysArray.filter(key => key.startsWith(e.target.value));
-            setShowRack(filteredKeys)
-            // console.log(filteredKeys)
+
+            updatedRowOptions[uniquePallet] = {
+                ...updatedRowOptions[uniquePallet],
+                store: StoreArr,
+                rack: filteredKeys
+            }
+
+            setShowRack(filteredKeys);
         }
 
-        // let finalArr = getLoctionPallet?.response?.map(obj =>
-        //     Object.keys(obj[e.target.value]).map(key => key)
-        // );
+        setShowRacks(updatedRowOptions)
+    };
 
-        // console.log(finalArr)
+    const rackSelectHandler = (e, currentIndex, locationData, loctionIndex) => {
 
+        let uniquePallet;
+
+        const currentObject = locationData.location[currentIndex];
+
+        for (const key in currentObject) {
+            if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
+                uniquePallet = key
+                currentObject[key][0].rack = e.target.value
+            }
+        }
+
+        const selectedPrefix = e.target.value;
+        const locationDetails = getLoctionPallet?.locationDetails;
+
+        if (locationDetails) {
+            const finalData = Object.keys(locationDetails)
+                .filter(key => key.startsWith(selectedPrefix))
+                .map(key => ({
+                    loc: key,
+                    status: locationDetails[key].status
+                }));
+
+            const updatedRowOptions = [...showRacks];
+
+            updatedRowOptions[uniquePallet] = {
+                ...updatedRowOptions[uniquePallet],
+                rack: showRack,
+                location: finalData
+            }
+
+            setShowRacks(updatedRowOptions)
+        }
     }
 
+    const locSelectHandler = (e, currentIndex, locationData, loctionIndex, name) => {
+        const currentObject = locationData.location[currentIndex];
+
+        for (const key in currentObject) {
+            if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
+                currentObject[key][0][name] = e.target.value
+            }
+        }
+    }
+
+    const handleInputChange = (e, currentIndex, locationData, loctionIndex) => {
+        const value = parseInt(e.target.value, 10);
+
+        const updatedRowOptions = [...showRacks];
+
+        let uniquePallet;
+        const currentObject = locationData.location[currentIndex];
+
+        for (const key in currentObject) {
+            uniquePallet = key
+            if (Object.hasOwnProperty.call(currentObject, key)) {
+                currentObject[key][0].noOfLoc = value > 0 ? Math.min(value, 10) : 1
+            }
+        }
+
+
+        updatedRowOptions[uniquePallet] = {
+            ...updatedRowOptions[uniquePallet],
+            noOfLoc: value > 0 ? Math.min(value, 10) : 1,
+        };
+
+        setShowRacks(updatedRowOptions)
+    };
+
+    const submitStockInHandler = () => {
+        const transformedFinalData = transformFinalData(selectedAvailLocations);
+
+        const finalData = {
+            ...transformedFinalData,
+            receivingDate: stockInDetail.recievingDate,
+            order: stockInDetail.orderNo.value,
+            shipmentNumber: stockInDetail.transactionalNo,
+            truckNumber: stockInDetail.vehicleNo,
+            businessTypes: businessTypeId,
+            warehouse: warehouseId,
+            customer: customerId,
+            // stockDocument: file,
+            user: login.email,
+            email: login.email,
+            token: login.token
+        }
+
+        let d = JSON.stringify(finalData)
+
+        dispatch(createStockIn(d))
+
+        console.log(finalData)
+    }
+
+    const transformFinalData = (finalData) => {
+        const { data, location } = finalData[0];
+
+        let selectedItems = [data.id.toString()];
+        let selectedItemsType = { [data.id.toString()]: data.type, length: 0 };
+
+        let selectedSerialNos = { [data.id.toString()]: {} };
+        for (let key in data.palletData) {
+            selectedSerialNos[data.id.toString()][key] = data.palletData[key].map(item => item.boxId);
+        }
+        // console.log(selectedSerialNos);
+
+        let stockInItemStatus = {};
+        for (let key in data.palletData) {
+            data.palletData[key].forEach(item => {
+                stockInItemStatus[item.boxId] = item.status;
+            });
+        }
+        // console.log(stockInItemStatus);
+
+        let storage = {};
+        location.forEach((entry) => {
+            for (let key in entry) {
+                if (key !== 'pallet') {
+                    entry[key].forEach((item, index) => {
+                        const locationKey = `1location${key}`;
+                        const locationQtyKey = `locationQty${key}`;
+                        const rackKey = `rack${key}`;
+                        const storeKey = `store${key}`;
+
+                        storage[locationKey] = item.location1;
+                        storage[locationQtyKey] = (index + 1).toString();
+                        storage[rackKey] = item.rack;
+                        storage[storeKey] = item.store;
+                    });
+                }
+            }
+        });
+        // console.log(storage);
+
+        let selectedPallotsStockIn = {};
+        location.forEach((entry) => {
+            const palletKey = entry.pallet;
+            for (let key in entry) {
+                if (key !== 'pallet' && Object.hasOwnProperty.call(entry, key)) {
+                    selectedPallotsStockIn[palletKey] = key;
+                }
+            }
+        });
+        // console.log(selectedPalletsStockIn)
+
+        // console.log(data)
+        // console.log(location)
+
+        return {
+            selectedItems,
+            selectedItemsType,
+            selectedPallotsStockIn,
+            selectedSerialNos,
+            stockInItemStatus,
+            storage
+        };
+    };
+
+    const removePalletHandler = (data, index) => {
+        const afterDeleteData = showSterilizeData.filter((s) => s.id !== data.id)
+        const afterPalletData = assignPallet.filter((s) => s.id !== data.id)
+        const afterLocData = selectedAvailLocations.filter((s) => s.data.id !== data.id)
+        setShowSterilizeData(afterDeleteData)
+        setAssignPallet(afterPalletData)
+        setSelectedAvailLocations(afterLocData)
+
+        // console.log(data)
+        // console.log(selectedAvailLocations)
+    }
+
+    const modal2 = <Modal centered show={stockInShow} onHide={() => navigate('/')} className='success' style={{ backgroundColor: '#00000040' }}>
+        <Modal.Body>
+            <MdClose className='close_btn' onClick={() => navigate('/')} />
+
+            <div>
+                <img src='/images/correct_icon.png' alt='' />
+                <h2>Stock In Created!</h2>
+                <p>Transtional ID is <span>{stockInSgi}</span></p>
+            </div>
+        </Modal.Body>
+    </Modal >
+
+    let count = 0
+    let count2 = 0
     return (
         <div>
             {modal}
+            {modal2}
             <Breadcrumbs list={["Dashboard", "Stock In"]} />
 
             <div className='material_main' style={{ padding: "25px 0" }}>
@@ -323,24 +675,39 @@ const ShipmentStock = () => {
                 <Row style={{ padding: "0 20px" }} className='mt-2 align-items-center'>
                     <Col md={5} className='mt-2'>
                         <label className='react_select_label'>Order <span>*</span></label>
-                        <Select options={options} placeholder="Select" styles={materialColorStyles} />
+                        <Select options={options} value={stockInDetail.orderNo} onChange={(d) => setStockInDetail({
+                            ...stockInDetail,
+                            orderNo: d
+                        })} placeholder="Select" styles={materialColorStyles} />
                     </Col>
                     <Col md={5} className='mt-2 input_field'>
                         <label> Transactional Number <span>*</span> </label>
                         <input placeholder={"Enter PO/Invoice/Lot/Shipment No"}
                             type={'text'}
+                            value={stockInDetail.transactionalNo} onChange={(e) => setStockInDetail({
+                                ...stockInDetail,
+                                transactionalNo: e.target.value
+                            })}
                         />
                     </Col>
                     <Col md={5} className='mt-2 input_field'>
                         <label> Vehicle Number <span>*</span> </label>
                         <input placeholder={"Enter Vehicle Number"}
                             type={'text'}
+                            value={stockInDetail.vehicleNo} onChange={(e) => setStockInDetail({
+                                ...stockInDetail,
+                                vehicleNo: e.target.value
+                            })}
                         />
                     </Col>
                     <Col md={5} className='mt-2 input_field'>
                         <label> Receiving Date <span>*</span> </label>
                         <input placeholder={"Enter Vehicle Number"}
                             type={'Date'}
+                            value={stockInDetail.recievingDate} onChange={(e) => setStockInDetail({
+                                ...stockInDetail,
+                                recievingDate: e.target.value
+                            })}
                         />
                     </Col>
                     <Col md={5} className='mt-2'>
@@ -367,7 +734,7 @@ const ShipmentStock = () => {
 
                             <Row className='my-2 mx-2 align-items-center'>
                                 <Col md={8}>
-                                    <Select options={partNoOtion} onChange={searchPartHandler} placeholder="Search Part No/Noms/NSN" styles={partColorStyles} className='react_select_inhouse stock' />
+                                    <Select options={partNoOtion} onChange={searchPartHandler} value={selectedBusiness} placeholder="Search Part No/Noms/NSN" styles={partColorStyles} className='react_select_inhouse stock' />
                                 </Col>
                                 <Col md={4}>
                                     <p className='serialization_para'>
@@ -396,14 +763,14 @@ const ShipmentStock = () => {
                                             {
                                                 showSterilizeData?.map((s, i) => {
                                                     return (
-                                                        <tr>
+                                                        <tr key={i}>
                                                             <td>{i + 1}</td>
                                                             <td>{s.partNo}</td>
                                                             <td>{s.nomenclature}</td>
                                                             <td>{s.nsn}</td>
-                                                            <td> {serialLoading ? <Loader /> : <input type='file' types={["xlsx"]} className='sterilize' onChange={(e) => fileHandler(e, i)} />} </td>
+                                                            <td key={`fileInput-${i}`}> {serialLoading ? <Loader /> : s.partName ? <span>{s.partName}</span> : <input type='file' types={["xlsx"]} className='sterilize' onChange={(e) => fileHandler(e, s, i)} />} </td>
                                                             <td>{s?.qty ? s.qty : 0}</td>
-                                                            <td> <MdClose className='remove_icon' /> </td>
+                                                            <td> <MdClose className='remove_icon' onClick={() => removePalletHandler(s, i)} /> </td>
                                                         </tr>
                                                     )
                                                 })
@@ -432,17 +799,17 @@ const ShipmentStock = () => {
                                             {
                                                 assignPallet?.map((data, index) => {
                                                     return (
-                                                        <React.Fragment key={index}>
+                                                        <React.Fragment key={`assignPallet-${index}`}>
                                                             {Object.keys(data.palletData || {}).map((palletNo, i) => {
                                                                 return (
-                                                                    <tr key={i}>
-                                                                        <td>{i + 1}</td>
+                                                                    <tr key={`assignPalletRow-${i}`}>
+                                                                        <td>{count += 1}</td>
                                                                         <td>{data.partNo}</td>
                                                                         <td>{data.nomenclature}</td>
                                                                         <td>{palletNo}</td>
                                                                         <td>{data.palletData[palletNo].length}</td>
-                                                                        <td>
-                                                                            <select className='location_select' onChange={(e) => availLocHandler(e, data)}>
+                                                                        <td key={`locationSelect-${i}`}>
+                                                                            <select className='location_select' onChange={(e) => availLocHandler(e, data, index, i, palletNo)}>
                                                                                 <option value="">Select</option>
                                                                                 {
                                                                                     getAvailPallet?.response?.map((a) => {
@@ -482,49 +849,62 @@ const ShipmentStock = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                selectedAvailLocations?.map((l, i) => {
+                                                selectedAvailLocations && selectedAvailLocations?.map((l, i) => {
                                                     return (
-                                                        <React.Fragment>
+                                                        <React.Fragment key={`selectedAvailLocations-${i}`}>
                                                             {
-                                                                l?.location.map((loc) => {
+                                                                l?.location.map((loc, j) => {
+                                                                    const rowOption = showRacks[Object.keys(loc)[0]] || {};
+
                                                                     return (
-                                                                        <tr>
-                                                                            <td>{i + 1}</td>
+                                                                        <tr key={`locationRow-${j}`}>
+                                                                            <td>{count2 += 1}</td>
                                                                             <td>{Object.keys(loc)[0]}</td>
                                                                             <td style={{ width: "160px" }}>
                                                                                 <div className='input_field'>
-                                                                                    <input type='Number' value={noOfLoc} onChange={(e) => setNoOfLoc(e.target.value)} />
+                                                                                    <input type='Number' defaultValue={1} onChange={(e) => handleInputChange(e, j, l, i)} />
                                                                                 </div>
                                                                             </td>
                                                                             <td>
-                                                                                <select className='location_select' onChange={storeSelectHandler}>
+                                                                                <select className='location_select' onChange={(e) => storeSelectHandler(e, j, l, i)}>
                                                                                     <option value="">Select</option>
                                                                                     {
-                                                                                        StoreArr?.map((s) => {
-                                                                                            return <option value={s}>{s}</option>
-                                                                                        })
+                                                                                        rowOption?.store ? rowOption?.store?.map((s) => {
+                                                                                            return <option value={s} key={s}>{s}</option>
+                                                                                        }) :
+                                                                                            StoreArr?.map((s) => {
+                                                                                                return <option value={s} key={s}>{s}</option>
+                                                                                            })
                                                                                     }
                                                                                 </select>
                                                                             </td>
                                                                             <td>
-                                                                                <select className='location_select'>
+                                                                                <select className='location_select' onChange={(e) => rackSelectHandler(e, j, l, i)}>
                                                                                     <option value="">Select</option>
                                                                                     {
-                                                                                        showRack?.map((r) => {
-                                                                                            return(
-                                                                                                <option value={r}>{r}</option>
+                                                                                        rowOption?.rack?.map((r) => {
+                                                                                            return (
+                                                                                                <option value={r} key={r}>{r}</option>
                                                                                             )
                                                                                         })
                                                                                     }
                                                                                 </select>
                                                                             </td>
-                                                                            <td>
-                                                                                <select className='location_select'>
-                                                                                    <option value="10001212">W01AB</option>
-                                                                                    <option value="10001213">W01AC</option>
-                                                                                    <option value="10001214">W01AD</option>
-                                                                                    <option value="10001215">W01AE</option>
-                                                                                </select>
+                                                                            <td style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "8px 0" }}>
+                                                                                {Array.from({ length: rowOption?.noOfLoc ? rowOption.noOfLoc : 1 }).map((_, index) => (
+                                                                                    <select key={index} className='location_select' onChange={(e) => locSelectHandler(e, j, l, i, `location${index + 1}`)}>
+                                                                                        <option value="">Select</option>
+                                                                                        {
+                                                                                            rowOption?.location?.map((l) => {
+                                                                                                return (
+                                                                                                    <option value={l.loc} key={l.loc}
+                                                                                                        style={l.status === "faulty" ? { backgroundColor: "#ffabab" } :
+                                                                                                            { backgroundColor: "#95D6A4" }}>{l.loc}</option>
+                                                                                                )
+                                                                                            })
+                                                                                        }
+                                                                                    </select>
+                                                                                ))}
                                                                             </td>
                                                                         </tr>
                                                                     )
@@ -542,14 +922,14 @@ const ShipmentStock = () => {
 
                         <Row className='file_upload_handler'>
                             <Col md={12}>
-                                <FileUploader handleChange={handleChange} name="file"
-                                    types={["JPG", "PNG", "GIF"]} label="Attached Stock Document" />
+                                <FileUploader handleChange={(e) => setFile(e)} name="file"
+                                    types={["JPG", "PNG", "GIF", "PDF", "DOC", "DOCX"]} label="Attached Stock Document" />
                                 <img src='/images/stock_doc_icon.png' />
                             </Col>
                         </Row>
 
                         <div className='mx-3'>
-                            <button className='submit_btn' type='button'>Submit</button>
+                            <button className='submit_btn' type='button' onClick={submitStockInHandler}> {createLoading ? <Spinner animation='border' size='sm' /> : 'Submit'} </button>
                             <button className='back_btn' type='button' onClick={() => navigate(-1)}>Back</button>
                         </div>
                     </>

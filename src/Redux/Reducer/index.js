@@ -3,6 +3,7 @@ import { ChatOpenStatusReducer } from "./Chat";
 import {
     ConsigneePostReducer, DeliveryChallanGetReducer, ListMaterialPostReducer,
     PostDcDocumentReducer, RevertDocumentReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, changePalletMovementReducer,
+    createStockInReducer,
     createWarehouseCustomStoreReducer, createWarehousePalletsReducer,
     createWarehouseReducer, createWarehouseStageReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
     getAllWarehousesInhouseMovementReducer, getAvailLocationStockInReducer, getAvailPalletStockInReducer, getAvailStagesStockInReducer, getExistingSerialNoReducer, getGeneralEnquiryDetailReducer, getGeneralEnquiryReducer,
@@ -66,7 +67,9 @@ const rootReducer = combineReducers({
 
     getPalletStockIn: getAvailPalletStockInReducer,
     getLocationStockIn: getAvailLocationStockInReducer,
-    getStagesStockIn: getAvailStagesStockInReducer
+    getStagesStockIn: getAvailStagesStockInReducer,
+
+    postStockInApi: createStockInReducer
 })
 
 export default rootReducer;

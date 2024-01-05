@@ -1187,3 +1187,36 @@ export const getAvailStagesStockInReducer = (state = {}, action) => {
             return state
     }
 }
+
+export const createStockInReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "CREATE_STOCK_IN_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "CREATE_STOCK_IN_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                postStockIn: action.payload,
+                error: false
+            }
+        case "CREATE_STOCK_IN_FAILED":
+            return {
+                ...state,
+                loading: false,
+                postStockIn: null,
+                error: action.payload
+            }
+        case "CREATE_STOCK_IN_RESET":
+            return {
+                ...state,
+                loading: false,
+                postStockIn: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}

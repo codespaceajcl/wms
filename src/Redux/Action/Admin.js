@@ -939,3 +939,27 @@ export const getAvailStagesStockIn = (formData, id) => async (dispatch) => {
         });
     }
 };
+
+export const createStockIn = (formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "CREATE_STOCK_IN_REQUEST",
+        });
+
+        const { data } = await axios.post(`wms/stockIn`, formData);
+
+        dispatch({
+            type: "CREATE_STOCK_IN_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        dispatch({
+            type: "CREATE_STOCK_IN_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
