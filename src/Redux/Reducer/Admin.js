@@ -295,6 +295,270 @@ export const getWarehouseDetailReducer = (state = {}, action) => {
     }
 }
 
+export const getWarehouseStageItemReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "GET_WAREHOUSE_STAGE_ITEM_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "GET_WAREHOUSE_STAGE_ITEM_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                stageItemData: action.payload,
+                error: false
+            }
+        case "GET_WAREHOUSE_STAGE_ITEM_FAILED":
+            return {
+                ...state,
+                loading: false,
+                stageItemData: null,
+                error: action.payload
+            }
+        case "GET_WAREHOUSE_STAGE_ITEM_RESET":
+            return {
+                ...state,
+                loading: false,
+                stageItemData: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const getLocationReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "GET_LOCATION_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "GET_LOCATION_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                getLocationData: action.payload,
+                error: false
+            }
+        case "GET_LOCATION_FAILED":
+            return {
+                ...state,
+                loading: false,
+                getLocationData: null,
+                error: action.payload
+            }
+        case "GET_LOCATION_RESET":
+            return {
+                ...state,
+                loading: false,
+                getLocationData: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const createRackReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "CREATE_RACK_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "CREATE_RACK_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                getCustomRackData: action.payload,
+                error: false
+            }
+        case "CREATE_RACK_FAILED":
+            return {
+                ...state,
+                loading: false,
+                getCustomRackData: null,
+                error: action.payload
+            }
+        case "CREATE_RACK_RESET":
+            return {
+                ...state,
+                loading: false,
+                getCustomRackData: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const createFloorReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "CREATE_FLOOR_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "CREATE_FLOOR_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                getCustomFloorData: action.payload,
+                error: false
+            }
+        case "CREATE_FLOOR_FAILED":
+            return {
+                ...state,
+                loading: false,
+                getCustomFloorData: null,
+                error: action.payload
+            }
+        case "CREATE_FLOOR_RESET":
+            return {
+                ...state,
+                loading: false,
+                getCustomFloorData: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const createLocationReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "CREATE_LOCATION_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "CREATE_LOCATION_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                getCustomLocData: action.payload,
+                error: false
+            }
+        case "CREATE_LOCATION_FAILED":
+            return {
+                ...state,
+                loading: false,
+                getCustomLocData: null,
+                error: action.payload
+            }
+        case "CREATE_LOCATION_RESET":
+            return {
+                ...state,
+                loading: false,
+                getCustomLocData: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const palletLocationReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "PALLET_LOC_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "PALLET_LOC_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                palletDetailData: action.payload,
+                error: false
+            }
+        case "PALLET_LOC_FAILED":
+            return {
+                ...state,
+                loading: false,
+                palletDetailData: null,
+                error: action.payload
+            }
+        case "PALLET_LOC_RESET":
+            return {
+                ...state,
+                loading: false,
+                palletDetailData: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const palletStatusChangeReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "PALLET_STATUS_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "PALLET_STATUS_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                statusData: action.payload,
+                error: false
+            }
+        case "PALLET_STATUS_FAILED":
+            return {
+                ...state,
+                loading: false,
+                statusData: null,
+                error: action.payload
+            }
+        case "PALLET_STATUS_RESET":
+            return {
+                ...state,
+                loading: false,
+                statusData: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const editLocationTagReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "EDIT_LOCATION_TAG_REQUEST":
+            return {
+                loading: true,
+                error: false
+            }
+        case "EDIT_LOCATION_TAG_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                editLocData: action.payload,
+                error: false
+            }
+        case "EDIT_LOCATION_TAG_FAILED":
+            return {
+                ...state,
+                loading: false,
+                editLocData: null,
+                error: action.payload
+            }
+        case "EDIT_LOCATION_TAG_RESET":
+            return {
+                ...state,
+                loading: false,
+                editLocData: null,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
 export const createWarehousePalletsReducer = (state = {}, action) => {
     switch (action.type) {
         case "CREATE_WAREHOUSE_PALLETS_REQUEST":

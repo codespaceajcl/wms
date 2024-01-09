@@ -15,7 +15,7 @@ const MainLayout = ({ fullClickBtn, fullClickClose, handle }) => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  const shouldApplyOverflowHidden = pathname !== `/warehouse/details/${id}` && pathname !== '/warehouse/details/location' ? true : false;
+  const shouldApplyOverflowHidden = pathname !== `/warehouse/details/${id}` && pathname !== `/warehouse/details/location/${id}` ? true : false;
   useOverflowHidden(shouldApplyOverflowHidden);
 
 

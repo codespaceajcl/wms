@@ -10,7 +10,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { useDispatch, useSelector } from 'react-redux';
 import readXlsxFile from 'read-excel-file';
 import {
-    businessTypeWarehouse, bussinessTypeCustomer, generateSerialNo, getAvailLocationStockIn,
+    businessTypeWarehouse, bussinessTypeCustomer, createStockIn, generateSerialNo, getAvailLocationStockIn,
     getAvailPalletStockIn, getAvailStagesStockIn, getSerialNoExist
 } from '../../../../../Redux/Action/Admin';
 import { errorNotify } from '../../../../../Util/Toast';
@@ -21,6 +21,8 @@ const TransferredStock = () => {
     const dispatch = useDispatch();
     const [file, setFile] = useState(null);
     const [show, setShow] = useState(false)
+    const [stockInShow, setStockInShow] = useState(false)
+    const [stockInSgi, setStockInSgi] = useState('')
     const [serialNo, setSerialNo] = useState(0)
     const [businessTypeId, setBusinessTypeId] = useState('')
     const [customerId, setGetCustomerId] = useState('')
@@ -29,10 +31,8 @@ const TransferredStock = () => {
     const [showSterilizeData, setShowSterilizeData] = useState([])
     const [assignPallet, setAssignPallet] = useState([])
     const [selectedAvailLocations, setSelectedAvailLocations] = useState([]);
-    const [noOfLoc, setNoOfLoc] = useState(1)
     const [showRack, setShowRack] = useState([])
     const [showRacks, setShowRacks] = useState([])
-    // const [showLoc, setShowLoc] = useState([])
     const [selectedBusiness, setSelectedBusiness] = useState(null)
     const [stockInDetail, setStockInDetail] = useState({
         orderNo: '',
@@ -41,19 +41,23 @@ const TransferredStock = () => {
         recievingDate: new Date().toISOString().split('T')[0],
     })
 
-    const handleChange = (e) => {
-        setFile(e.target.files[0]);
-    };
-
     const { getBusinessWarehouses } = useSelector((state) => state.getBusinessWarehouseType)
     const { loading, getSerialization } = useSelector((state) => state.getSerialzationNumber)
     const { getBusinessCustomers } = useSelector((state) => state.getBusinessCustomerType)
     const { loading: serialLoading, getExistingSerial } = useSelector((state) => state.getExistingSerialNumber)
+    const { loading: createLoading, postStockIn } = useSelector((state) => state.postStockInApi)
 
     const { getAvailPallet } = useSelector((state) => state.getPalletStockIn)
     const { getLoctionPallet } = useSelector((state) => state.getLocationStockIn)
     const { getStagesPallet } = useSelector((state) => state.getStagesStockIn)
 
+    useEffect(() => {
+        if (postStockIn?.response === "success") {
+            setStockInShow(true)
+            setStockInSgi(postStockIn?.sgi)
+            dispatch({ type: "CREATE_STOCK_IN_RESET" })
+        }
+    }, [postStockIn])
 
     useEffect(() => {
         if (getExistingSerial) {
@@ -211,85 +215,146 @@ const TransferredStock = () => {
             const currentObject = showSterilizeData[i];
 
             readXlsxFile(e.target.files[0]).then((rows, indexs) => {
-                const getExistingSerialNo = getExistSerialNo
                 const palletData = {};
-                s["fileName"] = fileName
                 let findError = false;
                 let arrOfSameBoxId = [];
+                let emptyError = false
 
                 if (s?.type === 'UIM') {
                     if (rows[0]?.length === 3) {
-                        rows.slice(1).forEach((row, rowIndex) => {
 
+                        let fieldError = false
+                        rows[0]?.map((r) => {
+                            let mustFields = ["palletNo", "boxId", "status"]
+                            if (!mustFields.includes(r)) {
+                                fieldError = true
+                            }
+                        })
+
+                        if (fieldError) {
+                            errorNotify("Invalid File")
+                            e.target.value = '';
+                            return
+                        }
+
+                        rows.slice(1).forEach((row, rowIndex) => {
                             const palletNo = row[0];
                             const boxId = row[1].toString();
+                            const status = row[2];
 
-                            if (!getExistingSerialNo.includes(boxId)) {
-                                arrOfSameBoxId.push(boxId)
-                                findError = true
-                                return
+                            if (!palletNo || !boxId || !status) {
+                                e.target.value = ''
+                                emptyError = true;
+                                return;
                             }
+                            else {
+                                if (!getExistSerialNo.includes(boxId)) {
+                                    arrOfSameBoxId.push(boxId);
+                                    findError = true;
+                                    return;
+                                }
 
-                            if (!palletData[palletNo]) {
-                                palletData[palletNo] = [];
-                            }
+                                if (!palletData[palletNo]) {
+                                    palletData[palletNo] = [];
+                                }
 
-                            if (!palletData[palletNo].includes(boxId)) {
-                                setGetExistSerialNo((prevData) => [...prevData, boxId])
-                                palletData[palletNo].push(boxId);
-                                arrOfSameBoxId = []
+                                if (!palletData[palletNo].includes(boxId)) {
+                                    palletData[palletNo].push({
+                                        boxId,
+                                        status
+                                    });
+                                }
                             }
                         });
-                    }
-                    else {
-                        e.target.value = ''
-                        errorNotify("Invalid File Type")
-                        return
+
+                    } else {
+                        e.target.value = '';
+                        errorNotify("Invalid File Type");
+                        return;
                     }
                 }
                 else {
+
+                    let fieldError = false
+                    rows[0]?.map((r) => {
+                        let mustFields = ["serialNo", "status"]
+                        if (!mustFields.includes(r)) {
+                            fieldError = true
+                        }
+                    })
+
+                    if (fieldError) {
+                        errorNotify("Invalid File")
+                        e.target.value = '';
+                        return
+                    }
+
                     if (rows[0]?.length === 2) {
                         rows.slice(1).forEach((row, rowIndex) => {
-
                             const palletNo = row[0];
-                            const boxId = row[0].toString();
+                            const boxId = row[0] && row[0]?.toString();
+                            const status = row[1];
 
-                            if (!getExistingSerialNo.includes(boxId)) {
-                                arrOfSameBoxId.push(boxId)
-                                findError = true
-                                return
+                            if (!palletNo || !boxId || !status) {
+                                e.target.value = ''
+                                emptyError = true;
+                                return;
                             }
+                            else {
+                                if (!getExistSerialNo.includes(boxId)) {
+                                    arrOfSameBoxId.push(boxId);
+                                    findError = true;
+                                    return;
+                                }
 
-                            if (!palletData[palletNo]) {
-                                palletData[palletNo] = [];
-                            }
+                                if (!palletData[palletNo]) {
+                                    palletData[palletNo] = [];
+                                }
 
-                            if (!palletData[palletNo].includes(boxId)) {
-                                setGetExistSerialNo((prevData) => [...prevData, boxId])
-                                palletData[palletNo].push(boxId);
-                                arrOfSameBoxId = []
+                                if (!palletData[palletNo].includes(boxId)) {
+                                    palletData[palletNo].push({
+                                        boxId,
+                                        status
+                                    });
+                                }
                             }
                         });
-                    }
-                    else {
-                        e.target.value = ''
-                        errorNotify("Invalid File Type")
-                        return
+                    } else {
+                        e.target.value = '';
+                        errorNotify("Invalid File Type");
+                        return;
                     }
                 }
 
-                if (findError) {
-                    errorNotify("Following are the different boxId found -- " + arrOfSameBoxId.join(', '))
-                    e.target.value = ''
-                    return
+                if (emptyError) {
+                    errorNotify("Invalid File!")
+                    return;
+                }
+
+                if (!findError) {
+                    const uniqueBoxIds = Array.from(new Set(Object.values(palletData).flatMap(items => items.map(item => item.boxId))));
+                    setGetExistSerialNo((prevData) => [...prevData, ...uniqueBoxIds]);
+
+                    const updatedShowSterilizeData = [...showSterilizeData];
+                    updatedShowSterilizeData[i] = {
+                        ...currentObject,
+                        fileName: fileName,
+                        qty: Object.keys(palletData).length,
+                        palletData: palletData
+                    };
+                    setShowSterilizeData(updatedShowSterilizeData);
+
+                } else {
+                    errorNotify("Following are the same boxId found -- " + arrOfSameBoxId.join(', '));
+                    e.target.value = '';
+                    return;
                 }
 
                 currentObject.qty = Object.keys(palletData).length;
                 currentObject.palletData = palletData;
 
                 setAssignPallet((prevData) => [...prevData, { ...showSterilizeData[i], ...currentObject }]);
-                // setAssignPallet((prevData) => [...prevData, showSterilizeData[i]])
-            })
+            });
         }
     }
 
@@ -300,7 +365,8 @@ const TransferredStock = () => {
         setSelectedBusiness(null)
     }
 
-    const availLocHandler = (e, data, assignPalletIndex, locationIndex) => {
+    const availLocHandler = (e, data, assignPalletIndex, locationIndex, palletNo) => {
+
         setSelectedAvailLocations((prevData) => {
 
             const newData = [...prevData];
@@ -317,14 +383,16 @@ const TransferredStock = () => {
                                 rack: "",
                                 location: "",
                             }
-                        ]
+                        ],
+                        pallet: palletNo
                     });
                 } else {
-                    existingLocation[existingLocationIndex][e.target.value][0] = {
-                        store: "",
-                        rack: "",
-                        location: "",
-                    };
+                    e.target.value = ''
+                    // existingLocation[existingLocationIndex][e.target.value][0] = {
+                    //     store: "",
+                    //     rack: "",
+                    //     location: "",
+                    // };
                 }
             }
             else {
@@ -337,7 +405,8 @@ const TransferredStock = () => {
                                 rack: "",
                                 location: "",
                             }
-                        ]
+                        ],
+                        pallet: palletNo
                     }],
                     data: data
                 };
@@ -358,9 +427,9 @@ const TransferredStock = () => {
         const currentObject = locationData.location[currentIndex];
 
         for (const key in currentObject) {
-            uniquePallet = key
-            if (Object.hasOwnProperty.call(currentObject, key)) {
-                currentObject[key][0].store = e.target.value
+            if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
+                uniquePallet = key;
+                currentObject[key][0].store = e.target.value;
             }
         }
 
@@ -378,6 +447,14 @@ const TransferredStock = () => {
 
             setShowRack(filteredKeys);
         }
+        else {
+            updatedRowOptions[uniquePallet] = {
+                ...updatedRowOptions[uniquePallet],
+                store: StoreArr,
+                rack: [],
+                location: []
+            }
+        }
 
         setShowRacks(updatedRowOptions)
     };
@@ -389,8 +466,8 @@ const TransferredStock = () => {
         const currentObject = locationData.location[currentIndex];
 
         for (const key in currentObject) {
-            uniquePallet = key
-            if (Object.hasOwnProperty.call(currentObject, key)) {
+            if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
+                uniquePallet = key
                 currentObject[key][0].rack = e.target.value
             }
         }
@@ -414,17 +491,17 @@ const TransferredStock = () => {
                 location: finalData
             }
 
-            // setShowLoc(finalData);
             setShowRacks(updatedRowOptions)
         }
     }
 
-    const locSelectHandler = (e, currentIndex, locationData, loctionIndex, name) => {
+    const locSelectHandler = (e, currentIndex, locationData, loctionIndex, name, noOfLoc) => {
         const currentObject = locationData.location[currentIndex];
 
         for (const key in currentObject) {
-            if (Object.hasOwnProperty.call(currentObject, key)) {
-                currentObject[key][0][name] = e.target.value
+            if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
+                currentObject[key][0][name] = e.target.value,
+                    !noOfLoc && (currentObject[key][0].noOfLoc = 1)
             }
         }
     }
@@ -438,32 +515,161 @@ const TransferredStock = () => {
         const currentObject = locationData.location[currentIndex];
 
         for (const key in currentObject) {
-            uniquePallet = key
-            if (Object.hasOwnProperty.call(currentObject, key)) {
+            if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
+                uniquePallet = key
                 currentObject[key][0].noOfLoc = value > 0 ? Math.min(value, 10) : 1
             }
         }
-
 
         updatedRowOptions[uniquePallet] = {
             ...updatedRowOptions[uniquePallet],
             noOfLoc: value > 0 ? Math.min(value, 10) : 1,
         };
 
-        setNoOfLoc(value > 0 ? Math.min(value, 10) : 1);
         setShowRacks(updatedRowOptions)
     };
 
     const submitStockInHandler = () => {
-        console.log(selectedAvailLocations)
-        console.log(businessTypeId)
-        console.log(customerId)
-        console.log(warehouseId)
+        const transformedFinalData = transformFinalData(selectedAvailLocations);
+
+        const finalData = {
+            ...transformedFinalData,
+            receivingDate: stockInDetail.recievingDate,
+            order: stockInDetail.orderNo.value,
+            shipmentNumber: stockInDetail.transactionalNo,
+            truckNumber: stockInDetail.vehicleNo,
+            businessTypes: businessTypeId,
+            warehouse: warehouseId,
+            customer: customerId,
+            // stockDocument: file,
+            user: login.email,
+            email: login.email,
+            token: login.token
+        }
+
+        if (!finalData.order || finalData.truckNumber.length === 0 || finalData.shipmentNumber.length === 0 ||
+            finalData.selectedItems?.length === 0 || Object.keys(finalData.stockInItemStatus).length === 0 ||
+            Object.keys(finalData.selectedItemsType).length === 0 || Object.keys(finalData.selectedPallotsStockIn).length === 0
+            || Object.keys(finalData.selectedSerialNos).length === 0 || Object.keys(finalData.stockInItemStatus).length === 0
+            || Object.keys(finalData.storage).length === 0) {
+            errorNotify("Please filled up all fields")
+            return;
+        }
+
+        let d = JSON.stringify(finalData)
+        dispatch(createStockIn(d))
+
     }
 
+    const transformFinalData = (finalData) => {
+
+        let selectedItems = [];
+        let selectedItemsType = {};
+        let selectedSerialNos = {};
+        let stockInItemStatus = {};
+        let selectedPallotsStockIn = {};
+        let storage = {}
+
+        finalData?.map((indData, indexNum) => {
+            const { data, location } = indData;
+
+            selectedItems.push(data.id.toString())
+            selectedItemsType[data.id.toString()] = data.type;
+
+            selectedSerialNos[data.id.toString()] = {};
+
+            for (let key in data.palletData) {
+                const palletId = key;
+                selectedSerialNos[data.id.toString()][palletId] = data.palletData[key].map(item => item.boxId);
+            }
+
+            // selectedSerialNos[data.id.toString()] = [];
+
+            // for (let key in data.palletData) {
+            //     selectedSerialNos[data.id.toString()].push(...data.palletData[key].map(item => item.boxId));
+            // }
+
+            // console.log(selectedSerialNos, "SELECTED")
+
+            for (let key in data.palletData) {
+                data.palletData[key].forEach(item => {
+                    stockInItemStatus[item.boxId] = item.status;
+                });
+            }
+
+            location.forEach((entry) => {
+                const palletKey = entry.pallet;
+                for (let key in entry) {
+                    if (key !== 'pallet' && Object.hasOwnProperty.call(entry, key)) {
+                        selectedPallotsStockIn[palletKey] = key;
+                    }
+                }
+            });
+
+            location.forEach((entry) => {
+                for (let key in entry) {
+                    if (key !== 'pallet') {
+                        entry[key].forEach((item, index) => {
+                            const locationQtyKey = `locationQty${key}`;
+                            const rackKey = `rack${key}`;
+                            const storeKey = `store${key}`;
+
+                            if (item.noOfLoc) {
+                                for (let i = 1; i <= item.noOfLoc; i++) {
+                                    const locationKey = `${i}location${key}`;
+                                    item[`${i}location`] && (storage[locationKey] = item[`${i}location`]);
+                                }
+                            }
+
+                            item.noOfLoc && (storage[locationQtyKey] = item.noOfLoc.toString())
+                            item.rack.length > 0 && (storage[rackKey] = item.rack)
+                            storage[storeKey] = item.store;
+                        });
+                    }
+                }
+            });
+        })
+
+        selectedItemsType.length = 0;
+
+        return {
+            selectedItems,
+            selectedItemsType,
+            selectedPallotsStockIn,
+            selectedSerialNos,
+            stockInItemStatus,
+            storage
+        };
+    };
+
+    const removePalletHandler = (data, index) => {
+        const afterDeleteData = showSterilizeData.filter((s) => s.id !== data.id)
+        const afterPalletData = assignPallet.filter((s) => s.id !== data.id)
+        const afterLocData = selectedAvailLocations.filter((s) => s.data.id !== data.id)
+        setShowSterilizeData(afterDeleteData)
+        setAssignPallet(afterPalletData)
+        setSelectedAvailLocations(afterLocData)
+
+    }
+
+    const modal2 = <Modal centered show={stockInShow} onHide={() => navigate('/')} className='success' style={{ backgroundColor: '#00000040' }}>
+        <Modal.Body>
+            <MdClose className='close_btn' onClick={() => navigate('/')} />
+
+            <div>
+                <img src='/images/correct_icon.png' alt='' />
+                <h2>Stock In Created!</h2>
+                <p>Transtional ID is <span>{stockInSgi}</span></p>
+            </div>
+        </Modal.Body>
+    </Modal >
+
+    let count = 0
+    let count2 = 0
     return (
         <div>
             {modal}
+            {modal2}
             <Breadcrumbs list={["Dashboard", "Stock In"]} />
 
             <div className='material_main' style={{ padding: "25px 0" }}>
@@ -568,9 +774,9 @@ const TransferredStock = () => {
                                                             <td>{s.partNo}</td>
                                                             <td>{s.nomenclature}</td>
                                                             <td>{s.nsn}</td>
-                                                            <td key={`fileInput-${i}`}> {serialLoading ? <Loader /> : s.partName ? <span>{s.partName}</span> : <input type='file' types={["xlsx"]} className='sterilize' onChange={(e) => fileHandler(e, s, i)} />} </td>
+                                                            <td key={`fileInput-${i}`}> {serialLoading ? <Loader /> : s.fileName ? <span style={{ color: "#0d6efd", fontWeight: "500" }}>{s.fileName}</span> : <input type='file' types={["xlsx"]} className='sterilize' onChange={(e) => fileHandler(e, s, i)} />} </td>
                                                             <td>{s?.qty ? s.qty : 0}</td>
-                                                            <td> <MdClose className='remove_icon' /> </td>
+                                                            <td> <MdClose className='remove_icon' onClick={() => removePalletHandler(s, i)} /> </td>
                                                         </tr>
                                                     )
                                                 })
@@ -603,13 +809,13 @@ const TransferredStock = () => {
                                                             {Object.keys(data.palletData || {}).map((palletNo, i) => {
                                                                 return (
                                                                     <tr key={`assignPalletRow-${i}`}>
-                                                                        <td>{i + 1}</td>
+                                                                        <td>{count += 1}</td>
                                                                         <td>{data.partNo}</td>
                                                                         <td>{data.nomenclature}</td>
                                                                         <td>{palletNo}</td>
                                                                         <td>{data.palletData[palletNo].length}</td>
                                                                         <td key={`locationSelect-${i}`}>
-                                                                            <select className='location_select' onChange={(e) => availLocHandler(e, data, index, i)}>
+                                                                            <select className='location_select' onChange={(e) => availLocHandler(e, data, index, i, palletNo)}>
                                                                                 <option value="">Select</option>
                                                                                 {
                                                                                     getAvailPallet?.response?.map((a) => {
@@ -650,24 +856,22 @@ const TransferredStock = () => {
                                         <tbody>
                                             {
                                                 selectedAvailLocations && selectedAvailLocations?.map((l, i) => {
-
                                                     return (
                                                         <React.Fragment key={`selectedAvailLocations-${i}`}>
                                                             {
                                                                 l?.location.map((loc, j) => {
                                                                     const rowOption = showRacks[Object.keys(loc)[0]] || {};
-                                                                    console.log(rowOption)
 
                                                                     return (
                                                                         <tr key={`locationRow-${j}`}>
-                                                                            <td>{i + 1}</td>
+                                                                            <td>{count2 += 1}</td>
                                                                             <td>{Object.keys(loc)[0]}</td>
                                                                             <td style={{ width: "160px" }}>
                                                                                 <div className='input_field'>
                                                                                     <input type='Number' defaultValue={1} onChange={(e) => handleInputChange(e, j, l, i)} />
                                                                                 </div>
                                                                             </td>
-                                                                            <td>
+                                                                            <td style={{ width: "230px" }}>
                                                                                 <select className='location_select' onChange={(e) => storeSelectHandler(e, j, l, i)}>
                                                                                     <option value="">Select</option>
                                                                                     {
@@ -680,8 +884,8 @@ const TransferredStock = () => {
                                                                                     }
                                                                                 </select>
                                                                             </td>
-                                                                            <td>
-                                                                                <select className='location_select' onChange={(e) => rackSelectHandler(e, j, l, i)}>
+                                                                            <td style={{ width: "230px" }}>
+                                                                                <select disabled={rowOption?.rack?.length > 0 ? false : true} className='location_select' onChange={(e) => rackSelectHandler(e, j, l, i)}>
                                                                                     <option value="">Select</option>
                                                                                     {
                                                                                         rowOption?.rack?.map((r) => {
@@ -692,16 +896,17 @@ const TransferredStock = () => {
                                                                                     }
                                                                                 </select>
                                                                             </td>
-                                                                            <td style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "8px 0" }}>
+                                                                            <td style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "8px 0", width: "230px" }}>
                                                                                 {Array.from({ length: rowOption?.noOfLoc ? rowOption.noOfLoc : 1 }).map((_, index) => (
-                                                                                    <select key={index} className='location_select' onChange={(e) => locSelectHandler(e, j, l, i, `location${index}`)}>
+                                                                                    <select disabled={rowOption?.rack?.length > 0 ? false : true} key={index} className='location_select' onChange={(e) => locSelectHandler(e, j, l, i, `${index + 1}location`, rowOption.noOfLoc)}>
                                                                                         <option value="">Select</option>
                                                                                         {
                                                                                             rowOption?.location?.map((l) => {
                                                                                                 return (
                                                                                                     <option value={l.loc} key={l.loc}
                                                                                                         style={l.status === "faulty" ? { backgroundColor: "#ffabab" } :
-                                                                                                            { backgroundColor: "#95D6A4" }}>{l.loc}</option>
+                                                                                                            l.status === "filled" ? { backgroundColor: "aqua" } :
+                                                                                                                { backgroundColor: "#95D6A4" }}>{l.loc}</option>
                                                                                                 )
                                                                                             })
                                                                                         }
@@ -724,14 +929,14 @@ const TransferredStock = () => {
 
                         <Row className='file_upload_handler'>
                             <Col md={12}>
-                                <FileUploader handleChange={handleChange} name="file"
-                                    types={["JPG", "PNG", "GIF"]} label="Attached Stock Document" />
+                                <FileUploader handleChange={(e) => setFile(e)} name="file"
+                                    types={["PDF", "DOC", "DOCX"]} label="Attached Stock Document" />
                                 <img src='/images/stock_doc_icon.png' />
                             </Col>
                         </Row>
 
                         <div className='mx-3'>
-                            <button className='submit_btn' type='button' onClick={submitStockInHandler}>Submit</button>
+                            <button className='submit_btn' type='button' onClick={submitStockInHandler}> {createLoading ? <Spinner animation='border' size='sm' /> : 'Submit'} </button>
                             <button className='back_btn' type='button' onClick={() => navigate(-1)}>Back</button>
                         </div>
                     </>
@@ -740,5 +945,4 @@ const TransferredStock = () => {
         </div>
     )
 }
-
 export default TransferredStock

@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './WarehouseDetail.css';
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { BsArrowLeft } from "react-icons/bs";
-import { Col, Container, Modal, Row, Spinner } from 'react-bootstrap';
+import { Col, Container, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useState } from 'react';
 import { login, materialColorStyles } from "../../../../Util/Helper";
 import Select from 'react-select'
 import {
   createWarehouseCustomStore, createWarehousePallet,
-  createWarehouseStages, getWarehouseDetail
+  createWarehouseStages, getWarehouseDetail, getWarehouseStageItem
 } from '../../../../Redux/Action/Admin';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../../Util/Loader';
@@ -25,11 +24,14 @@ const WarehouseDetail = () => {
   const [AddPallet, setAddPallet] = useState(false)
   const [pallets, setPallets] = useState(null)
   const [noOfStages, setNoOfStages] = useState(null)
+  const [stageData, setStageData] = useState({})
+  const [stageShow, setStageShow] = useState(false)
 
   const { loading, getWarehouseDetailsData } = useSelector((state) => state.postWarehouseDetail)
   const { loading: palletLoading, createWarehousePalletsData } = useSelector((state) => state.postWarehousePalletsData)
   const { loading: stagesLoading, createWarehouseStagesData } = useSelector((state) => state.postWarehouseStagesData)
   const { loading: storeLoading, createWarehouseCustomStoreData } = useSelector((state) => state.postWarehouseCustomStoreData)
+  const { loading: stageItemLoading, stageItemData } = useSelector((state) => state.getWarehouseStageItem)
 
   useEffect(() => {
     if (createWarehousePalletsData?.response === 'success') {
@@ -210,6 +212,17 @@ const WarehouseDetail = () => {
 
   }
 
+  const stageModalHandler = (s) => {
+    setStageData(s)
+
+    const formData = new FormData();
+    formData.append("email", login.email)
+    formData.append("token", login.token)
+
+    dispatch(getWarehouseStageItem(s.id, id, formData))
+    setStageShow(true)
+  }
+
   const storeModal = (
     <Modal show={AddStore}
       centered onHide={() => setAddStore(!AddStore)} size='lg' className='warehouse_add'>
@@ -347,11 +360,59 @@ const WarehouseDetail = () => {
     </Modal>
   )
 
+  const stageTableModal = (
+    <Modal show={stageShow}
+      centered onHide={() => setStageShow(!stageShow)} size='lg' className='pallet_modal_main stage_table'>
+      <Modal.Body>
+        <div className='store_head'>
+          {stageData?.warehouse} | {stageData?.sgi}
+        </div>
+        <div className='text-end'>
+          <AiOutlineClose onClick={() => setStageShow(!stageShow)} style={{ cursor: "pointer" }} />
+        </div>
+
+        <div className='stage_item_table'>
+          <Table responsive={stageItemData?.response?.length > 0 ? true : false}>
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Serial No</th>
+                <th>Part No</th>
+                <th>Pallet No</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stageItemData?.response?.map((s, i) => {
+                return (
+                  <tr>
+                    <td>{i + 1}</td>
+                    <td>{s.serialNo}</td>
+                    <td>{s.partNo}</td>
+                    <td>{s.businessType}</td>
+                    <td>{s.status}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
+          {
+            stageItemLoading && <Loader />
+          }
+          {
+            stageItemData?.response?.length === 0 && <p style={{ textAlign: "center" }}>No Data found</p>
+          }
+        </div>
+      </Modal.Body>
+    </Modal>
+  )
+
   return (
     <div className='warehouse_detail_main'>
       {storeModal}
       {stageModal}
       {palletModal}
+      {stageTableModal}
 
       {
         loading ? <Loader color="#fff" /> :
@@ -378,7 +439,7 @@ const WarehouseDetail = () => {
                     getWarehouseDetailsData?.getStore?.response?.map((store) => {
                       return (
                         <Col md={6} sm={6}>
-                          <div className='warehouse_detail_boxes' onClick={() => navigate('/warehouse/details/location')}>
+                          <div className='warehouse_detail_boxes' onClick={() => navigate(`/warehouse/details/location/${store.id}`, { state: { warehouseId: id } })}>
                             {
                               store?.storageType === "ambient" ?
                                 <img src='/images/ambient_icon.png' alt='' /> :
@@ -397,7 +458,7 @@ const WarehouseDetail = () => {
                     getWarehouseDetailsData?.getStages?.response?.map((stage) => {
                       return (
                         <Col md={6} sm={6}>
-                          <div className='warehouse_detail_boxes' onClick={() => navigate('/warehouse/details/location')}>
+                          <div className='warehouse_detail_boxes' onClick={() => stageModalHandler(stage)}>
                             <img src='/images/stage_icon.png' alt='' />
                             <h6>Stage</h6>
                             <div>
@@ -422,9 +483,7 @@ const WarehouseDetail = () => {
             </Row>
           </Container>
       }
-
     </div>
   )
 }
-
-export default WarehouseDetail
+export default WarehouseDetail;

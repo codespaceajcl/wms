@@ -127,7 +127,7 @@ export const warehouseRoutes = [
     component: <WarehouseDetail />,
   },
   {
-    path: "/warehouse/details/location",
+    path: "/warehouse/details/location/:id",
     component: <LocationDetail />,
   },
 ]

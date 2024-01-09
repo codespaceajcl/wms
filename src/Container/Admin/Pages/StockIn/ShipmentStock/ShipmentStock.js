@@ -218,58 +218,105 @@ const ShipmentStock = () => {
                 const palletData = {};
                 let findError = false;
                 let arrOfSameBoxId = [];
+                let emptyError = false
 
                 if (s?.type === 'UIM') {
                     if (rows[0]?.length === 3) {
+
+                        let fieldError = false
+                        rows[0]?.map((r) => {
+                            let mustFields = ["palletNo", "boxId", "status"]
+                            if (!mustFields.includes(r)) {
+                                fieldError = true
+                            }
+                        })
+
+                        if (fieldError) {
+                            errorNotify("Invalid File")
+                            e.target.value = '';
+                            return
+                        }
+
                         rows.slice(1).forEach((row, rowIndex) => {
                             const palletNo = row[0];
                             const boxId = row[1].toString();
                             const status = row[2];
 
-                            if (getExistSerialNo.includes(boxId)) {
-                                arrOfSameBoxId.push(boxId);
-                                findError = true;
+                            if (!palletNo || !boxId || !status) {
+                                e.target.value = ''
+                                emptyError = true;
                                 return;
                             }
+                            else {
+                                if (getExistSerialNo.includes(boxId)) {
+                                    arrOfSameBoxId.push(boxId);
+                                    findError = true;
+                                    return;
+                                }
 
-                            if (!palletData[palletNo]) {
-                                palletData[palletNo] = [];
-                            }
+                                if (!palletData[palletNo]) {
+                                    palletData[palletNo] = [];
+                                }
 
-                            if (!palletData[palletNo].includes(boxId)) {
-                                palletData[palletNo].push({
-                                    boxId,
-                                    status
-                                });
+                                if (!palletData[palletNo].includes(boxId)) {
+                                    palletData[palletNo].push({
+                                        boxId,
+                                        status
+                                    });
+                                }
                             }
                         });
+
                     } else {
                         e.target.value = '';
                         errorNotify("Invalid File Type");
                         return;
                     }
-                } else {
+                }
+                else {
+
+                    let fieldError = false
+                    rows[0]?.map((r) => {
+                        let mustFields = ["serialNo", "status"]
+                        if (!mustFields.includes(r)) {
+                            fieldError = true
+                        }
+                    })
+
+                    if (fieldError) {
+                        errorNotify("Invalid File")
+                        e.target.value = '';
+                        return
+                    }
+
                     if (rows[0]?.length === 2) {
                         rows.slice(1).forEach((row, rowIndex) => {
                             const palletNo = row[0];
-                            const boxId = row[0].toString();
+                            const boxId = row[0] && row[0]?.toString();
                             const status = row[1];
 
-                            if (getExistSerialNo.includes(boxId)) {
-                                arrOfSameBoxId.push(boxId);
-                                findError = true;
+                            if (!palletNo || !boxId || !status) {
+                                e.target.value = ''
+                                emptyError = true;
                                 return;
                             }
+                            else {
+                                if (getExistSerialNo.includes(boxId)) {
+                                    arrOfSameBoxId.push(boxId);
+                                    findError = true;
+                                    return;
+                                }
 
-                            if (!palletData[palletNo]) {
-                                palletData[palletNo] = [];
-                            }
+                                if (!palletData[palletNo]) {
+                                    palletData[palletNo] = [];
+                                }
 
-                            if (!palletData[palletNo].includes(boxId)) {
-                                palletData[palletNo].push({
-                                    boxId,
-                                    status
-                                });
+                                if (!palletData[palletNo].includes(boxId)) {
+                                    palletData[palletNo].push({
+                                        boxId,
+                                        status
+                                    });
+                                }
                             }
                         });
                     } else {
@@ -279,9 +326,23 @@ const ShipmentStock = () => {
                     }
                 }
 
+                if (emptyError) {
+                    errorNotify("Invalid File!")
+                    return;
+                }
+
                 if (!findError) {
                     const uniqueBoxIds = Array.from(new Set(Object.values(palletData).flatMap(items => items.map(item => item.boxId))));
                     setGetExistSerialNo((prevData) => [...prevData, ...uniqueBoxIds]);
+
+                    const updatedShowSterilizeData = [...showSterilizeData];
+                    updatedShowSterilizeData[i] = {
+                        ...currentObject,
+                        fileName: fileName,
+                        qty: Object.keys(palletData).length,
+                        palletData: palletData
+                    };
+                    setShowSterilizeData(updatedShowSterilizeData);
 
                 } else {
                     errorNotify("Following are the same boxId found -- " + arrOfSameBoxId.join(', '));
@@ -294,91 +355,6 @@ const ShipmentStock = () => {
 
                 setAssignPallet((prevData) => [...prevData, { ...showSterilizeData[i], ...currentObject }]);
             });
-
-
-            // readXlsxFile(e.target.files[0]).then((rows, indexs) => {
-            //     const palletData = {};
-            //     let findError = false;
-            //     let arrOfSameBoxId = [];
-
-            //     if (s?.type === 'UIM') {
-            //         if (rows[0]?.length === 3) {
-            //             rows.slice(1).forEach((row, rowIndex) => {
-
-            //                 const palletNo = row[0];
-            //                 const boxId = row[1].toString();
-
-            //                 if (getExistSerialNo.includes(boxId)) {
-            //                     arrOfSameBoxId.push(boxId)
-            //                     findError = true
-            //                     return;
-            //                 }
-
-            //                 if (!palletData[palletNo]) {
-            //                     palletData[palletNo] = [];
-            //                 }
-
-            //                 if (!palletData[palletNo].includes(boxId)) {
-            //                     setGetExistSerialNo((prevData) => [...prevData, boxId])
-            //                     palletData[palletNo].push(boxId);
-            //                     arrOfSameBoxId = []
-            //                 }
-            //             });
-            //         }
-            //         else {
-            //             e.target.value = ''
-            //             errorNotify("Invalid File Type")
-            //             return
-            //         }
-            //     }
-            //     else {
-            //         if (rows[0]?.length === 2) {
-            //             rows.slice(1).forEach((row, rowIndex) => {
-
-            //                 const palletNo = row[0];
-            //                 const boxId = row[0].toString();
-
-            //                 if (getExistSerialNo.includes(boxId)) {
-            //                     arrOfSameBoxId.push(boxId)
-            //                     findError = true
-            //                     return;
-            //                 }
-
-            //                 else if (!palletData[palletNo]) {
-            //                     palletData[palletNo] = [];
-
-            //                     setGetExistSerialNo((prevData) => [...prevData, boxId])
-            //                     palletData[palletNo].push(boxId);
-            //                     arrOfSameBoxId = []
-            //                 }
-
-            //                 // if (!palletData[palletNo].includes(boxId)) {
-            //                 //     setGetExistSerialNo((prevData) => [...prevData, boxId])
-            //                 //     palletData[palletNo].push(boxId);
-            //                 //     arrOfSameBoxId = []
-            //                 // }
-
-            //             });
-            //         }
-            //         else {
-            //             e.target.value = ''
-            //             errorNotify("Invalid File Type")
-            //             return
-            //         }
-            //     }
-
-            //     if (findError) {
-            //         errorNotify("Following are the same boxId found -- " + arrOfSameBoxId.join(', '))
-            //         e.target.value = ''
-            //         return
-            //     }
-
-            //     currentObject.qty = Object.keys(palletData).length;
-            //     currentObject.palletData = palletData;
-
-            //     setAssignPallet((prevData) => [...prevData, { ...showSterilizeData[i], ...currentObject }]);
-            //     // setAssignPallet((prevData) => [...prevData, showSterilizeData[i]])
-            // })
         }
     }
 
@@ -471,6 +447,14 @@ const ShipmentStock = () => {
 
             setShowRack(filteredKeys);
         }
+        else {
+            updatedRowOptions[uniquePallet] = {
+                ...updatedRowOptions[uniquePallet],
+                store: StoreArr,
+                rack: [],
+                location: []
+            }
+        }
 
         setShowRacks(updatedRowOptions)
     };
@@ -511,12 +495,13 @@ const ShipmentStock = () => {
         }
     }
 
-    const locSelectHandler = (e, currentIndex, locationData, loctionIndex, name) => {
+    const locSelectHandler = (e, currentIndex, locationData, loctionIndex, name, noOfLoc) => {
         const currentObject = locationData.location[currentIndex];
 
         for (const key in currentObject) {
             if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
-                currentObject[key][0][name] = e.target.value
+                currentObject[key][0][name] = e.target.value,
+                    !noOfLoc && (currentObject[key][0].noOfLoc = 1)
             }
         }
     }
@@ -530,12 +515,11 @@ const ShipmentStock = () => {
         const currentObject = locationData.location[currentIndex];
 
         for (const key in currentObject) {
-            uniquePallet = key
-            if (Object.hasOwnProperty.call(currentObject, key)) {
+            if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
+                uniquePallet = key
                 currentObject[key][0].noOfLoc = value > 0 ? Math.min(value, 10) : 1
             }
         }
-
 
         updatedRowOptions[uniquePallet] = {
             ...updatedRowOptions[uniquePallet],
@@ -563,66 +547,90 @@ const ShipmentStock = () => {
             token: login.token
         }
 
-        let d = JSON.stringify(finalData)
+        if (!finalData.order || finalData.truckNumber.length === 0 || finalData.shipmentNumber.length === 0 ||
+            finalData.selectedItems?.length === 0 || Object.keys(finalData.stockInItemStatus).length === 0 ||
+            Object.keys(finalData.selectedItemsType).length === 0 || Object.keys(finalData.selectedPallotsStockIn).length === 0
+            || Object.keys(finalData.selectedSerialNos).length === 0 || Object.keys(finalData.stockInItemStatus).length === 0
+            || Object.keys(finalData.storage).length === 0) {
+            errorNotify("Please filled up all fields")
+            return;
+        }
 
+        let d = JSON.stringify(finalData)
         dispatch(createStockIn(d))
 
-        console.log(finalData)
     }
 
     const transformFinalData = (finalData) => {
-        const { data, location } = finalData[0];
 
-        let selectedItems = [data.id.toString()];
-        let selectedItemsType = { [data.id.toString()]: data.type, length: 0 };
-
-        let selectedSerialNos = { [data.id.toString()]: {} };
-        for (let key in data.palletData) {
-            selectedSerialNos[data.id.toString()][key] = data.palletData[key].map(item => item.boxId);
-        }
-        // console.log(selectedSerialNos);
-
+        let selectedItems = [];
+        let selectedItemsType = {};
+        let selectedSerialNos = {};
         let stockInItemStatus = {};
-        for (let key in data.palletData) {
-            data.palletData[key].forEach(item => {
-                stockInItemStatus[item.boxId] = item.status;
-            });
-        }
-        // console.log(stockInItemStatus);
-
-        let storage = {};
-        location.forEach((entry) => {
-            for (let key in entry) {
-                if (key !== 'pallet') {
-                    entry[key].forEach((item, index) => {
-                        const locationKey = `1location${key}`;
-                        const locationQtyKey = `locationQty${key}`;
-                        const rackKey = `rack${key}`;
-                        const storeKey = `store${key}`;
-
-                        storage[locationKey] = item.location1;
-                        storage[locationQtyKey] = (index + 1).toString();
-                        storage[rackKey] = item.rack;
-                        storage[storeKey] = item.store;
-                    });
-                }
-            }
-        });
-        // console.log(storage);
-
         let selectedPallotsStockIn = {};
-        location.forEach((entry) => {
-            const palletKey = entry.pallet;
-            for (let key in entry) {
-                if (key !== 'pallet' && Object.hasOwnProperty.call(entry, key)) {
-                    selectedPallotsStockIn[palletKey] = key;
-                }
-            }
-        });
-        // console.log(selectedPalletsStockIn)
+        let storage = {}
 
-        // console.log(data)
-        // console.log(location)
+        finalData?.map((indData, indexNum) => {
+            const { data, location } = indData;
+
+            selectedItems.push(data.id.toString())
+            selectedItemsType[data.id.toString()] = data.type;
+
+            selectedSerialNos[data.id.toString()] = {};
+
+            for (let key in data.palletData) {
+                const palletId = key;
+                selectedSerialNos[data.id.toString()][palletId] = data.palletData[key].map(item => item.boxId);
+            }
+
+            // selectedSerialNos[data.id.toString()] = [];
+
+            // for (let key in data.palletData) {
+            //     selectedSerialNos[data.id.toString()].push(...data.palletData[key].map(item => item.boxId));
+            // }
+
+            // console.log(selectedSerialNos, "SELECTED")
+
+            for (let key in data.palletData) {
+                data.palletData[key].forEach(item => {
+                    stockInItemStatus[item.boxId] = item.status;
+                });
+            }
+
+            location.forEach((entry) => {
+                const palletKey = entry.pallet;
+                for (let key in entry) {
+                    if (key !== 'pallet' && Object.hasOwnProperty.call(entry, key)) {
+                        selectedPallotsStockIn[palletKey] = key;
+                    }
+                }
+            });
+
+            location.forEach((entry) => {
+                for (let key in entry) {
+                    if (key !== 'pallet') {
+                        entry[key].forEach((item, index) => {
+                            const locationQtyKey = `locationQty${key}`;
+                            const rackKey = `rack${key}`;
+                            const storeKey = `store${key}`;
+
+                            if (item.noOfLoc) {
+                                for (let i = 1; i <= item.noOfLoc; i++) {
+                                    const locationKey = `${i}location${key}`;
+                                    item[`${i}location`] && (storage[locationKey] = item[`${i}location`]);
+                                }
+                            }
+
+                            item.noOfLoc && (storage[locationQtyKey] = item.noOfLoc.toString())
+                            item.rack.length > 0 && (storage[rackKey] = item.rack)
+                            storage[storeKey] = item.store;
+                        });
+                    }
+                }
+            });
+        })
+
+        selectedItemsType.length = 0;
 
         return {
             selectedItems,
@@ -642,8 +650,6 @@ const ShipmentStock = () => {
         setAssignPallet(afterPalletData)
         setSelectedAvailLocations(afterLocData)
 
-        // console.log(data)
-        // console.log(selectedAvailLocations)
     }
 
     const modal2 = <Modal centered show={stockInShow} onHide={() => navigate('/')} className='success' style={{ backgroundColor: '#00000040' }}>
@@ -768,7 +774,7 @@ const ShipmentStock = () => {
                                                             <td>{s.partNo}</td>
                                                             <td>{s.nomenclature}</td>
                                                             <td>{s.nsn}</td>
-                                                            <td key={`fileInput-${i}`}> {serialLoading ? <Loader /> : s.partName ? <span>{s.partName}</span> : <input type='file' types={["xlsx"]} className='sterilize' onChange={(e) => fileHandler(e, s, i)} />} </td>
+                                                            <td key={`fileInput-${i}`}> {serialLoading ? <Loader /> : s.fileName ? <span style={{ color: "#0d6efd", fontWeight: "500" }}>{s.fileName}</span> : <input type='file' types={["xlsx"]} className='sterilize' onChange={(e) => fileHandler(e, s, i)} />} </td>
                                                             <td>{s?.qty ? s.qty : 0}</td>
                                                             <td> <MdClose className='remove_icon' onClick={() => removePalletHandler(s, i)} /> </td>
                                                         </tr>
@@ -865,7 +871,7 @@ const ShipmentStock = () => {
                                                                                     <input type='Number' defaultValue={1} onChange={(e) => handleInputChange(e, j, l, i)} />
                                                                                 </div>
                                                                             </td>
-                                                                            <td>
+                                                                            <td style={{ width: "230px" }}>
                                                                                 <select className='location_select' onChange={(e) => storeSelectHandler(e, j, l, i)}>
                                                                                     <option value="">Select</option>
                                                                                     {
@@ -878,8 +884,8 @@ const ShipmentStock = () => {
                                                                                     }
                                                                                 </select>
                                                                             </td>
-                                                                            <td>
-                                                                                <select className='location_select' onChange={(e) => rackSelectHandler(e, j, l, i)}>
+                                                                            <td style={{ width: "230px" }}>
+                                                                                <select disabled={rowOption?.rack?.length > 0 ? false : true} className='location_select' onChange={(e) => rackSelectHandler(e, j, l, i)}>
                                                                                     <option value="">Select</option>
                                                                                     {
                                                                                         rowOption?.rack?.map((r) => {
@@ -890,16 +896,17 @@ const ShipmentStock = () => {
                                                                                     }
                                                                                 </select>
                                                                             </td>
-                                                                            <td style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "8px 0" }}>
+                                                                            <td style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "8px 0", width: "230px" }}>
                                                                                 {Array.from({ length: rowOption?.noOfLoc ? rowOption.noOfLoc : 1 }).map((_, index) => (
-                                                                                    <select key={index} className='location_select' onChange={(e) => locSelectHandler(e, j, l, i, `location${index + 1}`)}>
+                                                                                    <select disabled={rowOption?.rack?.length > 0 ? false : true} key={index} className='location_select' onChange={(e) => locSelectHandler(e, j, l, i, `${index + 1}location`, rowOption.noOfLoc)}>
                                                                                         <option value="">Select</option>
                                                                                         {
                                                                                             rowOption?.location?.map((l) => {
                                                                                                 return (
                                                                                                     <option value={l.loc} key={l.loc}
                                                                                                         style={l.status === "faulty" ? { backgroundColor: "#ffabab" } :
-                                                                                                            { backgroundColor: "#95D6A4" }}>{l.loc}</option>
+                                                                                                            l.status === "filled" ? { backgroundColor: "aqua" } :
+                                                                                                                { backgroundColor: "#95D6A4" }}>{l.loc}</option>
                                                                                                 )
                                                                                             })
                                                                                         }
@@ -923,7 +930,7 @@ const ShipmentStock = () => {
                         <Row className='file_upload_handler'>
                             <Col md={12}>
                                 <FileUploader handleChange={(e) => setFile(e)} name="file"
-                                    types={["JPG", "PNG", "GIF", "PDF", "DOC", "DOCX"]} label="Attached Stock Document" />
+                                    types={["PDF", "DOC", "DOCX"]} label="Attached Stock Document" />
                                 <img src='/images/stock_doc_icon.png' />
                             </Col>
                         </Row>
@@ -938,5 +945,4 @@ const ShipmentStock = () => {
         </div>
     )
 }
-
 export default ShipmentStock

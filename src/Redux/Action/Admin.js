@@ -154,6 +154,8 @@ export const postRmaForm = (formData) => async (dispatch) => {
     }
 };
 
+// ========== WAREHOUSE ===============
+
 //get all warehouses
 export const getAllWarehouses = (formData) => async (dispatch) => {
     try {
@@ -238,6 +240,31 @@ export const getWarehouseDetail = (id, formData) => async (dispatch) => {
     }
 };
 
+//get warehouse stage item
+export const getWarehouseStageItem = (id, page, formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "GET_WAREHOUSE_STAGE_ITEM_REQUEST",
+        });
+
+        const { data } = await axios.post(`getStageItem/${id}/${page}`, formData);
+
+        dispatch({
+            type: "GET_WAREHOUSE_STAGE_ITEM_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        dispatch({
+            type: "GET_WAREHOUSE_STAGE_ITEM_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
+
 //Create Warehouse Pallet
 export const createWarehousePallet = (formData) => async (dispatch) => {
     try {
@@ -310,6 +337,181 @@ export const createWarehouseCustomStore = (formData) => async (dispatch) => {
         console.log(e)
         dispatch({
             type: "CREATE_WAREHOUSE_CUSTOM_STORE_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
+
+//get Location
+export const getLocation = (id, formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "GET_LOCATION_REQUEST",
+        });
+
+        const { data } = await axios.post(`wms/getLocations/${id}`, formData);
+
+        dispatch({
+            type: "GET_LOCATION_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        console.log(e)
+        dispatch({
+            type: "GET_LOCATION_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
+
+//add Rack
+export const createRack = (formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "CREATE_RACK_REQUEST",
+        });
+
+        const { data } = await axios.post(`wms/addCustomRacks`, formData);
+
+        dispatch({
+            type: "CREATE_RACK_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        dispatch({
+            type: "CREATE_RACK_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
+
+//add Floor
+export const createFloor = (formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "CREATE_FLOOR_REQUEST",
+        });
+
+        const { data } = await axios.post(`wms/addCustomFloor`, formData);
+
+        dispatch({
+            type: "CREATE_FLOOR_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        dispatch({
+            type: "CREATE_FLOOR_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
+
+//add Location
+export const createLocation = (formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "CREATE_LOCATION_REQUEST",
+        });
+
+        const { data } = await axios.post(`wms/addCustomrLocation`, formData);
+
+        dispatch({
+            type: "CREATE_LOCATION_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        dispatch({
+            type: "CREATE_LOCATION_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
+
+//add Location
+export const palletLocationDetail = (id, formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "PALLET_LOC_REQUEST",
+        });
+
+        const { data } = await axios.post(`wms/locationDetail/${id}`, formData);
+
+        dispatch({
+            type: "PALLET_LOC_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        dispatch({
+            type: "PALLET_LOC_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
+
+//add status
+export const palletStatusChange = (formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "PALLET_STATUS_REQUEST",
+        });
+
+        const { data } = await axios.post(`wms/changeItemStatus`, formData);
+
+        dispatch({
+            type: "PALLET_STATUS_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        dispatch({
+            type: "PALLET_STATUS_FAILED",
+            payload: e?.response?.data?.message,
+            success: false,
+        });
+    }
+};
+
+export const editLocationTag = (formData) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "EDIT_LOCATION_TAG_REQUEST",
+        });
+
+        const { data } = await axios.post(`wms/addLocationTag`, formData);
+
+        dispatch({
+            type: "EDIT_LOCATION_TAG_SUCCESS",
+            payload: data,
+            success: true,
+        });
+    }
+
+    catch (e) {
+        dispatch({
+            type: "EDIT_LOCATION_TAG_FAILED",
             payload: e?.response?.data?.message,
             success: false,
         });

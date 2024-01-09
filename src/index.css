@@ -71,7 +71,7 @@ img {
 
 .location_bg_layout {
   background-image: url('/public/images/location_bg.png');
-  background-size: cover;
+  background-size: contain;
   /* overflow-x: hidden; */
   min-height: 100vh;
   position: relative;

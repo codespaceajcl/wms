@@ -3,15 +3,18 @@ import { ChatOpenStatusReducer } from "./Chat";
 import {
     ConsigneePostReducer, DeliveryChallanGetReducer, ListMaterialPostReducer,
     PostDcDocumentReducer, RevertDocumentReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, changePalletMovementReducer,
+    createFloorReducer,
+    createLocationReducer,
+    createRackReducer,
     createStockInReducer,
     createWarehouseCustomStoreReducer, createWarehousePalletsReducer,
-    createWarehouseReducer, createWarehouseStageReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
+    createWarehouseReducer, createWarehouseStageReducer, editLocationTagReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
     getAllWarehousesInhouseMovementReducer, getAvailLocationStockInReducer, getAvailPalletStockInReducer, getAvailStagesStockInReducer, getExistingSerialNoReducer, getGeneralEnquiryDetailReducer, getGeneralEnquiryReducer,
     getInventoryAvailableStockReducer, getInventoryFilterReducer, getInventoryReportFilterReducer,
-    getInventoryReportReducer, getStockInReportFilterReducer, getStockInReportReducer,
+    getInventoryReportReducer, getLocationReducer, getStockInReportFilterReducer, getStockInReportReducer,
     getStockOutReportFilterReducer, getStockOutReportReducer, getStockReturnReportFilterReducer,
     getStockReturnReportReducer, getStockTransferReportFilterReducer, getStockTransferReportReducer,
-    getWarehouseDetailReducer, getWarehouseReducer, postRmaFormReducer
+    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer
 } from "./Admin";
 
 const rootReducer = combineReducers({
@@ -24,6 +27,7 @@ const rootReducer = combineReducers({
     postRevert: RevertDocumentReducer,
     postDc: PostDcDocumentReducer,
     postRma: postRmaFormReducer,
+
     getWarehouses: getWarehouseReducer,
     postWarehouse: createWarehouseReducer,
     postWarehouseDetail: getWarehouseDetailReducer,
@@ -31,6 +35,15 @@ const rootReducer = combineReducers({
     postWarehouseStagesData: createWarehouseStageReducer,
     postWarehouseCustomStoreData: createWarehouseCustomStoreReducer,
     getWarehousesInhouse: getAllWarehousesInhouseMovementReducer,
+    getWarehouseStageItem: getWarehouseStageItemReducer,
+    getWarehouseLocation: getLocationReducer,
+    createCustomRack: createRackReducer,
+    createCustomFloor: createFloorReducer,
+    createCustomLocation: createLocationReducer,
+    getPalletDetail: palletLocationReducer,
+    getStatusChange: palletStatusChangeReducer,
+    getEditTag: editLocationTagReducer,
+
     getPalletsInhouse: getAllPalletInhouseMovementReducer,
     palletChange: changePalletMovementReducer,
     getReports: getInventoryReportReducer,
