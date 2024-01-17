@@ -2,19 +2,20 @@ import { combineReducers } from "redux";
 import { ChatOpenStatusReducer } from "./Chat";
 import {
     ConsigneePostReducer, DeliveryChallanGetReducer, ListMaterialPostReducer,
-    PostDcDocumentReducer, RevertDocumentReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, changePalletMovementReducer,
+    PostDcDocumentReducer, RevertDocumentReducer, availableStockOutReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, callDebugReducer, changePalletMovementReducer,
     createFloorReducer,
     createLocationReducer,
     createRackReducer,
     createStockInReducer,
     createWarehouseCustomStoreReducer, createWarehousePalletsReducer,
-    createWarehouseReducer, createWarehouseStageReducer, editLocationTagReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
+    createWarehouseReducer, createWarehouseStageReducer, destinationStockoutReducer, editLocationTagReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
     getAllWarehousesInhouseMovementReducer, getAvailLocationStockInReducer, getAvailPalletStockInReducer, getAvailStagesStockInReducer, getExistingSerialNoReducer, getGeneralEnquiryDetailReducer, getGeneralEnquiryReducer,
     getInventoryAvailableStockReducer, getInventoryFilterReducer, getInventoryReportFilterReducer,
     getInventoryReportReducer, getLocationReducer, getStockInReportFilterReducer, getStockInReportReducer,
+    getStockOutPalletsReducer,
     getStockOutReportFilterReducer, getStockOutReportReducer, getStockReturnReportFilterReducer,
     getStockReturnReportReducer, getStockTransferReportFilterReducer, getStockTransferReportReducer,
-    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer
+    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, stockOutApiReducer, stockoutbusinessTypeCustomerReducer
 } from "./Admin";
 
 const rootReducer = combineReducers({
@@ -82,7 +83,17 @@ const rootReducer = combineReducers({
     getLocationStockIn: getAvailLocationStockInReducer,
     getStagesStockIn: getAvailStagesStockInReducer,
 
-    postStockInApi: createStockInReducer
+    postStockInApi: createStockInReducer,
+
+    // STOCK OUT
+
+    getDebug: callDebugReducer,
+    getCustomersStockout: stockoutbusinessTypeCustomerReducer,
+    getStockoutDestination: destinationStockoutReducer,
+    getStockOutAvailable: availableStockOutReducer,
+    stockOutItem: getStockOutPalletsReducer,
+
+    saveStockOut: stockOutApiReducer
 })
 
 export default rootReducer;

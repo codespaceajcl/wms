@@ -662,7 +662,7 @@ const ShipmentStock = () => {
                 <p>Transtional ID is <span>{stockInSgi}</span></p>
             </div>
         </Modal.Body>
-    </Modal >
+    </Modal>
 
     let count = 0
     let count2 = 0
