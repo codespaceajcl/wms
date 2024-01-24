@@ -49,7 +49,7 @@ const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loadi
         loading ? <div className='my-5'> <Loader /> </div> :
           <Row>
             {
-              getDcData?.response?.map((d, i) => {
+              getDcData?.map((d, i) => {
                 if (d.status === 'In-transit') {
                   return (
                     <Col md={4}>

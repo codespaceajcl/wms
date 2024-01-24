@@ -484,20 +484,24 @@ const Warehouses = (props) => {
                                 </div>
 
                                 <div className='warehouse_chart'>
-                                  <Doughnut data={{
-                                    labels: ['Total', 'Utilized'],
-                                    datasets: [
-                                      {
-                                        label: ' ',
-                                        data: [getWarehouseData?.stat[w.id]?.location, getWarehouseData?.stat[w.id]?.utilizeLocation],
-                                        backgroundColor: [
-                                          '#F0F0F0',
-                                          '#F7B500',
+                                  {
+                                    (getWarehouseData?.stat[w.id]?.location == 0 && getWarehouseData?.stat[w.id]?.utilizeLocation == 0) ?
+                                      <img src='/images/empty_loc_pallet.png' alt='' /> :
+                                      <Doughnut data={{
+                                        labels: ['Total', 'Utilized'],
+                                        datasets: [
+                                          {
+                                            label: ' ',
+                                            data: [getWarehouseData?.stat[w.id]?.location, getWarehouseData?.stat[w.id]?.utilizeLocation],
+                                            backgroundColor: [
+                                              '#F0F0F0',
+                                              '#F7B500',
+                                            ],
+                                            borderWidth: 1,
+                                          },
                                         ],
-                                        borderWidth: 1,
-                                      },
-                                    ],
-                                  }} options={options} />
+                                      }} options={options} />
+                                  }
                                 </div>
 
                                 <div className='w_location_detail mt-2'>
@@ -520,20 +524,24 @@ const Warehouses = (props) => {
                                 </div>
 
                                 <div className='warehouse_chart'>
-                                  <Doughnut data={{
-                                    labels: ['Total', 'Utilized'],
-                                    datasets: [
-                                      {
-                                        label: ' ',
-                                        data: [getWarehouseData?.stat[w.id]?.pallot, getWarehouseData?.stat[w.id]?.utilizePallots],
-                                        backgroundColor: [
-                                          '#F0F0F0',
-                                          '#57B894',
+                                  {
+                                    (getWarehouseData?.stat[w.id]?.pallot == 0 && getWarehouseData?.stat[w.id]?.utilizePallots == 0) ?
+                                      <img src='/images/empty_loc_pallet.png' alt='' /> :
+                                      <Doughnut data={{
+                                        labels: ['Total', 'Utilized'],
+                                        datasets: [
+                                          {
+                                            label: ' ',
+                                            data: [getWarehouseData?.stat[w.id]?.pallot, getWarehouseData?.stat[w.id]?.utilizePallots],
+                                            backgroundColor: [
+                                              '#F0F0F0',
+                                              '#57B894',
+                                            ],
+                                            borderWidth: 1,
+                                          },
                                         ],
-                                        borderWidth: 1,
-                                      },
-                                    ],
-                                  }} options={options} />
+                                      }} options={options} />
+                                  }
                                 </div>
 
                                 <div className='w_location_detail mt-2'>

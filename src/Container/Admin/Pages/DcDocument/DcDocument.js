@@ -29,6 +29,7 @@ const DcDocument = () => {
     const [getDc, setGetDc] = useState({})
     const [uploadFile, setUploadFile] = useState(null)
     const [showConfirm, setShowConfirm] = useState(false)
+    const [selectedStatus, setSelectedStatus] = useState(null);
 
     const tableHead = ["S.No", "DC No", "Vehicle", "Origin", "Destination", "Date", "Transaction By", "Transaction Number", "Status", "Action"]
 
@@ -184,6 +185,43 @@ const DcDocument = () => {
         </Modal.Body>
     </Modal>
 
+    const handleDownload = () => {
+        const headers = ["DC No", "Vehicle", "Origin", "Destination", "Date", "Transaction By", "Transaction Number", "Status"];
+        const rows = getDcData?.response?.map((c, i) => {
+            return [
+                c.dc,
+                c.vehicleNumber,
+                c.origin,
+                c.destination,
+                c.date,
+                c.transactionBy,
+                c.transactionalNumber,
+                c.status
+            ];
+        });
+
+        const csvContent = `${headers.join(',')}\n${rows.map(row => row.join(',')).join('\n')}`;
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'dcdocument.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const handleCheckboxChange = (status) => {
+        setSelectedStatus(status === selectedStatus ? null : status);
+    };
+
+    // const filteredData = getDcData?.response?.filter((c) => c.status === selectedStatus);
+
+    const filteredData = getDcData?.response?.filter((c) => {
+        return selectedStatus ? c.status === selectedStatus : true;
+    });
+
     return (
         <div>
             {revertViewModal}
@@ -197,7 +235,7 @@ const DcDocument = () => {
                     <span className='mob_head'>Delivery Challan <br /> Documents</span>
 
                     <div className='download_report'>
-                        <div>
+                        <div onClick={handleDownload}>
                             <AiOutlinePlus style={{ fontSize: "15px" }} /> Download Report
                         </div>
 
@@ -206,20 +244,28 @@ const DcDocument = () => {
 
                             {
                                 showFilter && <div className='filter_div'>
-                                    <div>
+                                    {/* <div>
                                         <label>From</label>
                                         <input type='date' />
                                     </div>
                                     <div>
                                         <label>To</label>
                                         <input type='date' />
-                                    </div>
+                                    </div> */}
                                     <div className='checkbox_div'>
-                                        <input type='checkbox' />
+                                        <input
+                                            type='radio'
+                                            checked={selectedStatus === 'In-transit'}
+                                            onChange={() => handleCheckboxChange('In-transit')}
+                                        />
                                         <label>In-Transit</label>
                                     </div>
                                     <div className='checkbox_div'>
-                                        <input type='checkbox' />
+                                        <input
+                                            type='radio'
+                                            checked={selectedStatus === 'Delivered'}
+                                            onChange={() => handleCheckboxChange('Delivered')}
+                                        />
                                         <label>Delivered</label>
                                     </div>
                                 </div>
@@ -261,7 +307,7 @@ const DcDocument = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    getDcData?.response?.map((c, i) => {
+                                                    filteredData?.map((c, i) => {
                                                         return (
                                                             <tr>
                                                                 <td> {i + 1}</td>
@@ -307,7 +353,7 @@ const DcDocument = () => {
                     {
                         view === 'grid' &&
                         <Col md={12} className='mt-4 grid_view_col'>
-                            <GridView setGetDc={setGetDc} setShowConfirm={setShowConfirm} setUploadFile={setUploadFile} setGetRevert={setGetRevert}  loading={loading} pageNum={pageNum} setPageNum={setPageNum} showNext={showNext} getDcData={getDcData} revertModal={revertModal} setRevertModal={() => setRevertModal(!revertModal)} />
+                            <GridView setGetDc={setGetDc} setShowConfirm={setShowConfirm} setUploadFile={setUploadFile} setGetRevert={setGetRevert} loading={loading} pageNum={pageNum} setPageNum={setPageNum} showNext={showNext} getDcData={filteredData} revertModal={revertModal} setRevertModal={() => setRevertModal(!revertModal)} />
                         </Col>
                     }
                 </Row>

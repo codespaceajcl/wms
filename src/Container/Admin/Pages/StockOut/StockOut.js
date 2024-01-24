@@ -579,6 +579,10 @@ const StockOut = () => {
             <FaChevronRight onClick={pageIncrease} />
           </div>
         </div>
+
+        <div className="download_preview">
+          <a href={previewPdf} target="_blank">Download</a>
+        </div>
       </div>
     </Modal.Body>
   </Modal>

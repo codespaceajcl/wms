@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../../../../Components/Breadcrumbs/Breadcrumbs';
 import { BsArrowLeftShort } from "react-icons/bs";
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loading from '../../../../../Components/Loading/Loading';
 import { Col, Modal, Row, Table } from 'react-bootstrap';
-import { AiOutlineClose } from "react-icons/ai"
 import { useDispatch, useSelector } from 'react-redux';
 import { generalEnquiry, generalEnquiryDetails } from '../../../../../Redux/Action/Admin';
 import { login } from '../../../../../Util/Helper';
@@ -45,6 +44,7 @@ const EnquiryDetail = () => {
 
         const d = JSON.stringify(postData)
         dispatch(generalEnquiry(d))
+        setFilter('')
     }
 
     const showDetailHandler = (id) => {
@@ -119,7 +119,7 @@ const EnquiryDetail = () => {
                 <div className='mt-5'>
 
                     <div className='search_bar'>
-                        <input placeholder='Enter to Search' name={filter} onChange={(e) => setFilter(e.target.value)} />
+                        <input placeholder='Enter to Search' value={filter} onChange={(e) => setFilter(e.target.value)} />
                         <div className='search_icon' onClick={searchHandler}>
                             <AiOutlineSearch />
                         </div>
@@ -129,7 +129,7 @@ const EnquiryDetail = () => {
                         loading ? <Loading /> :
                             <div style={{ padding: "25px 30px" }}>
                                 {
-                                    getGeneralEnquiryData?.parts?.length > 0 && <>
+                                    getGeneralEnquiryData?.parts?.length > 0 ? <>
                                         <h5>
                                             <span style={{ color: "#329932" }}> {getGeneralEnquiryData?.parts?.length} Results Found </span>
                                             {/* <div className='create'>
@@ -193,15 +193,16 @@ const EnquiryDetail = () => {
                                                 })
                                             }
                                         </Row>
-                                    </>
+                                    </> :
+                                        <h5>
+                                            <span style={{ color: "#329932" }}> No Results Found </span>
+                                        </h5>
                                 }
                             </div>
                     }
                 </div>
             </div>
-
         </div>
     )
 }
-
 export default EnquiryDetail

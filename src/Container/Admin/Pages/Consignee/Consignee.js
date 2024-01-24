@@ -37,7 +37,8 @@ const Consignee = () => {
   const [totalElements, setTotalElements] = useState(getConsigneeData?.totalConsignees);
   const [elementsPerPage] = useState(getConsigneeData?.response?.length);
   const [numberOfPages, setNumberOfPages] = useState(0);
-  const [showNext, setShowNext] = useState(false)
+  const [showNext, setShowNext] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const pages = Math.ceil(totalElements / elementsPerPage);
@@ -324,6 +325,20 @@ const Consignee = () => {
     </Modal.Body>
   </Modal>
 
+  const searchConsigneeHandler = (e) => {
+    const inputValue = e.target.value;
+    setSearchValue(inputValue);
+  }
+
+  const filteredConsigneeData = getConsigneeData?.response?.filter((c) => {
+    const searchString = searchValue.toLowerCase();
+    return (
+      c.name.toLowerCase().includes(searchString) ||
+      c.address.toLowerCase().includes(searchString) ||
+      c.contact.toLowerCase().includes(searchString)
+    );
+  });
+
   return (
     <div>
       {consigneeDetailModal}
@@ -341,7 +356,7 @@ const Consignee = () => {
 
             <div className="search_box consignee web_view">
               <img src="/images/search_icon.png" alt="" />
-              <input placeholder="search anything" />
+              <input placeholder="search anything" onChange={searchConsigneeHandler} />
             </div>
             Consignee
             <div className='create' onClick={() => setAddConsigneeModal(true)}><AiOutlineUserAdd style={{ fontSize: "17px" }} /> Add Consignee</div>
@@ -371,7 +386,7 @@ const Consignee = () => {
                   </thead>
                   <tbody>
                     {
-                      getConsigneeData?.response?.map((c, i) => {
+                      filteredConsigneeData?.map((c, i) => {
                         return (
                           <tr>
                             <td>{i + 1}</td>
@@ -390,7 +405,7 @@ const Consignee = () => {
 
               <div className='pagination_div'>
                 {
-                  pageNum > 1 &&
+                  pageNum > 0 &&
                   <h6 onClick={() => setPageNum(pageNum - 1)}>Previous</h6>
                 }
                 <p>Pg No: {pageNum}</p>
