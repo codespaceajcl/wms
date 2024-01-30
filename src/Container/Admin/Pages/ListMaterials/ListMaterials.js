@@ -61,22 +61,17 @@ const ListMaterials = () => {
             formData.append("type", values.type)
             formData.append("currency", values.currencySelected)
 
-            // for(let v of formData){
-            //   console.log(v)
-            // }
-
             dispatch(ListMaterialPost(formData))
             resetForm()
             values.businessTypeSelected = null
             values.currencySelected = null
 
-            // setShow(true);
           }}
         >
           {({ handleSubmit }) => (
-            <Row className="justify-content-around align-items-end">
+            <Row className="justify-content-around align-items-end mt-5">
               <Col md={6}>
-                <label className="react_select_label">Business Type</label>
+                <label className="react_select_label">Business Type <span>*</span> </label>
                 <Field name={'businessTypeSelected'}
                   component={SelectField}
                   options={businessTypes}
@@ -102,7 +97,7 @@ const ListMaterials = () => {
                 <Field component={Input} name="nsn" label="NSN" />
               </Col>
               <Col md={6}>
-                <label className="react_select_label">Currency</label>
+                <label className="react_select_label">Currency  <span>*</span></label>
                 <Field name={'currencySelected'}
                   component={SelectField}
                   options={currencies}
@@ -133,7 +128,7 @@ const ListMaterials = () => {
               </Col>
               <Col md={12}>
                 <button
-                  className="submit_btn"
+                  className="submit_btn mt-4"
                   type="button"
                   disabled={loading}
                   onClick={handleSubmit}

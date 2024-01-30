@@ -61,7 +61,7 @@ img {
 }
 
 .warehouse_detail_layout {
-  background-image: url('/public/images/warehouse_detail_bg.png');
+  background-image: url('/public/images/warehouse_detail_bg.jpg');
   background-size: cover;
   /* overflow-x: hidden; */
   min-height: 100vh;

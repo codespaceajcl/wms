@@ -1,18 +1,14 @@
 import { combineReducers } from "redux";
 import { ChatOpenStatusReducer } from "./Chat";
 import {
-    ConsigneePostReducer, DeliveryChallanGetReducer, ListMaterialPostReducer,
-    PostDcDocumentReducer, RevertDocumentReducer, availableStockOutReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, callDebugReducer, changePalletMovementReducer,
-    createFloorReducer,
-    createLocationReducer,
-    createRackReducer,
-    createStockInReducer,
+    ConsigneePostReducer, DeliveryChallanGetReducer, ListMaterialPostReducer, PostDcDocumentReducer, RevertDocumentReducer,
+    availableStockOutReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, callDebugReducer, changePalletMovementReducer, createFloorReducer,
+    createLocationReducer, createRackReducer, createStockInReducer,
     createWarehouseCustomStoreReducer, createWarehousePalletsReducer,
-    createWarehouseReducer, createWarehouseStageReducer, destinationStockoutReducer, editLocationTagReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
+    createWarehouseReducer, createWarehouseStageReducer, dashboardApiReducer, destinationStockoutReducer, editLocationTagReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
     getAllWarehousesInhouseMovementReducer, getAvailLocationStockInReducer, getAvailPalletStockInReducer, getAvailStagesStockInReducer, getExistingSerialNoReducer, getGeneralEnquiryDetailReducer, getGeneralEnquiryReducer,
     getInventoryAvailableStockReducer, getInventoryFilterReducer, getInventoryReportFilterReducer,
-    getInventoryReportReducer, getLocationReducer, getStockInReportFilterReducer, getStockInReportReducer,
-    getStockOutPalletsReducer,
+    getInventoryReportReducer, getLocationReducer, getStockInReportFilterReducer, getStockInReportReducer, getStockOutPalletsReducer,
     getStockOutReportFilterReducer, getStockOutReportReducer, getStockReturnReportFilterReducer,
     getStockReturnReportReducer, getStockTransferReportFilterReducer, getStockTransferReportReducer,
     getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, stockOutApiReducer, stockoutbusinessTypeCustomerReducer
@@ -53,7 +49,6 @@ const rootReducer = combineReducers({
     getInventoryAvailableStock: getInventoryAvailableStockReducer,
 
     //STOCK IN
-
     inventoryStockInData: getStockInReportReducer,
     inventoryStockInFilterData: getStockInReportFilterReducer,
 
@@ -67,12 +62,10 @@ const rootReducer = combineReducers({
     inventoryStockTransferFilterData: getStockTransferReportFilterReducer,
 
     // GENERAL ENQUIRY
-
     generalEnquiryGet: getGeneralEnquiryReducer,
     enquiryDetailGet: getGeneralEnquiryDetailReducer,
 
     // STOCK IN
-
     getBusinessWarehouseType: businessTypeWarehouseReducer,
     getBusinessCustomerType: businessTypeCustomerReducer,
 
@@ -86,14 +79,16 @@ const rootReducer = combineReducers({
     postStockInApi: createStockInReducer,
 
     // STOCK OUT
-
     getDebug: callDebugReducer,
     getCustomersStockout: stockoutbusinessTypeCustomerReducer,
     getStockoutDestination: destinationStockoutReducer,
     getStockOutAvailable: availableStockOutReducer,
     stockOutItem: getStockOutPalletsReducer,
 
-    saveStockOut: stockOutApiReducer
+    saveStockOut: stockOutApiReducer,
+
+    // Dashboard
+    getDashboardApiData: dashboardApiReducer
 })
 
 export default rootReducer;

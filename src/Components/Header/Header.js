@@ -1,19 +1,15 @@
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import "./Header.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import MobileSidebar from "./MobileSideBar";
-import { Col, Modal, Row } from "react-bootstrap";
+import { Col, Modal, Row, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { BiChevronRight } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsFullscreen } from 'react-icons/bs'
 import Notification from "../Notification/Notification";
-import { MdClose } from "react-icons/md";
-import { MdSearch } from "react-icons/md";
+import { MdClose, MdSearch } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { chatOpenStatus } from "../../Redux/Action/Chat";
+import "./Header.css";
 
 function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const { pathname } = useLocation();
@@ -292,11 +288,8 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                               style={{ cursor: "pointer" }}
                               onClick={() => setShowNotificationBar(!showNotificationBar)} />
 
-                            {
-                              showNotificationBar && <Notification />
-                            }
+                            {showNotificationBar && <Notification />}
                           </div>
-
                         </div>
                       </Nav>
                     </Navbar.Collapse>

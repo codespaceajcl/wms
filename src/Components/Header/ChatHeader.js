@@ -1,20 +1,16 @@
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import "./Header.css";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
 import MobileSidebar from "./MobileSideBar";
-import { Col, Modal, Row } from "react-bootstrap";
-import { BsFullscreen } from 'react-icons/bs'
+import { Col, Modal, Row, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import Notification from "../Notification/Notification";
-import { BsArrowLeftShort } from "react-icons/bs";
+import { BsArrowLeftShort, BsFullscreen } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { MdSearch, MdClose } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { chatOpenStatus } from "../../Redux/Action/Chat";
+import "./Header.css";
 
 function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children }) {
     const { pathname } = useLocation();

@@ -46,7 +46,7 @@
     transition: all 0.2s ease !important;
 }
 
-.consignee_table.dc_doc .table>tbody>tr>td button {
+.consignee_table.dc_doc .table>tbody>tr>td button, .consignee_table.dc_doc .table>tbody>tr>td a {
     border: none;
     background-color: #00A499;
     color: #fff;
@@ -57,6 +57,9 @@
     width: 100%;
     margin-bottom: 10px;
     min-width: 95px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
 }
 
 .consignee_table.dc_doc .table>tbody>tr>td button.upload_dc {
@@ -291,6 +294,7 @@
     border-radius: 11px;
     top: 21px;
     min-width: 140px;
+    box-shadow: #003a7063 0px 1px 4px;
 }
 
 .filter_div label{

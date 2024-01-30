@@ -14,17 +14,22 @@ import { listDeliveryChallan, postDcDocument, revertDocument } from '../../../..
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../../Util/Loader';
 import { successNotify } from '../../../../Util/Toast';
+import { usePDF } from 'react-to-pdf';
 
 const DcDocument = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const fileInputRef = useRef();
+    const parentRef = useRef(null);
+    const filterRef = useRef(null);
+    const { toPDF, targetRef } = usePDF({ filename: 'dcdocument.pdf' });
 
     const [show, setShow] = useState(false)
     const [view, setView] = useState('table')
     const [revertModal, setRevertModal] = useState(false)
     const [pageNum, setPageNum] = useState(0)
     const [showFilter, setShowFilter] = useState(false)
+    const [showDownload, setShowDownload] = useState(false)
     const [getRevert, setGetRevert] = useState({})
     const [getDc, setGetDc] = useState({})
     const [uploadFile, setUploadFile] = useState(null)
@@ -78,7 +83,6 @@ const DcDocument = () => {
         setShowNext(pageNum >= numberOfPages)
     }, [totalElements, elementsPerPage]);
 
-
     useEffect(() => {
         const formData = new FormData();
 
@@ -88,6 +92,23 @@ const DcDocument = () => {
         dispatch(listDeliveryChallan(pageNum, formData))
 
     }, [pageNum])
+
+    const handleClickOutside = (event) => {
+        if (parentRef.current && !parentRef.current.contains(event.target)) {
+            setShowDownload(false);
+        }
+
+        if (filterRef.current && !filterRef.current.contains(event.target)) {
+            setShowFilter(false)
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const options = [
         { value: 'PakistanStorage_None01/Agility Port Qasim', label: 'PakistanStorage_None01/Agility Port Qasim' }
@@ -187,7 +208,7 @@ const DcDocument = () => {
 
     const handleDownload = () => {
         const headers = ["DC No", "Vehicle", "Origin", "Destination", "Date", "Transaction By", "Transaction Number", "Status"];
-        const rows = getDcData?.response?.map((c, i) => {
+        const rows = filteredData?.map((c, i) => {
             return [
                 c.dc,
                 c.vehicleNumber,
@@ -216,8 +237,6 @@ const DcDocument = () => {
         setSelectedStatus(status === selectedStatus ? null : status);
     };
 
-    // const filteredData = getDcData?.response?.filter((c) => c.status === selectedStatus);
-
     const filteredData = getDcData?.response?.filter((c) => {
         return selectedStatus ? c.status === selectedStatus : true;
     });
@@ -235,11 +254,22 @@ const DcDocument = () => {
                     <span className='mob_head'>Delivery Challan <br /> Documents</span>
 
                     <div className='download_report'>
-                        <div onClick={handleDownload}>
-                            <AiOutlinePlus style={{ fontSize: "15px" }} /> Download Report
+                        <div style={{ position: "relative" }} ref={parentRef}>
+                            <span onClick={() => setShowDownload(!showDownload)}><AiOutlinePlus style={{ fontSize: "15px" }} /> Download Report
+                            </span>
+                            {
+                                showDownload && <div className='filter_div' style={{ minWidth: "180px" }}>
+                                    <div className='checkbox_div' onClick={handleDownload} style={{display: "block"}}>
+                                        <label style={{ cursor: "pointer" }} s>Download as CSV</label>
+                                    </div>
+                                    <div className='checkbox_div' onClick={() => toPDF()} style={{display: "block"}}>
+                                        <label style={{ cursor: "pointer" }}>Download as PDF</label>
+                                    </div>
+                                </div>
+                            }
                         </div>
 
-                        <div style={{ position: "relative" }}>
+                        <div style={{ position: "relative" }} ref={filterRef}>
                             <span onClick={() => setShowFilter(!showFilter)}><BsFilter style={{ fontSize: "15px" }} /> Filter</span>
 
                             {
@@ -292,46 +322,53 @@ const DcDocument = () => {
                             {
                                 loading ? <div className='my-5'> <Loader /> </div> :
                                     <div className='consignee_table inhouse dc_doc mt-4'>
-                                        <div className='select_inhouse_table'>
-                                            <h6 style={{ fontSize: "15px" }}>Delivery Challan Documents </h6>
-                                        </div>
-                                        <Table bordered responsive hover>
-                                            <thead>
-                                                <tr>
+                                        <div ref={targetRef}>
+                                            <div className='select_inhouse_table'>
+                                                <h6 style={{ fontSize: "15px" }}>Delivery Challan Documents </h6>
+                                            </div>
+                                            <Table bordered responsive hover>
+                                                <thead>
+                                                    <tr>
+                                                        {
+                                                            tableHead.map((th) => (
+                                                                <th>{th}</th>
+                                                            ))
+                                                        }
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
                                                     {
-                                                        tableHead.map((th) => (
-                                                            <th>{th}</th>
-                                                        ))
+                                                        filteredData?.map((c, i) => {
+                                                            return (
+                                                                <tr>
+                                                                    <td> {i + 1}</td>
+                                                                    <td>{c.dc}</td>
+                                                                    <td>{c.vehicleNumber}</td>
+                                                                    <td>{c.origin}</td>
+                                                                    <td>{c.destination}</td>
+                                                                    <td>{c.date}</td>
+                                                                    <td>{c.transactionBy}</td>
+                                                                    <td>{c.transactionalNumber}</td>
+                                                                    <td style={c.status === 'In-transit' ? { color: "#B99C00" } : { color: "#329932" }}>{c.status}</td>
+                                                                    <td>
+                                                                        {
+                                                                            c.status === 'In-transit' ? <>
+                                                                                <button className='upload_dc' onClick={() => uploadRef(c)}>
+                                                                                    <input ref={fileInputRef} onChange={uploadDcHandler} type='file' style={{ display: "none" }} />
+                                                                                    Upload DC
+                                                                                </button>
+                                                                                <button className='revert' onClick={() => revertHandler(c)}>Revert</button>
+                                                                            </> :
+                                                                                <a className='revert' style={{ backgroundColor: "#2ba62b" }} href={c.signedDoc} target='_blank'>Download</a>
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })
                                                     }
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    filteredData?.map((c, i) => {
-                                                        return (
-                                                            <tr>
-                                                                <td> {i + 1}</td>
-                                                                <td>{c.dc}</td>
-                                                                <td>{c.vehicleNumber}</td>
-                                                                <td>{c.origin}</td>
-                                                                <td>{c.destination}</td>
-                                                                <td>{c.date}</td>
-                                                                <td>{c.transactionBy}</td>
-                                                                <td>{c.transactionalNumber}</td>
-                                                                <td style={c.status === 'In-transit' ? { color: "#B99C00" } : { color: "#329932" }}>{c.status}</td>
-                                                                <td>
-                                                                    <button className='upload_dc' onClick={() => uploadRef(c)}>
-                                                                        <input ref={fileInputRef} onChange={uploadDcHandler} type='file' style={{ display: "none" }} />
-                                                                        Upload DC
-                                                                    </button>
-                                                                    <button className='revert' onClick={() => revertHandler(c)}>Revert</button>
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    })
-                                                }
-                                            </tbody>
-                                        </Table>
+                                                </tbody>
+                                            </Table>
+                                        </div>
 
                                         <div className='pagination_div'>
                                             {

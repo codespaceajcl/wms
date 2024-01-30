@@ -125,8 +125,6 @@ const Dashboard = () => {
     ],
   };
 
-  // ---
-
   const locOptions = {
     responsive: true,
     plugins: {
@@ -142,10 +140,9 @@ const Dashboard = () => {
         y: {
           ticks: {
             values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-            // Add your custom Y-axis scale values here
-            stepSize: 10, // You can specify the interval between custom values
+            stepSize: 10,
             callback: function (value) {
-              return value; // Customize the label format here if needed
+              return value;
             },
           },
         },

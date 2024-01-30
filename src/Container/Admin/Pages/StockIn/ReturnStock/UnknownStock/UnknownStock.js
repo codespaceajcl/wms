@@ -589,8 +589,6 @@ const UnknownStock = () => {
             //     selectedSerialNos[data.id.toString()].push(...data.palletData[key].map(item => item.boxId));
             // }
 
-            // console.log(selectedSerialNos, "SELECTED")
-
             for (let key in data.palletData) {
                 data.palletData[key].forEach(item => {
                     stockInItemStatus[item.boxId] = item.status;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
 import { Col, Row, Spinner, Table } from 'react-bootstrap';
 import { BsArrowLeftShort } from "react-icons/bs";
@@ -9,25 +9,25 @@ import Select from 'react-select';
 import { partColorStyles, materialColorStyles, login } from "../../../../Util/Helper";
 import './InhouseMovement.css';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    changePalletMovement, getAllPalletInhouseMovement,
-    getAllWarehousesInhouseMovement
-} from '../../../../Redux/Action/Admin';
+import { changePalletMovement, getAllPalletInhouseMovement, getAllWarehousesInhouseMovement } from '../../../../Redux/Action/Admin';
 import Loader from '../../../../Util/Loader';
 import { successNotify } from '../../../../Util/Toast';
+import { usePDF } from 'react-to-pdf';
 
 const InhouseMovement = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const parentRef = useRef(null);
+    const { toPDF, targetRef } = usePDF({ filename: 'inhouseMovement.pdf' });
+
     const [show, setShow] = useState(false)
     const [warehouseName, setWarehouseName] = useState('')
     const [rackOption, setRackOption] = useState([])
     const [locationOption, setLocationOption] = useState([])
     const [getPalletId, setGetPalletId] = useState('')
     const [warehouseId, setWarehouseId] = useState('')
-
+    const [showDownload, setShowDownload] = useState(false)
     const [rowOptions, setRowOptions] = useState([]);
-
     const [inhouseChange, setInhouseChange] = useState({
         store: "",
         rack: "",
@@ -69,7 +69,24 @@ const InhouseMovement = () => {
         formData.append("token", login.token)
 
         dispatch(getAllWarehousesInhouseMovement(formData))
+
+        return () => {
+            dispatch({ type: "GET_ALL_PALLET_INHOUSE_MOVEMENT_RESET" })
+        }
     }, [])
+
+    const handleClickOutside = (event) => {
+        if (parentRef.current && !parentRef.current.contains(event.target)) {
+            setShowDownload(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const options = getWarehouseMovementData?.response?.map((m) => {
         return {
@@ -110,6 +127,7 @@ const InhouseMovement = () => {
 
         if (hasStage) {
             setChangeStage({
+                ...changeStage,
                 [c.id]: hasStage
             })
             setGetPalletId(c.id)
@@ -119,6 +137,10 @@ const InhouseMovement = () => {
             })
         }
         else {
+            setChangeStage({
+                ...changeStage,
+                [c.id]: false
+            })
             setInhouseChange({
                 ...inhouseChange,
                 store: data.value
@@ -268,9 +290,20 @@ const InhouseMovement = () => {
 
                     {
                         getPalletsMovementData?.response?.length > 0 ?
-                            <div className='create' onClick={handleDownload}>
-                                <AiOutlinePlus style={{ fontSize: "20px" }} /> Download Report</div> :
-
+                            <div className='create' ref={parentRef}>
+                                <span onClick={() => setShowDownload(!showDownload)}><AiOutlinePlus style={{ fontSize: "20px" }} /> Download Report
+                                </span>
+                                {
+                                    showDownload && <div className='filter_div' style={{ minWidth: "180px" }}>
+                                        <div className='checkbox_div' onClick={handleDownload} style={{ display: "block" }}>
+                                            <label style={{ cursor: "pointer" }} s>Download as CSV</label>
+                                        </div>
+                                        <div className='checkbox_div' onClick={() => toPDF()} style={{ display: "block" }}>
+                                            <label style={{ cursor: "pointer" }}>Download as PDF</label>
+                                        </div>
+                                    </div>
+                                }
+                            </div> :
                             <div className='create'>
                                 <AiOutlinePlus style={{ fontSize: "20px" }} /> Download Report</div>
                     }
@@ -286,12 +319,12 @@ const InhouseMovement = () => {
                     loading ? <Loader /> :
                         <div className='consignee_table inhouse'>
                             {
-                                getPalletsMovementData?.response?.length > 0 && <>
+                                getPalletsMovementData?.response?.length > 0 ? <div ref={targetRef}>
                                     <div className='select_inhouse_table'>
                                         <h6>{warehouseName}</h6>
 
                                         {
-                                            !changeStage ? <>
+                                            Object.values(changeStage)[0] === false ? <>
                                                 {
                                                     (inhouseChange?.store.length > 0 && inhouseChange?.rack.length > 0 && inhouseChange?.location.length > 0) && <div>
                                                         <button onClick={() => setShow(false)}>No</button>
@@ -350,7 +383,10 @@ const InhouseMovement = () => {
                                             }
                                         </tbody>
                                     </Table>
-                                </>
+                                </div> :
+                                    <h5 className='mt-3'>
+                                        <span style={{ color: "#329932" }}> No Results Found </span>
+                                    </h5>
                             }
                         </div>
                 }

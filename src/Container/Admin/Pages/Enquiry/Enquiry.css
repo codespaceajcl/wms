@@ -6,6 +6,8 @@
     margin-bottom: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+    box-shadow: #003a7063 0px 1px 4px;
 }
 
 .enquiry_box .black {
@@ -40,7 +42,8 @@
 }
 
 .enquiry_box h6 {
-    color: #484C52;
+    /* color: #484C52; */
+    color: #003A70;
     text-transform: capitalize;
     font-size: 18px;
     font-weight: 600;

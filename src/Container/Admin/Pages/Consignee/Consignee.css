@@ -23,7 +23,8 @@
 }
 
 .consignee_table .table>thead>tr>th {
-    background-color: #718096;
+    /* background-color: #718096; */
+    background-color: #003A70;
     color: #fff;
     font-size: 14px;
     font-weight: 400;
@@ -53,7 +54,8 @@
 
 .consignee_table .table>tbody>tr>td button {
     border: none;
-    background-color: #00A499;
+    /* background-color: #00A499; */
+    background-color: #003A70;
     color: #fff;
     padding: 5px 25px;
     font-size: 13px;

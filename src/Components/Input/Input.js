@@ -7,13 +7,13 @@ const Input = ({ field: { name, onBlur, onChange, value },
   const hasError = errors[name] && touched[name];
   return (
     <div className='input_field'>
-      <label>{label} {isRequired && <span>*</span>} </label>
+      <label>{label} <span>*</span> </label>
       <input placeholder={placeholder}
         // onBlur={() => {
         // setFieldTouched(name);
         // onBlur(name);
         // }}
-        style={hasError && { borderColor: "red" }}
+        // style={hasError && { borderColor: "red" }}
         onChange={text => onChange(name)(text)}
         value={value}
         type={type || 'text'}

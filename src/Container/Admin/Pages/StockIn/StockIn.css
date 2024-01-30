@@ -1,5 +1,6 @@
 .stockin_main .stockin_box{
-    box-shadow: 0px 4px 8px 0px #00000029;
+    /* box-shadow: 0px 4px 8px 0px #00000029; */
+    box-shadow: #003a7063 0px 1px 4px;
     border-radius: 15px;
     text-align: center;
     padding: 70px 20px;

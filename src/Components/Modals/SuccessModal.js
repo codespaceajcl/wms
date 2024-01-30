@@ -19,7 +19,7 @@ const SuccessModal = ({ show, setShow, para }) => {
           }
         </div>
       </Modal.Body>
-    </Modal >
+    </Modal>
   )
 }
 export default SuccessModal

@@ -488,7 +488,7 @@ const LocationDetail = () => {
                         succesfully!</p>
                 </div>
             </Modal.Body>
-        </Modal >
+        </Modal>
     )
 
     const statusHandler = () => {
@@ -641,7 +641,6 @@ const LocationDetail = () => {
                                         <p onClick={() => setShowGraph('inventory')} className={showGraph === 'inventory' ? 'active' : ''}>Inventory Status</p>
                                         <p onClick={() => setShowGraph('Utilization')} className={showGraph === 'Utilization' ? 'active' : ''}>Location Utilization</p>
                                     </div>
-
                                     <div>
                                         {
                                             showGraph === 'Utilization' ? <div className='pie_chart_location'>

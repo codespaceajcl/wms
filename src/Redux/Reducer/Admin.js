@@ -1684,3 +1684,36 @@ export const stockOutApiReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const dashboardApiReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "DASHBOARD_GET_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "DASHBOARD_GET_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        getDashboardData: action.payload,
+        error: false,
+      };
+    case "DASHBOARD_GET_FAILED":
+      return {
+        ...state,
+        loading: false,
+        getDashboardData: null,
+        error: action.payload,
+      };
+    case "DASHBOARD_GET_RESET":
+      return {
+        ...state,
+        loading: false,
+        getDashboardData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};

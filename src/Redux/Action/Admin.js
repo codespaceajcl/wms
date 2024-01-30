@@ -1,4 +1,5 @@
 import axios from "axios";
+import { errorNotify } from "../../Util/Toast";
 
 //create material
 export const ListMaterialPost = (formData) => async (dispatch) => {
@@ -15,6 +16,9 @@ export const ListMaterialPost = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "LIST_MATERIAL_POST_FAILED",
       payload: e?.response?.data?.message,
@@ -38,7 +42,9 @@ export const listConsignee = (page_no, formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "LIST_CONSIGNEE_FAILED",
       payload: e?.response?.data?.message,
@@ -47,7 +53,7 @@ export const listConsignee = (page_no, formData) => async (dispatch) => {
   }
 };
 
-//get all consignee
+//get Delivery Challan
 export const listDeliveryChallan = (page_no, formData) => async (dispatch) => {
   try {
     dispatch({
@@ -65,7 +71,9 @@ export const listDeliveryChallan = (page_no, formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "LIST_DELIVERY_CHALLAN_FAILED",
       payload: e?.response?.data?.message,
@@ -89,7 +97,9 @@ export const revertDocument = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "REVERT_DOCUMENT_FAILED",
       payload: e?.response?.data?.message,
@@ -113,7 +123,9 @@ export const postDcDocument = (formData, id) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "POST_DC_DOCUMENT_FAILED",
       payload: e?.response?.data?.message,
@@ -137,6 +149,9 @@ export const postRmaForm = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "POST_RMA_FORM_FAILED",
       payload: e?.response?.data?.message,
@@ -162,7 +177,9 @@ export const getAllWarehouses = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_WAREHOUSE_FAILED",
       payload: e?.response?.data?.message,
@@ -186,7 +203,9 @@ export const createWarehouses = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CREATE_WAREHOUSE_FAILED",
       payload: e?.response?.data?.message,
@@ -219,7 +238,9 @@ export const getWarehouseDetail = (id, formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_WAREHOUSE_DETAILS_FAILED",
       payload: e?.response?.data?.message,
@@ -229,28 +250,30 @@ export const getWarehouseDetail = (id, formData) => async (dispatch) => {
 };
 
 //get warehouse stage item
-export const getWarehouseStageItem =
-  (id, page, formData) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "GET_WAREHOUSE_STAGE_ITEM_REQUEST",
-      });
+export const getWarehouseStageItem = (id, page, formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_WAREHOUSE_STAGE_ITEM_REQUEST",
+    });
 
-      const { data } = await axios.post(`getStageItem/${id}/${page}`, formData);
+    const { data } = await axios.post(`getStageItem/${id}/${page}`, formData);
 
-      dispatch({
-        type: "GET_WAREHOUSE_STAGE_ITEM_SUCCESS",
-        payload: data,
-        success: true,
-      });
-    } catch (e) {
-      dispatch({
-        type: "GET_WAREHOUSE_STAGE_ITEM_FAILED",
-        payload: e?.response?.data?.message,
-        success: false,
-      });
+    dispatch({
+      type: "GET_WAREHOUSE_STAGE_ITEM_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
     }
-  };
+    dispatch({
+      type: "GET_WAREHOUSE_STAGE_ITEM_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
 
 //Create Warehouse Pallet
 export const createWarehousePallet = (formData) => async (dispatch) => {
@@ -267,7 +290,9 @@ export const createWarehousePallet = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CREATE_WAREHOUSE_PALLETS_FAILED",
       payload: e?.response?.data?.message,
@@ -291,7 +316,9 @@ export const createWarehouseStages = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CREATE_WAREHOUSE_STAGES_FAILED",
       payload: e?.response?.data?.message,
@@ -315,7 +342,9 @@ export const createWarehouseCustomStore = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CREATE_WAREHOUSE_CUSTOM_STORE_FAILED",
       payload: e?.response?.data?.message,
@@ -339,7 +368,9 @@ export const getLocation = (id, formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_LOCATION_FAILED",
       payload: e?.response?.data?.message,
@@ -363,6 +394,9 @@ export const createRack = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CREATE_RACK_FAILED",
       payload: e?.response?.data?.message,
@@ -386,6 +420,9 @@ export const createFloor = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CREATE_FLOOR_FAILED",
       payload: e?.response?.data?.message,
@@ -409,6 +446,9 @@ export const createLocation = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CREATE_LOCATION_FAILED",
       payload: e?.response?.data?.message,
@@ -432,6 +472,9 @@ export const palletLocationDetail = (id, formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "PALLET_LOC_FAILED",
       payload: e?.response?.data?.message,
@@ -455,6 +498,9 @@ export const palletStatusChange = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "PALLET_STATUS_FAILED",
       payload: e?.response?.data?.message,
@@ -477,6 +523,9 @@ export const editLocationTag = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "EDIT_LOCATION_TAG_FAILED",
       payload: e?.response?.data?.message,
@@ -488,60 +537,62 @@ export const editLocationTag = (formData) => async (dispatch) => {
 //INHOUSE MOVEMENT
 
 //get all warehouses inhouse movement
-export const getAllWarehousesInhouseMovement =
-  (formData) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "GET_ALL_WAREHOUSE_INHOUSE_MOVEMENT_REQUEST",
-      });
+export const getAllWarehousesInhouseMovement = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_ALL_WAREHOUSE_INHOUSE_MOVEMENT_REQUEST",
+    });
 
-      const { data } = await axios.post(
-        `wms/getAllWarehousesInhouseMovement`,
-        formData
-      );
+    const { data } = await axios.post(
+      `wms/getAllWarehousesInhouseMovement`,
+      formData
+    );
 
-      dispatch({
-        type: "GET_ALL_WAREHOUSE_INHOUSE_MOVEMENT_SUCCESS",
-        payload: data,
-        success: true,
-      });
-    } catch (e) {
-      console.log(e);
-      dispatch({
-        type: "GET_ALL_WAREHOUSE_INHOUSE_MOVEMENT_FAILED",
-        payload: e?.response?.data?.message,
-        success: false,
-      });
+    dispatch({
+      type: "GET_ALL_WAREHOUSE_INHOUSE_MOVEMENT_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
     }
-  };
+    dispatch({
+      type: "GET_ALL_WAREHOUSE_INHOUSE_MOVEMENT_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
 
 //get all Pallet Inhouse movement
-export const getAllPalletInhouseMovement =
-  (formData, id) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "GET_ALL_PALLET_INHOUSE_MOVEMENT_REQUEST",
-      });
+export const getAllPalletInhouseMovement = (formData, id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_ALL_PALLET_INHOUSE_MOVEMENT_REQUEST",
+    });
 
-      const { data } = await axios.post(
-        `wms/getAllPallotsInhouseMovement/${id}`,
-        formData
-      );
+    const { data } = await axios.post(
+      `wms/getAllPallotsInhouseMovement/${id}`,
+      formData
+    );
 
-      dispatch({
-        type: "GET_ALL_PALLET_INHOUSE_MOVEMENT_SUCCESS",
-        payload: data,
-        success: true,
-      });
-    } catch (e) {
-      console.log(e);
-      dispatch({
-        type: "GET_ALL_PALLET_INHOUSE_MOVEMENT_FAILED",
-        payload: e?.response?.data?.message,
-        success: false,
-      });
+    dispatch({
+      type: "GET_ALL_PALLET_INHOUSE_MOVEMENT_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
     }
-  };
+    dispatch({
+      type: "GET_ALL_PALLET_INHOUSE_MOVEMENT_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
 
 //change Pallet Inhouse movement
 export const changePalletMovement = (formData, id) => async (dispatch) => {
@@ -558,7 +609,9 @@ export const changePalletMovement = (formData, id) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
-    console.log(e);
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CHANGE_PALLET_MOVEMENT_FAILED",
       payload: e?.response?.data?.message,
@@ -570,7 +623,6 @@ export const changePalletMovement = (formData, id) => async (dispatch) => {
 // GET INVENTORY
 
 //get Inventory Filter
-
 export const getInventoryFilter = (formData) => async (dispatch) => {
   try {
     dispatch({
@@ -585,6 +637,9 @@ export const getInventoryFilter = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_INVENTORY_FILTER_FAILED",
       payload: e?.response?.data?.message,
@@ -611,6 +666,9 @@ export const getInventoryReport = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_INVENTORY_REPORTS_FAILED",
       payload: e?.response?.data?.message,
@@ -620,61 +678,65 @@ export const getInventoryReport = (formData) => async (dispatch) => {
 };
 
 //get Inventory Reports with filters
-export const getInventoryReportWithAllFilter =
-  (formData) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "GET_INVENTORY_REPORTS_FILTER_REQUEST",
-      });
+export const getInventoryReportWithAllFilter = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_INVENTORY_REPORTS_FILTER_REQUEST",
+    });
 
-      const { data } = await axios.post(
-        `https://crms.ajcl.net:7708/api/wms/getInvertoryReportWithFilters`,
-        formData
-      );
+    const { data } = await axios.post(
+      `https://crms.ajcl.net:7708/api/wms/getInvertoryReportWithFilters`,
+      formData
+    );
 
-      dispatch({
-        type: "GET_INVENTORY_REPORTS_FILTER_SUCCESS",
-        payload: data,
-        success: true,
-      });
-    } catch (e) {
-      dispatch({
-        type: "GET_INVENTORY_REPORTS_FILTER_FAILED",
-        payload: e?.response?.data?.message,
-        success: false,
-      });
+    dispatch({
+      type: "GET_INVENTORY_REPORTS_FILTER_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
     }
-  };
+    dispatch({
+      type: "GET_INVENTORY_REPORTS_FILTER_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
 
 //get Inventory Available Report
-export const getInventoryAvailableStockReport =
-  (formData) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "GET_INVENTORY_AVAILABLE_STOCK_REQUEST",
-      });
+export const getInventoryAvailableStockReport = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_INVENTORY_AVAILABLE_STOCK_REQUEST",
+    });
 
-      const { data } = await axios.post(
-        `https://crms.ajcl.net:7709/api/wms/getAvialableStock`,
-        formData,
-        {
-          timeout: 2000000,
-        }
-      );
+    const { data } = await axios.post(
+      `https://crms.ajcl.net:7709/api/wms/getAvialableStock`,
+      formData,
+      {
+        timeout: 2000000,
+      }
+    );
 
-      dispatch({
-        type: "GET_INVENTORY_AVAILABLE_STOCK_SUCCESS",
-        payload: data,
-        success: true,
-      });
-    } catch (e) {
-      dispatch({
-        type: "GET_INVENTORY_AVAILABLE_STOCK_FAILED",
-        payload: e?.response?.data?.message,
-        success: false,
-      });
+    dispatch({
+      type: "GET_INVENTORY_AVAILABLE_STOCK_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
     }
-  };
+    dispatch({
+      type: "GET_INVENTORY_AVAILABLE_STOCK_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
 
 //get Stock In Reports
 export const getStockInReport = (formData) => async (dispatch) => {
@@ -697,6 +759,9 @@ export const getStockInReport = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_STOCK_IN_FAILED",
       payload: e?.response?.data?.message,
@@ -726,6 +791,9 @@ export const getStockInReportFilter = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_STOCK_IN_FILTER_FAILED",
       payload: e?.response?.data?.message,
@@ -755,6 +823,9 @@ export const getStockOutReport = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_STOCK_OUT_FAILED",
       payload: e?.response?.data?.message,
@@ -784,6 +855,9 @@ export const getStockOutReportFilter = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_STOCK_OUT_FILTER_FAILED",
       payload: e?.response?.data?.message,
@@ -813,6 +887,9 @@ export const getStockReturnReport = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_STOCK_RETURN_FAILED",
       payload: e?.response?.data?.message,
@@ -842,6 +919,9 @@ export const getStockReturnReportFilter = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_STOCK_RETURN_FILTER_FAILED",
       payload: e?.response?.data?.message,
@@ -871,6 +951,9 @@ export const getStockTransferReport = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_STOCK_TRANSFER_FAILED",
       payload: e?.response?.data?.message,
@@ -900,6 +983,9 @@ export const getStockTransferReportFilter = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_STOCK_TRANSFER_FILTER_FAILED",
       payload: e?.response?.data?.message,
@@ -909,7 +995,6 @@ export const getStockTransferReportFilter = (formData) => async (dispatch) => {
 };
 
 // GENERAL ENQUIRY
-
 export const generalEnquiry = (formData) => async (dispatch) => {
   try {
     dispatch({
@@ -924,6 +1009,9 @@ export const generalEnquiry = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_GENERAL_ENQUIRY_FAILED",
       payload: e?.response?.data?.message,
@@ -946,6 +1034,9 @@ export const generalEnquiryDetails = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_GENERAL_ENQUIRY_DETAILS_FAILED",
       payload: e?.response?.data?.message,
@@ -973,6 +1064,9 @@ export const businessTypeWarehouse = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_BUSINESS_WAREHOUSE_FAILED",
       payload: e?.response?.data?.message,
@@ -998,6 +1092,9 @@ export const bussinessTypeCustomer = (formData, id) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_BUSINESS_CUSTOMER_FAILED",
       payload: e?.response?.data?.message,
@@ -1023,6 +1120,9 @@ export const generateSerialNo = (formData, no) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GENERATE_SERIAL_NO_FAILED",
       payload: e?.response?.data?.message,
@@ -1045,6 +1145,9 @@ export const getSerialNoExist = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_EXIST_SERIAL_NO_FAILED",
       payload: e?.response?.data?.message,
@@ -1070,6 +1173,9 @@ export const getAvailPalletStockIn = (formData, id) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_AVAIL_PALLET_STOCK_IN_FAILED",
       payload: e?.response?.data?.message,
@@ -1095,6 +1201,9 @@ export const getAvailLocationStockIn = (formData, id) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_AVAIL_LOCATION_STOCK_IN_FAILED",
       payload: e?.response?.data?.message,
@@ -1120,6 +1229,9 @@ export const getAvailStagesStockIn = (formData, id) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "GET_AVAIL_STAGES_STOCK_IN_FAILED",
       payload: e?.response?.data?.message,
@@ -1142,6 +1254,9 @@ export const createStockIn = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CREATE_STOCK_IN_FAILED",
       payload: e?.response?.data?.message,
@@ -1166,6 +1281,9 @@ export const callDebug = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "CALL_DEBUG_FAILED",
       payload: e?.response?.data?.message,
@@ -1174,31 +1292,33 @@ export const callDebug = (formData) => async (dispatch) => {
   }
 };
 
-export const stockoutbusinessTypeCustomer =
-  (formData, id) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "GET_STOCK_OUT_BUSINESS_CUSTOMER_REQUEST",
-      });
+export const stockoutbusinessTypeCustomer = (formData, id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_STOCK_OUT_BUSINESS_CUSTOMER_REQUEST",
+    });
 
-      const { data } = await axios.post(
-        `wms/getCustomerStockOut/${id}`,
-        formData
-      );
+    const { data } = await axios.post(
+      `wms/getCustomerStockOut/${id}`,
+      formData
+    );
 
-      dispatch({
-        type: "GET_STOCK_OUT_BUSINESS_CUSTOMER_SUCCESS",
-        payload: data,
-        success: true,
-      });
-    } catch (e) {
-      dispatch({
-        type: "GET_STOCK_OUT_BUSINESS_CUSTOMER_FAILED",
-        payload: e?.response?.data?.message,
-        success: false,
-      });
+    dispatch({
+      type: "GET_STOCK_OUT_BUSINESS_CUSTOMER_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
     }
-  };
+    dispatch({
+      type: "GET_STOCK_OUT_BUSINESS_CUSTOMER_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
 
 export const destinationStockout = (formData) => async (dispatch) => {
   try {
@@ -1214,6 +1334,9 @@ export const destinationStockout = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "DESTINATION_STOCK_OUT_FAILED",
       payload: e?.response?.data?.message,
@@ -1223,50 +1346,56 @@ export const destinationStockout = (formData) => async (dispatch) => {
 };
 
 export const availableStockOut = (businessTypes, warehouse, customer, formData) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "AVAILABLE_STOCK_OUT_REQUEST",
-      });
+  try {
+    dispatch({
+      type: "AVAILABLE_STOCK_OUT_REQUEST",
+    });
 
-      const { data } = await axios.post(
-        `wms/getAvialableStock/${businessTypes}/${customer}/${warehouse}`,
-        formData
-      );
+    const { data } = await axios.post(
+      `wms/getAvialableStock/${businessTypes}/${customer}/${warehouse}`,
+      formData
+    );
 
-      dispatch({
-        type: "AVAILABLE_STOCK_OUT_SUCCESS",
-        payload: data,
-        success: true,
-      });
-    } catch (e) {
-      dispatch({
-        type: "AVAILABLE_STOCK_OUT_FAILED",
-        payload: e?.response?.data?.message,
-        success: false,
-      });
+    dispatch({
+      type: "AVAILABLE_STOCK_OUT_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
     }
+    dispatch({
+      type: "AVAILABLE_STOCK_OUT_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
 };
 
 export const getStockOutPallets = (id, warehouse, formData) => async (dispatch) => {
-    try {
-      dispatch({
-        type: "STOCK_OUT_PALLET_REQUEST",
-      });
+  try {
+    dispatch({
+      type: "STOCK_OUT_PALLET_REQUEST",
+    });
 
-      const { data } = await axios.post(`wms/searchStockOutItem/${id}/${warehouse}`, formData);
+    const { data } = await axios.post(`wms/searchStockOutItem/${id}/${warehouse}`, formData);
 
-      dispatch({
-        type: "STOCK_OUT_PALLET_SUCCESS",
-        payload: data,
-        success: true,
-      });
-    } catch (e) {
-      dispatch({
-        type: "STOCK_OUT_PALLET_FAILED",
-        payload: e?.response?.data?.message,
-        success: false,
-      });
+    dispatch({
+      type: "STOCK_OUT_PALLET_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
     }
+    dispatch({
+      type: "STOCK_OUT_PALLET_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
 };
 
 export const stockOutApi = (formData) => async (dispatch) => {
@@ -1283,8 +1412,38 @@ export const stockOutApi = (formData) => async (dispatch) => {
       success: true,
     });
   } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
     dispatch({
       type: "STOCK_OUT_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+// ================= DASHBOARD ==================
+
+export const dashboardApi = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "DASHBOARD_GET_REQUEST",
+    });
+
+    const { data } = await axios.post(`dashboard`, formData);
+
+    dispatch({
+      type: "DASHBOARD_GET_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "DASHBOARD_GET_FAILED",
       payload: e?.response?.data?.message,
       success: false,
     });

@@ -26,7 +26,7 @@ const Consignee = () => {
   const [addConsigneeModal, setAddConsigneeModal] = useState(false)
   const [show, setShow] = useState(false)
 
-  const tableHead = ["S.No", "Name & Address", "Contact", "Assign"]
+  const tableHead = ["S.No", "Name & Address", "Contact", "Assigned"]
   const detailHead = ["SKU", "Quantity", "Business Type", "More"]
   const moreHead = ["Serial No", "Business Type", "Status", "Track", "Date"]
   const skuHead = ["Transaction ID", "Order/Invoice No", "Vehicle No", "Warehouse", "Destination",

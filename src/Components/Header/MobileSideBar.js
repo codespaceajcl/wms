@@ -5,6 +5,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     navbarRef.current.style.width = "0%";
@@ -22,10 +23,10 @@ function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
           </div>
           <div>
             <NavDropdown title="Admin">
-              <NavDropdown.Item>
-                <Link to='/profile'>Profile</Link>
+              <NavDropdown.Item onClick={() => navigate('/profile')}>
+                <Link>Profile</Link>
               </NavDropdown.Item>
-              <NavDropdown.Item href="/">
+              <NavDropdown.Item onClick={() => navigate('/')}>
                 <Link>Logout</Link>
               </NavDropdown.Item>
             </NavDropdown>

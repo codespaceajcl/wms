@@ -1,15 +1,36 @@
+import React, { useEffect, useState } from "react";
 import { adminRoutes, messageRoutes, warehouseRoutes } from "./Container/Admin/Routes/Routes";
 import NotFound from "./Container/Pages/NotFound/NotFound";
 import AdminLayout from "./Layouts/AdminLayout";
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import MainLayout from "./Layouts/MainLayout";
 import ChatLayout from "./Layouts/ChatLayout";
 import { ToastContainer } from "react-toastify";
+import NoInternetModal from "./Components/Modals/NoInternetModal";
 
 const App = () => {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const handle = useFullScreenHandle();
+
+  useEffect(() => {
+    function onlineHandler() {
+      setIsOnline(true);
+    }
+
+    function offlineHandler() {
+      setIsOnline(false);
+    }
+
+    window.addEventListener("online", onlineHandler);
+    window.addEventListener("offline", offlineHandler);
+
+
+    return () => {
+      window.removeEventListener("online", onlineHandler);
+      window.removeEventListener("offline", offlineHandler);
+    };
+  }, []);
 
   const adminLayout = (
     <Route path={"/"} element={<AdminLayout fullClickBtn={handle.enter} fullClickClose={handle.exit} handle={handle} />}>
@@ -32,7 +53,10 @@ const App = () => {
   </Route>
 
   return (
-    <FullScreen handle={handle}>
+    // <FullScreen handle={handle}>
+    <>
+      {!isOnline && <NoInternetModal />}
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -53,7 +77,8 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </FullScreen>
+    </>
+    // </FullScreen>
   );
 };
 export default App;
