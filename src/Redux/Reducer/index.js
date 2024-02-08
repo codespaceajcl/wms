@@ -6,9 +6,9 @@ import {
     createLocationReducer, createRackReducer, createStockInReducer,
     createWarehouseCustomStoreReducer, createWarehousePalletsReducer,
     createWarehouseReducer, createWarehouseStageReducer, dashboardApiReducer, destinationStockoutReducer, editLocationTagReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
-    getAllWarehousesInhouseMovementReducer, getAvailLocationStockInReducer, getAvailPalletStockInReducer, getAvailStagesStockInReducer, getExistingSerialNoReducer, getGeneralEnquiryDetailReducer, getGeneralEnquiryReducer,
+    getAllWarehousesInhouseMovementReducer, getAvailLocationStockInReducer, getAvailPalletStockInReducer, getAvailStagesStockInReducer, getCurrentUserProfileReducer, getExistingSerialNoReducer, getGeneralEnquiryDetailReducer, getGeneralEnquiryReducer,
     getInventoryAvailableStockReducer, getInventoryFilterReducer, getInventoryReportFilterReducer,
-    getInventoryReportReducer, getLocationReducer, getStockInReportFilterReducer, getStockInReportReducer, getStockOutPalletsReducer,
+    getInventoryReportReducer, getLocationReducer, getPalletSerialNoReducer, getStockInReportFilterReducer, getStockInReportReducer, getStockOutPalletsReducer,
     getStockOutReportFilterReducer, getStockOutReportReducer, getStockReturnReportFilterReducer,
     getStockReturnReportReducer, getStockTransferReportFilterReducer, getStockTransferReportReducer,
     getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, stockOutApiReducer, stockoutbusinessTypeCustomerReducer
@@ -87,8 +87,13 @@ const rootReducer = combineReducers({
 
     saveStockOut: stockOutApiReducer,
 
+    palletSerialNo: getPalletSerialNoReducer,
+
     // Dashboard
-    getDashboardApiData: dashboardApiReducer
+    getDashboardApiData: dashboardApiReducer,
+
+    // GET USER
+    currentUser: getCurrentUserProfileReducer
 })
 
 export default rootReducer;

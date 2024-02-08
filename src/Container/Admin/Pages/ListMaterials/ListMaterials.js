@@ -5,13 +5,13 @@ import { Col, Row, Spinner } from "react-bootstrap";
 import Input from "../../../../Components/Input/Input";
 import SelectField from "../../../../Components/SelectField/SelectField.js";
 import { BsArrowLeftShort } from "react-icons/bs";
-import { businessTypes, materialColorStyles, currencies, login } from "../../../../Util/Helper.js";
+import { materialColorStyles, currencies, login } from "../../../../Util/Helper.js";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../../../Components/Modals/SuccessModal";
 import { Field, Formik } from "formik";
 import { listOfMaterialSchema } from "../../../../Util/Validations.js";
 import { useDispatch, useSelector } from "react-redux";
-import { ListMaterialPost } from "../../../../Redux/Action/Admin.js";
+import { ListMaterialPost, businessTypeWarehouse } from "../../../../Redux/Action/Admin.js";
 import { errorNotify, successNotify } from "../../../../Util/Toast.js";
 
 const ListMaterials = () => {
@@ -20,10 +20,18 @@ const ListMaterials = () => {
   const [show, setShow] = useState(false);
 
   const { loading, postMaterialData, error } = useSelector((state) => state.postMaterial)
+  const { getBusinessWarehouses } = useSelector((state) => state.getBusinessWarehouseType)
+
+  useEffect(() => {
+    const formData = new FormData();
+    formData.append("email", login.email)
+    formData.append("token", login.token)
+    dispatch(businessTypeWarehouse(formData))
+  }, [])
 
   useEffect(() => {
     if (postMaterialData?.response === 'success') {
-      successNotify(postMaterialData?.message)
+      successNotify("Created Successfully!!")
       dispatch({ type: "LIST_MATERIAL_POST_RESET" })
     }
     if (error) {
@@ -31,6 +39,10 @@ const ListMaterials = () => {
       dispatch({ type: "LIST_MATERIAL_POST_RESET" })
     }
   }, [error, postMaterialData])
+
+  const businessType = getBusinessWarehouses?.businessType.map((b) => {
+    return { value: b, label: b }
+  })
 
   return (
     <>
@@ -45,21 +57,27 @@ const ListMaterials = () => {
           initialValues={{ skuNumber: "", nomenclatureDescription: "", nsn: "", uom: "", supplier: "", medium: "", side: "", type: "", unitPrice: "", customer: "", businessTypeSelected: null, currencySelected: null }}
           onSubmit={(values, { resetForm }) => {
 
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+
             const formData = new FormData()
-            formData.append("email", login.email)
-            formData.append("token", login.token)
             formData.append("partNo", values.skuNumber)
             formData.append("nomenclature", values.nomenclatureDescription)
-            formData.append("uom", values.uom)
-            formData.append("unitPrice", values.unitPrice)
-            formData.append("customer", values.customer)
-            formData.append("businessType", values.businessTypeSelected)
             formData.append("nsn", values.nsn)
+            formData.append("uom", values.uom)
+            formData.append("currency", values.currencySelected)
             formData.append("supplier", values.supplier)
             formData.append("medium", values.medium)
             formData.append("side", values.side)
             formData.append("type", values.type)
-            formData.append("currency", values.currencySelected)
+            formData.append("unitPrice", values.unitPrice)
+            formData.append("customer", values.customer)
+            formData.append("businessType", values.businessTypeSelected)
+            formData.append("date", `${year}-${month}-${day}`)
+            formData.append("email", login.email)
+            formData.append("token", login.token)
 
             dispatch(ListMaterialPost(formData))
             resetForm()
@@ -74,7 +92,7 @@ const ListMaterials = () => {
                 <label className="react_select_label">Business Type <span>*</span> </label>
                 <Field name={'businessTypeSelected'}
                   component={SelectField}
-                  options={businessTypes}
+                  options={businessType}
                   styleCss={materialColorStyles}
                   placeholder="Select Business Type"
                 />

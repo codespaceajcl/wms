@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
 import { BiChevronLeft } from "react-icons/bi";
+import { AiOutlineClose } from "react-icons/ai"
 import './Dashboard.css';
 import Select from 'react-select';
-import { dashboardColorStyles } from '../../../../Util/Helper.js';
-import { Col, DropdownButton, Dropdown, Row, Table } from 'react-bootstrap';
-import RecentApi from "../../../../Apis/recent.json";
+import { dashboardColorStyles, login, sortByStyles } from '../../../../Util/Helper.js';
+import { Col, DropdownButton, Dropdown, Row, Table, Modal } from 'react-bootstrap';
 import {
-  Chart as ChartJS, ArcElement, BarElement, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend,
+  Chart as ChartJS, ArcElement, BarElement, CategoryScale, LinearScale, PointElement, LineElement,
+  Title, Tooltip, Filler, Legend
 } from 'chart.js';
 import { Pie, Doughnut, Line, Bar } from 'react-chartjs-2';
+import { useDispatch, useSelector } from 'react-redux';
+import { dashboardApi, getCurrentUserProfile } from '../../../../Redux/Action/Admin.js';
+// import Loader from '../../../../Util/Loader.js';
+import Loading from '../../../../Components/Loading/Loading.js';
 
 ChartJS.register(
   ArcElement,
@@ -25,38 +30,73 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const tableHead = ["S.No", "Pallet Number", "Current Location", "Warehouse", "Action", "Status"]
+  const dispatch = useDispatch();
+  const [recentModal, setRecentModal] = useState(false)
+  const [showLocUtil, setShowLocUtil] = useState(null)
+  const [selectLoc, setSelectLoc] = useState({})
+  const [sortBy, setSortBy] = useState({ value: "Ascending", label: "Ascending" })
+  const [sortApi, setSortApi] = useState(null)
 
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
+  useEffect(() => {
+    const formData = new FormData()
+    formData.append("email", login.email)
+    formData.append("token", login.token)
+
+    dispatch(dashboardApi(formData))
+    dispatch(getCurrentUserProfile(formData))
+  }, [])
+
+  // useEffect(() => {
+  //   const formData = new FormData()
+  //   formData.append("email", login.email)
+
+  //   dispatch(getCurrentUserProfile(formData))
+  // }, [])
+
+  const { loading, getDashboardData } = useSelector((state) => state.getDashboardApiData)
+
+  useEffect(() => {
+    if (getDashboardData) {
+      setSelectLoc({ value: getDashboardData.locationUtilization[0].name, label: getDashboardData.locationUtilization[0].name })
+      setShowLocUtil(getDashboardData?.locationUtilization[0])
+      setSortApi(getDashboardData?.recentActivities)
+    }
+  }, [getDashboardData])
+
+  const options = getDashboardData?.locationUtilization?.map((l) => {
+    return { value: l.name, label: l.name }
+  })
 
   const pieData = {
-    labels: ['Idle 56%', 'Utilized 44%'],
+    labels: getDashboardData?.pallotsUtilization?.map((p) => {
+      return `Idle ${p.percentage}%`
+    }),
     datasets: [
       {
         label: '',
-        data: [56, 44],
-        backgroundColor: [
-          '#57B894',
-          '#F2F2F2',
-        ],
+        data: getDashboardData?.pallotsUtilization?.map((p) => {
+          return p.percentage
+        }),
+        backgroundColor: getDashboardData?.pallotsUtilization?.map((p) => {
+          return p.color
+        }),
       },
     ],
   };
 
   const capacityData = {
-    labels: ['55% Used Capacity', '45% Total Capacity'],
+    labels: getDashboardData?.warehouseCapacity?.map((c) => {
+      return c.name
+    }),
     datasets: [
       {
         label: '',
-        data: [55, 45],
-        backgroundColor: [
-          '#E64646',
-          '#00A3FF',
-        ],
+        data: getDashboardData?.warehouseCapacity?.map((c) => {
+          return c.percentage
+        }),
+        backgroundColor: getDashboardData?.warehouseCapacity?.map((c) => {
+          return c.color
+        }),
         borderWidth: 1,
       },
     ],
@@ -103,27 +143,41 @@ const Dashboard = () => {
         text: '',
       },
     },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 12, // Set the desired font size here
+          },
+        },
+      },
+    },
   };
 
-  const warehouseLabels = ['Sadiqabad', 'Agility', 'Port Qasim', 'Rawalpindi', 'Qasimabad', 'Murree'];
+  const warehouseLabels = getDashboardData?.warehouseUtilization?.map((w) => {
+    return w.name
+  })
 
   const warehouseData = {
     labels: warehouseLabels,
     datasets: [
       {
         label: '',
-        data: [50, 75, 30, 60, 75, 60],
-        backgroundColor: [
-          '#57B894',
-          '#F97850',
-          '#7B8DBF',
-          '#DF72B6',
-          '#97D343',
-          '#DCAC36',
-        ],
+        data: getDashboardData?.warehouseUtilization?.map((w) => {
+          return parseInt(w.count)
+        }),
+        backgroundColor: getDashboardData?.warehouseUtilization?.map((w) => {
+          return w.color
+        })
       },
     ],
   };
+
+  const locationHandler = (e) => {
+    setSelectLoc({ value: e.value, label: e.value })
+    let filterData = getDashboardData?.locationUtilization.find((l) => l.name === e.value)
+    setShowLocUtil(filterData)
+  }
 
   const locOptions = {
     responsive: true,
@@ -157,7 +211,7 @@ const Dashboard = () => {
     datasets: [
       {
         label: '',
-        data: [75, 50, 25],
+        data: [showLocUtil?.capacity, showLocUtil?.utilized, showLocUtil?.idel],
         backgroundColor: [
           '#E64646',
           '#77CEFF',
@@ -167,8 +221,59 @@ const Dashboard = () => {
     ],
   };
 
+  const tableHead = ["S.No", "Date", "Transaction By", "Truck Number", "Warehouse", "Action"]
+  const detailHead = ["SKU", "Quantity", "Business Type"]
+
+  const consigneeDetailModal = (
+    <Modal show={recentModal}
+      centered onHide={() => setRecentModal(!recentModal)} size='lg' className='consignee_detail_modal'>
+      <Modal.Body>
+        <div className='consignee_name_head'>
+          <h6>Abdullah Shah Ghazi Sugar Mill</h6>
+          <AiOutlineClose onClick={() => setRecentModal(!recentModal)} style={{ cursor: "pointer" }} />
+        </div>
+        <div className='consignee_table detail'>
+          <Table responsive>
+            <thead>
+              <tr>
+                {detailHead.map((d) => (<th>{d}</th>))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>30019</td>
+                <td>testUIM</td>
+                <td>T&T</td>
+              </tr>
+              <tr>
+                <td>30019</td>
+                <td>testUIM</td>
+                <td>T&T</td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
+      </Modal.Body>
+    </Modal>
+  )
+
+  const sortHandler = (e) => {
+    const selectedSortBy = e.value;
+    setSortBy({ value: selectedSortBy, label: selectedSortBy });
+    // Clone the RecentApi array to avoid mutating state directly
+
+    const sortedApi = [...sortApi];
+    if (selectedSortBy === "Ascending") {
+      sortedApi.sort((a, b) => (a.sno > b.sno ? 1 : -1));
+    } else if (selectedSortBy === "Descending") {
+      sortedApi.sort((a, b) => (a.sno < b.sno ? 1 : -1));
+    }
+    setSortApi(sortedApi);
+  };
+
   return (
     <div>
+      {consigneeDetailModal}
       <Breadcrumbs list={["Dashboard", " "]} />
 
       <div className='dashboard_head'>
@@ -176,146 +281,150 @@ const Dashboard = () => {
 
         <div className='calender_date'>
           <img src='/images/calender_icon.png' alt='' />
-          <p>Fri 17 Jul  <BiChevronLeft /> Sat 24 Jul </p>
+          {/* <p>{currentDate} Fri 17 Jul  <BiChevronLeft /> Sat 24 Jul </p> */}
+          <p>Date: {new Date().toJSON().slice(0, 10)}</p>
         </div>
       </div>
 
-      <div className='dashboard_boxes'>
-        <Row>
-          <Col md={3} xs={6}>
-            <div className='box warehouse_box'>
-              <img src='/images/dashboard_box_img.png' alt='' />
-              <h5>Total No of Warehouses</h5>
-              <strong>8</strong>
-            </div>
-          </Col>
-          <Col md={3} xs={6}>
-            <div className='box consignee_box'>
-              <img src='/images/consignee_box_img.png' alt='' />
-              <h5>Total Consignees</h5>
-              <strong>432</strong>
-            </div>
-          </Col>
-          <Col md={3} xs={6}>
-            <div className='box item_box'>
-              <img src='/images/item_box_img.png' alt='' />
-              <h5>Total Items</h5>
-              <strong>1349</strong>
-            </div>
-          </Col>
-          <Col md={3} xs={6}>
-            <div className='box pallet_box'>
-              <img src='/images/pallet_box_img.png' alt='' />
-              <h5>Total Pallets</h5>
-              <strong>3500</strong>
-            </div>
-          </Col>
-        </Row>
-      </div>
+      {
+        loading ? <div className='my-5'> <Loading /> </div> :
 
-      <div className='graph_view'>
-        <Row style={{ height: "100%", gap: "20px 0", marginBottom: "20px" }}>
-          <Col md={5}>
-            <div className='graph_box'>
-              <div>
-                <h6>Overview</h6>
-                <Select options={options} placeholder="Select WH" styles={dashboardColorStyles} />
-              </div>
-
-              <div className='line_chart'>
-                <Line options={overviewOptions} data={overviewData} />
-              </div>
+          <>
+            <div className='dashboard_boxes'>
+              <Row>
+                <Col md={3} xs={6}>
+                  <div className='box warehouse_box'>
+                    <img src='/images/dashboard_box_img.png' alt='' />
+                    <h5>Total No of Warehouses</h5>
+                    <strong>{getDashboardData?.totalWarehouses}</strong>
+                  </div>
+                </Col>
+                <Col md={3} xs={6}>
+                  <div className='box consignee_box'>
+                    <img src='/images/consignee_box_img.png' alt='' />
+                    <h5>Total Consignees</h5>
+                    <strong>{getDashboardData?.totalConsigees}</strong>
+                  </div>
+                </Col>
+                <Col md={3} xs={6}>
+                  <div className='box item_box'>
+                    <img src='/images/item_box_img.png' alt='' />
+                    <h5>Total Locations</h5>
+                    <strong>{getDashboardData?.totalLocations}</strong>
+                  </div>
+                </Col>
+                <Col md={3} xs={6}>
+                  <div className='box pallet_box'>
+                    <img src='/images/pallet_box_img.png' alt='' />
+                    <h5>Total Pallets</h5>
+                    <strong>{getDashboardData?.totalPallets}</strong>
+                  </div>
+                </Col>
+              </Row>
             </div>
-          </Col>
-          <Col md={7}>
-            <div className='graph_box'>
-              <h6 style={{ width: "fit-content", margin: "10px 0" }}>Warehouse Utilization</h6>
 
-              <Bar options={warehouseOptions} data={warehouseData} />
+            <div className='graph_view'>
+              <Row style={{ height: "100%", gap: "20px 0", marginBottom: "20px" }}>
+                <Col md={5}>
+                  <div className='graph_box'>
+                    <div>
+                      <h6>Overview</h6>
+                      {/* <Select options={options} placeholder="Select WH" styles={dashboardColorStyles} /> */}
+                    </div>
+
+                    <div className='line_chart'>
+                      <Line options={overviewOptions} data={overviewData} />
+                    </div>
+                  </div>
+                </Col>
+                <Col md={7}>
+                  <div className='graph_box'>
+                    <h6 style={{ width: "fit-content", margin: "10px 0" }}>Warehouse Utilization</h6>
+
+                    <Bar options={warehouseOptions} data={warehouseData} />
+                  </div>
+                </Col>
+                <Col md={4}>
+                  <div className='graph_box'>
+                    <div>
+                      <h6>Location Utilization</h6>
+                      <Select options={options} placeholder="Select Location" styles={dashboardColorStyles} value={selectLoc} onChange={locationHandler} />
+                    </div>
+
+                    <div className='bar_chart'>
+                      <Bar options={locOptions} data={locData} />
+                    </div>
+                  </div>
+                </Col>
+                <Col md={4} sm={6}>
+                  <div className='graph_box'>
+                    <div>
+                      <h6>Pallets Utilization</h6>
+                      {/* <Select options={options} placeholder="Select PH" styles={dashboardColorStyles} /> */}
+                    </div>
+
+                    <div className='pie_chart'>
+                      <Pie data={pieData} />
+                    </div>
+                  </div>
+                </Col>
+                <Col md={4} sm={6}>
+                  <div className='graph_box'>
+                    <div>
+                      <h6>Capacity</h6>
+                      {/* <Select options={options} placeholder="Select Rack" styles={dashboardColorStyles} /> */}
+                    </div>
+
+                    <div className='donut_chart'>
+                      <Doughnut data={capacityData} />
+                    </div>
+                  </div>
+                </Col>
+              </Row>
             </div>
-          </Col>
-          <Col md={4}>
-            <div className='graph_box'>
-              <div>
-                <h6>Location Utilization</h6>
-                <Select options={options} placeholder="Select LH" styles={dashboardColorStyles} />
-              </div>
 
-              <div className='bar_chart'>
-                <Bar options={locOptions} data={locData} />
-              </div>
-            </div>
-          </Col>
-          <Col md={4} sm={6}>
-            <div className='graph_box'>
-              <div>
-                <h6>Pallets Utilization</h6>
-                <Select options={options} placeholder="Select PH" styles={dashboardColorStyles} />
-              </div>
+            <div className='recent_activity'>
+              <div className='consignee_table recent_activity'>
+                <div className='recent_head'>
+                  <h6>Recent Activity</h6>
 
-              <div className='pie_chart'>
-                <Pie data={pieData} />
-              </div>
-            </div>
-          </Col>
-          <Col md={4} sm={6}>
-            <div className='graph_box'>
-              <div>
-                <h6>Capacity</h6>
-                <Select options={options} placeholder="Select Rack" styles={dashboardColorStyles} />
-              </div>
+                  <div>
+                    <Select options={[{ value: "Ascending", label: "Ascending" }, { value: "Descending", label: "Descending" }]}
+                      placeholder="Sort By" styles={sortByStyles} value={sortBy} onChange={sortHandler} />
+                  </div>
+                </div>
 
-              <div className='donut_chart'>
-                <Doughnut data={capacityData} />
-              </div>
-            </div>
-          </Col>
-        </Row>
-      </div>
-
-      <div className='recent_activity'>
-        <div className='consignee_table recent_activity'>
-          <div className='recent_head'>
-            <h6>Recent Activity</h6>
-
-            <div className='sort_by'>
-              {/* <img src='/images/filter_icon.png' alt='' /> */}
-              <DropdownButton title="Sort By" className='recent_sort'>
-                <Dropdown.Item>Ascending</Dropdown.Item>
-                <Dropdown.Item>Desending</Dropdown.Item>
-              </DropdownButton>
-            </div>
-          </div>
-
-          <Table striped bordered responsive>
-            <thead>
-              <tr>
-                {
-                  tableHead.map((th) => (
-                    <th>{th}</th>
-                  ))
-                }
-              </tr>
-            </thead>
-            <tbody>
-              {
-                RecentApi.map((c) => {
-                  return (
+                <Table striped bordered responsive>
+                  <thead>
                     <tr>
-                      <td>{c.sno}</td>
-                      <td>{c.pallet}</td>
-                      <td>{c.location}</td>
-                      <td>{c.warehouse}</td>
-                      <td className={c.stock === 'Stock In' ? 'make_green' : "make_red"}>{c.stock}</td>
-                      <td><button>View</button></td>
+                      {
+                        tableHead.map((th) => (
+                          <th>{th}</th>
+                        ))
+                      }
                     </tr>
-                  )
-                })
-              }
-            </tbody>
-          </Table>
-        </div>
-      </div>
+                  </thead>
+                  <tbody>
+                    {
+                      sortApi?.map((c, i) => {
+                        return (
+                          <tr>
+                            <td>{i + 1}</td>
+                            <td>{c.date}</td>
+                            <td>{c.transactionBy}</td>
+                            <td>{c.transactionalNumber}</td>
+                            <td>{c.warehouse}</td>
+                            <td><a className='download_btn' href={c.documentPath} target='_blank'>Download</a></td>
+                          </tr>
+                        )
+                      })
+                    }
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+          </>
+      }
     </div>
   )
 }

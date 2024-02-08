@@ -82,7 +82,7 @@
 .consignee_name_head{
     display: flex;
     justify-content: space-between;
-    background-color: #363738;
+    background-color: #003A70;
     color: #fff;
     padding: 10px 20px;
     border-top-left-radius: 7px;
@@ -95,12 +95,16 @@
 }
 
 .consignee_table.detail .table>thead>tr>th{
-    border: 1px solid #484C52;
+    /* border: 1px solid #484C52; */
     background-color: #F5F6F7;
     color: #000;
     text-align: center;
     font-weight: 500;
-    padding: 8px 5px;
+    padding: 12px 5px;
+}
+
+.consignee_table.detail .table{
+    margin-bottom: 0;
 }
 
 .consignee_table.detail .table>tbody>tr>td{

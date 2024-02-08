@@ -10,7 +10,7 @@ import store from "./Redux/store";
 import App from "./App";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://crms.ajcl.net:7731/api/"
+axios.defaults.baseURL = "https://crms.ajcl.net:7707/api/"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Provider store={store}> <App /> </Provider>);

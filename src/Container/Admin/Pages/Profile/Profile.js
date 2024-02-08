@@ -15,6 +15,27 @@ const Profile = () => {
     const [passView1, setPassView1] = useState(false)
     const [passView2, setPassView2] = useState(false)
 
+    const userFound = JSON.parse(localStorage.getItem("currentUser"))
+
+    const [image, setImage] = useState(null);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                // Set the image preview
+                setImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleClick = () => {
+        // Trigger file input click event
+        document.getElementById('fileInput').click();
+    };
+
     const modal = (
         <Modal centered show={passwordModal} onHide={() => setPasswordModal(false)} size='md' className="change_password_modal">
             <Modal.Body>
@@ -82,13 +103,21 @@ const Profile = () => {
 
                 <div className='mt-3'>
                     <div className='profile_img'>
-                        <img src='/images/profile_edit_img.png' alt='' />
-                        <img src='/images/camera_img.png' alt='' />
+                        <img src={userFound?.profile} alt='' />
+                        <div>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                style={{ display: 'none' }}
+                                onChange={handleImageChange}
+                            />
+                            <img src='/images/camera_img.png' alt='' onClick={handleClick} />
+                        </div>
                     </div>
                     <div className='profile_info'>
                         <p onClick={() => navigate('/profile/edit-profile')}>Edit Profile</p>
-                        <h6>Tariq Ahmed</h6>
-                        <span>tariq.ahmed@ajcl.net  |  + 92 300 123456</span>
+                        <h6>{userFound.name}</h6>
+                        <span>{userFound.email} | {userFound.contact}</span>
                     </div>
                 </div>
 

@@ -1685,6 +1685,39 @@ export const stockOutApiReducer = (state = {}, action) => {
   }
 };
 
+export const getPalletSerialNoReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_PALLET_SERIALNO_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "GET_PALLET_SERIALNO_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        postPalletSerial: action.payload,
+        error: false,
+      };
+    case "GET_PALLET_SERIALNO_FAILED":
+      return {
+        ...state,
+        loading: false,
+        postPalletSerial: null,
+        error: action.payload,
+      };
+    case "GET_PALLET_SERIALNO_RESET":
+      return {
+        ...state,
+        loading: false,
+        postPalletSerial: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
 export const dashboardApiReducer = (state = {}, action) => {
   switch (action.type) {
     case "DASHBOARD_GET_REQUEST":
@@ -1711,6 +1744,39 @@ export const dashboardApiReducer = (state = {}, action) => {
         ...state,
         loading: false,
         getDashboardData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const getCurrentUserProfileReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "CURRENT_USER_PROFILE_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "CURRENT_USER_PROFILE_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        getCurrentProfile: action.payload,
+        error: false,
+      };
+    case "CURRENT_USER_PROFILE_FAILED":
+      return {
+        ...state,
+        loading: false,
+        getCurrentProfile: null,
+        error: action.payload,
+      };
+    case "CURRENT_USER_PROFILE_RESET":
+      return {
+        ...state,
+        loading: false,
+        getCurrentProfile: null,
         error: null,
       };
     default:

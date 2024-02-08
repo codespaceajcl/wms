@@ -20,6 +20,24 @@ export const dashboardColorStyles = {
     },
 };
 
+export const sortByStyles = {
+    control: (baseStyles, state) => ({
+        ...baseStyles,
+        backgroundColor: 'white', borderRadius: "100px", cursor: "pointer", fontSize: "13px", boxShadow: "none",
+        borderColor: state.isFocused || state.isHovered || state.isActive || state.onHovered ? '#A9C23F' : '#bec0c3',
+        '&:hover': {
+            borderColor: state.isFocused || state.isActive ? '#A9C23F' : '#bec0c3',
+        },
+    }),
+    option: (styles) => {
+        return {
+            ...styles,
+            fontSize: "13px",
+            color: "#000"
+        };
+    },
+};
+
 export const materialColorStyles = {
     control: (baseStyles, state) => ({
         ...baseStyles,
@@ -341,29 +359,4 @@ export const currencies = [
     { label: "Yemeni Rial", value: "YER" },
     { label: "Zambian Kwacha", value: "ZMK" },
     { label: "Zimbabwean dollar", value: "ZWL" }
-];
-
-//Business Type
-
-export const businessTypes = [
-    {
-        label: 'T&T',
-        value: 't&t',
-    },
-    {
-        label: 'Aviation',
-        value: 'aviation',
-    },
-    {
-        label: 'JHPL',
-        value: 'Jhpl',
-    },
-    {
-        label: 'Claiser',
-        value: 'claiser',
-    },
-    {
-        label: 'IT Wings',
-        value: 'it wings',
-    },
 ];

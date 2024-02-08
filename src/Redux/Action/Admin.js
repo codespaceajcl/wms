@@ -61,7 +61,7 @@ export const listDeliveryChallan = (page_no, formData) => async (dispatch) => {
     });
 
     const { data } = await axios.post(
-      `wms/getDevliveryChallans/${page_no}`,
+      `wms/getDeliveryChallans/${page_no}`,
       formData
     );
 
@@ -1404,7 +1404,7 @@ export const stockOutApi = (formData) => async (dispatch) => {
       type: "STOCK_OUT_REQUEST",
     });
 
-    const { data } = await axios.post(`stockOut`, formData);
+    const { data } = await axios.post(`wms/stockOut`, formData);
 
     dispatch({
       type: "STOCK_OUT_SUCCESS",
@@ -1423,6 +1423,31 @@ export const stockOutApi = (formData) => async (dispatch) => {
   }
 };
 
+export const getPalletSerialNo = (d, formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_PALLET_SERIALNO_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/getPalletInventorySerialNo/${d.partNo}/${d.warehouse}/${d.pallot}`, formData);
+
+    dispatch({
+      type: "GET_PALLET_SERIALNO_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "GET_PALLET_SERIALNO_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
 // ================= DASHBOARD ==================
 
 export const dashboardApi = (formData) => async (dispatch) => {
@@ -1431,7 +1456,7 @@ export const dashboardApi = (formData) => async (dispatch) => {
       type: "DASHBOARD_GET_REQUEST",
     });
 
-    const { data } = await axios.post(`dashboard`, formData);
+    const { data } = await axios.post(`wms/getDashboardData`, formData);
 
     dispatch({
       type: "DASHBOARD_GET_SUCCESS",
@@ -1444,6 +1469,39 @@ export const dashboardApi = (formData) => async (dispatch) => {
     }
     dispatch({
       type: "DASHBOARD_GET_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+
+// ========================= GET USER PROFILE =========================
+
+
+export const getCurrentUserProfile = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "CURRENT_USER_PROFILE_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/getUserProfile/`, formData);
+
+    if (data) {
+      localStorage.setItem("currentUser", JSON.stringify(data?.response))
+    }
+
+    dispatch({
+      type: "CURRENT_USER_PROFILE_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "CURRENT_USER_PROFILE_FAILED",
       payload: e?.response?.data?.message,
       success: false,
     });

@@ -13,10 +13,11 @@ import { FaChevronRight, FaChevronLeft, FaEye } from "react-icons/fa";
 import { login, materialColorStyles, nomenStyles } from "../../../../Util/Helper";
 import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Checkbox } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { availableStockOut, businessTypeWarehouse, callDebug, destinationStockout, getStockOutPallets, stockOutApi, stockoutbusinessTypeCustomer } from "../../../../Redux/Action/Admin";
+import { availableStockOut, businessTypeWarehouse, callDebug, destinationStockout, getPalletSerialNo, getStockOutPallets, stockOutApi, stockoutbusinessTypeCustomer } from "../../../../Redux/Action/Admin";
 import { errorNotify, successNotify } from "../../../../Util/Toast";
 import Loader from "../../../../Util/Loader";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { CleaningServices } from "@mui/icons-material";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -26,9 +27,9 @@ const StockOut = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [tab, setTab] = useState("fifo");
+  const [palletTab, setPalletTab] = useState("fifo");
   const [tab2, setTab2] = useState("AUTO");
   const [showCart, setShowCart] = useState(false);
-  const [showSerialLoader, setSerialLoader] = useState(false);
   const [isAllocateDisabled, setIsAllocateDisabled] = useState(true);
   const [issueToFMS, setIssueToFMS] = useState({ value: "no", label: "No" });
   const [getNomenClature, setGetNomenClature] = useState({
@@ -58,6 +59,7 @@ const StockOut = () => {
   const [warehousePallets, setWarehousePallets] = useState([])
   const [showCartDetail, setShowCartDetail] = useState({})
   const [show, setShow] = useState(false)
+  const [getPalletManualData, setGetPalletManualData] = useState([])
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -70,6 +72,7 @@ const StockOut = () => {
   const { getAvailableStockOut } = useSelector((state) => state.getStockOutAvailable);
   const { loading, getPalletStockOut } = useSelector((state) => state.stockOutItem);
   const { loading: saveLoading, postStockOut } = useSelector((state) => state.saveStockOut);
+  const { loading: serialLoading, postPalletSerial } = useSelector((state) => state.palletSerialNo);
 
   useEffect(() => {
     return () => {
@@ -267,37 +270,19 @@ const StockOut = () => {
 
   const addQuantityHandler = (p) => {
     setGetIndPallet(p);
-    setShowModal(true);
-  };
 
-  const generateElements = () => {
-    const elements = [];
-    for (let i = 0; i < 2; i++) {
-      elements.push(
-        <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              style={{ color: "green" }}
-            />
-          </TableCell>
-          <TableCell>001</TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell colSpan={2}>501179241</TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell>50117924</TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell>
-            PRK28/4P-M12 - Polarized retro-reflective photoelectric sensor
-          </TableCell>
-        </TableRow>
-      );
+    const formData = new FormData();
+    formData.append("email", login.email)
+    formData.append("token", login.token)
+
+    const data = {
+      partNo: saveNomenVal.id,
+      warehouse: getNomenClature.warehouse,
+      pallot: p.pallot
     }
-    return elements;
+
+    dispatch(getPalletSerialNo(data, formData))
+    setShowModal(true);
   };
 
   const removeQuantityHandler = (e) => {
@@ -312,35 +297,88 @@ const StockOut = () => {
     let existPallotIndex = addRemoveData.findIndex((item) => item.getIndPallet.pallot === getIndPallet.pallot)
     let existWarehouseIndex = warehousePallets.findIndex((item) => item.pallot === getIndPallet.pallot)
 
-    if (getIndPallet.quantity >= parseInt(getIndPallet.removeQuantity)) {
+    if (tab2 === "AUTO") {
 
-      if (existPallotIndex !== -1) {
-        setAddRemoveData((prev) => {
-          const updatedData = [...prev];
-          updatedData[existPallotIndex].getIndPallet.removeQuantity = parseInt(updatedData[existPallotIndex].getIndPallet.removeQuantity) + parseInt(getIndPallet.removeQuantity)
-          return updatedData;
-        });
+      if (getIndPallet.quantity >= parseInt(getIndPallet.removeQuantity)) {
 
-        setWarehousePallets((prev) => {
-          const updatedData = [...prev];
-          updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getIndPallet.removeQuantity)
-          return updatedData;
-        })
+        if (existPallotIndex !== -1) {
+          setAddRemoveData((prev) => {
+            const updatedData = [...prev];
+            updatedData[existPallotIndex].getIndPallet.removeQuantity = parseInt(updatedData[existPallotIndex].getIndPallet.removeQuantity) + parseInt(getIndPallet.removeQuantity)
+            return updatedData;
+          });
+
+          setWarehousePallets((prev) => {
+            const updatedData = [...prev];
+            updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getIndPallet.removeQuantity)
+            return updatedData;
+          })
+        }
+        else {
+          setWarehousePallets((prev) => {
+            const updatedData = [...prev];
+            updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getIndPallet.removeQuantity)
+            return updatedData;
+          })
+          setAddRemoveData((prev) => [...prev, { saveNomenVal, getIndPallet }]);
+        }
+        setShowModal(false)
       }
       else {
-        setWarehousePallets((prev) => {
-          const updatedData = [...prev];
-          updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getIndPallet.removeQuantity)
-          return updatedData;
-        })
-        setAddRemoveData((prev) => [...prev, { saveNomenVal, getIndPallet }]);
+        errorNotify("Remove Quantity must be smaller than actual")
       }
-      setShowModal(false)
+
     }
-    else {
-      errorNotify("Remove Quantity must be smaller than actual")
+
+    else if (tab2 === "MANUAL") {
+      if (getPalletManualData.length > 0) {
+
+        if (existPallotIndex !== -1) {
+          setAddRemoveData((prev) => {
+            const updatedData = [...prev];
+            updatedData[existPallotIndex].getIndPallet.removeQuantity = parseInt(updatedData[existPallotIndex].getIndPallet.removeQuantity) + parseInt(getPalletManualData.length)
+            updatedData[existPallotIndex].getIndPallet.serialNos = getPalletManualData
+            updatedData[existPallotIndex].getIndPallet.status = "manual"
+            return updatedData;
+          });
+
+          setWarehousePallets((prev) => {
+            const updatedData = [...prev];
+            updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getPalletManualData.length)
+            updatedData[existWarehouseIndex].serialNos = getPalletManualData
+            updatedData[existWarehouseIndex].status = "manual"
+            return updatedData;
+          })
+        }
+        else {
+          setWarehousePallets((prev) => {
+            const updatedData = [...prev];
+            updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getPalletManualData.length)
+            updatedData[existWarehouseIndex].serialNos = getPalletManualData
+            updatedData[existWarehouseIndex].status = "manual"
+            return updatedData;
+          })
+          setAddRemoveData((prev) => [...prev, { saveNomenVal, getIndPallet }]);
+        }
+        setShowModal(false)
+      }
+      else {
+        errorNotify("Please Add atleast 1 serialNo")
+      }
     }
+
+    setGetPalletManualData([])
+    setTab2("AUTO")
+
   };
+
+  const saveSerialNoHandler = (e) => {
+    if (e.target.checked) {
+      setGetPalletManualData((prevData) => [...prevData, e.target.value]);
+    } else {
+      setGetPalletManualData((prevData) => prevData.filter(item => item !== e.target.value));
+    }
+  }
 
   const stockOutModel = (
     <Modal
@@ -365,7 +403,7 @@ const StockOut = () => {
           />
         </div>
 
-        {/* <div className="stock_out_search">
+        <div className="stock_out_search">
           <Row>
             <Col md={8}>
               <div>
@@ -376,21 +414,21 @@ const StockOut = () => {
             <Col md={4}>
               <div>
                 <button
-                  className={tab === "FIFO" ? "active" : ""}
-                  onClick={() => setTab("FIFO")}
+                  className={palletTab === "fifo" ? "active" : ""}
+                  onClick={() => setPalletTab("fifo")}
                 >
                   FIFO
                 </button>
                 <button
-                  className={tab === "LIFO" ? "active" : ""}
-                  onClick={() => setTab("LIFO")}
+                  className={palletTab === "lifo" ? "active" : ""}
+                  onClick={() => setPalletTab("lifo")}
                 >
                   LIFO
                 </button>
               </div>
             </Col>
           </Row>
-        </div> */}
+        </div>
 
         <div className="stock_out_quantity">
           <Row className="align-items-end">
@@ -400,6 +438,7 @@ const StockOut = () => {
                 <input
                   placeholder="Enter Quantity"
                   onChange={removeQuantityHandler}
+                  disabled={tab2 === "MANUAL" ? true : false}
                 />
                 <FiChevronRight />
               </div>
@@ -412,25 +451,25 @@ const StockOut = () => {
                 >
                   <img src="/images/auto_icon.png" /> Auto
                 </button>
-                {/* <button
+                <button
                   className={tab2 === "MANUAL" ? "active" : ""}
                   onClick={() => setTab2("MANUAL")}
                 >
                   <img src="/images/manual_icon.png" /> Manual
-                </button> */}
+                </button>
               </div>
             </Col>
           </Row>
         </div>
         {tab2 === "MANUAL" && (
           <div>
-            {showSerialLoader ? (
+            {serialLoading ? (
               <div className="show_loader">
                 <img src="/images/brand_loader.gif" alt="" width={100} />
-                <p>Auto Serial No Selection Mode</p>
+                <p>Manual Serial No Selection Mode</p>
               </div>
             ) : (
-              <>
+              <div className="serial_wrapper">
                 <TableContainer>
                   <Table className="stock_out_pallet_table">
                     <TableHead>
@@ -442,37 +481,93 @@ const StockOut = () => {
                         <TableCell>Description</TableCell>
                       </TableRow>
                     </TableHead>
-                    <TableBody>{generateElements()}</TableBody>
+                    <TableBody>
+                      {
+                        postPalletSerial?.serialNos?.map((s, i) => {
+                          return (
+                            <TableRow>
+                              <TableCell padding="checkbox">
+                                <Checkbox
+                                  onChange={saveSerialNoHandler}
+                                  style={{ color: "green" }}
+                                  value={s.serialNo}
+                                />
+                              </TableCell>
+                              <TableCell>{i + 1}</TableCell>
+                              <TableCell></TableCell>
+                              <TableCell></TableCell>
+                              <TableCell></TableCell>
+                              <TableCell colSpan={2}>{s.serialNo}</TableCell>
+                              <TableCell></TableCell>
+                              <TableCell></TableCell>
+                              <TableCell>{saveNomenVal.id}</TableCell>
+                              <TableCell></TableCell>
+                              <TableCell></TableCell>
+                              <TableCell></TableCell>
+                              <TableCell>
+                                {saveNomenVal.label}
+                              </TableCell>
+                            </TableRow>
+                          )
+                        })
+                      }
+                    </TableBody>
                   </Table>
                 </TableContainer>
-              </>
+              </div>
             )}
           </div>
         )}
 
-        {getIndPallet?.removeQuantity > 0 ? (
-          <Container>
-            <Row
-              className="justify-content-center my-3"
-              style={{ gap: "10px 0" }}
-            >
-              <Col md={5}>
-                <button className="add_btn" onClick={addOnRemoveHandler}>
-                  Add
-                </button>
-              </Col>
-              <Col md={5}>
-                <button className="discard_btn" onClick={() => setShowModal(false)}>Discard</button>
-              </Col>
-            </Row>
-          </Container>
-        ) : (
-          <div style={{ margin: "60px 0", textAlign: "center" }}>
-            <p style={{ fontSize: "20px", fontWeight: "600" }}>
-              No Quantity Added
-            </p>
-          </div>
-        )}
+        {
+          tab2 === "AUTO" &&
+          <>
+            {getIndPallet?.removeQuantity > 0 ? (
+              <Container>
+                <Row
+                  className="justify-content-center my-3"
+                  style={{ gap: "10px 0" }}
+                >
+                  <Col md={5}>
+                    <button className="add_btn" onClick={addOnRemoveHandler}>Add</button>
+                  </Col>
+                  <Col md={5}>
+                    <button className="discard_btn" onClick={() => setShowModal(false)}>Discard</button>
+                  </Col>
+                </Row>
+              </Container>
+            ) : (
+              <div style={{ margin: "60px 0", textAlign: "center" }}>
+                <p style={{ fontSize: "20px", fontWeight: "600" }}>
+                  No Quantity Addedss
+                </p>
+              </div>
+            )}
+          </>
+        }
+
+        {
+          tab2 === "MANUAL" &&
+          <>
+            {getPalletManualData?.length > 0 && (
+              <Container>
+                <Row
+                  className="justify-content-center my-3"
+                  style={{ gap: "10px 0" }}
+                >
+                  <Col md={5}>
+                    <button className="add_btn" onClick={addOnRemoveHandler}>
+                      Add
+                    </button>
+                  </Col>
+                  <Col md={5}>
+                    <button className="discard_btn" onClick={() => setShowModal(false)}>Discard</button>
+                  </Col>
+                </Row>
+              </Container>
+            )}
+          </>
+        }
       </Modal.Body>
     </Modal>
   );
@@ -491,19 +586,24 @@ const StockOut = () => {
   }
 
   const dispatchHandler = () => {
-
     const selectedStockOutQuantity = {};
 
     addRemoveData.forEach((item) => {
       const itemId = item.saveNomenVal.id;
       const palletId = item.getIndPallet.pallot;
       const quantity = item.getIndPallet.removeQuantity;
+      const status = item.getIndPallet.status;
+      const serialNos = item.getIndPallet.serialNos;
 
       if (!selectedStockOutQuantity[itemId]) {
         selectedStockOutQuantity[itemId] = {};
       }
 
-      selectedStockOutQuantity[itemId][palletId] = quantity;
+      selectedStockOutQuantity[itemId][palletId] = {
+        quantity: quantity ? quantity : serialNos.length,
+        status: status ? status : "auto",
+        serialNos: serialNos ? serialNos : []
+      };
     });
 
     const validateData = (data) => {
@@ -539,7 +639,6 @@ const StockOut = () => {
     } catch (error) {
       errorNotify(error.message);
     }
-
   }
 
   const pageDecrease = () => {
@@ -581,7 +680,7 @@ const StockOut = () => {
         </div>
 
         <div className="download_preview">
-          <a href={previewPdf} target="_blank">Download</a>
+          <a href={previewPdf} target="_blank">Print</a>
         </div>
       </div>
     </Modal.Body>
@@ -898,7 +997,8 @@ const StockOut = () => {
                             </div>
                             <div className="cart_detail">
                               <h6>Remove Qty.</h6>
-                              <p>{showCartDetail?.getIndPallet?.removeQuantity}</p>
+                              <p>{showCartDetail?.getIndPallet?.removeQuantity ? showCartDetail?.getIndPallet?.removeQuantity :
+                                showCartDetail?.getIndPallet.serialNos?.length}</p>
                             </div>
                             <div className="cart_detail">
                               <h6>Location</h6>
@@ -919,7 +1019,7 @@ const StockOut = () => {
                                     </div>
                                     <div className="cart_detail">
                                       <h6>Quantity</h6>
-                                      <p>{r.getIndPallet.removeQuantity}</p>
+                                      <p>{r.getIndPallet.removeQuantity ? r.getIndPallet.removeQuantity : r?.getIndPallet.serialNos?.length}</p>
                                     </div>
                                     <div>
                                       <button className="remove_btn" onClick={() => removeCartHandler(r)}>
