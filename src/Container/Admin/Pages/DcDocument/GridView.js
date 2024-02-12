@@ -4,6 +4,7 @@ import lottie_truck from "../../../../Util/Lottie/Lottie_truck.json";
 import lottie_ok from "../../../../Util/Lottie/Lottie_ok.json";
 import { Col, Row } from 'react-bootstrap';
 import Loader from '../../../../Util/Loader';
+import { allImages } from '../../../../Util/Images';
 
 const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loading, pageNum, setPageNum, showNext, getDcData, revertModal, setRevertModal }) => {
 
@@ -235,7 +236,7 @@ const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loadi
                           </Row>
 
                           <div className='d-flex justify-content-between' style={{ gap: "5px" }}>
-                            <a href={d.signedDoc} target="_blank" className='download'> <img src='/images/download.png' alt='' /> Download </a>
+                            <a href={d.signedDoc} target="_blank" className='download'> <img src={allImages.download} alt='' /> Download </a>
                           </div>
                         </div>
                       </div>

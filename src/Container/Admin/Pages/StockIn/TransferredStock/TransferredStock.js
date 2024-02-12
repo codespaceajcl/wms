@@ -15,6 +15,7 @@ import {
 } from '../../../../../Redux/Action/Admin';
 import { errorNotify } from '../../../../../Util/Toast';
 import Loader from '../../../../../Util/Loader';
+import { allImages } from '../../../../../Util/Images';
 
 const TransferredStock = () => {
     const navigate = useNavigate();
@@ -41,9 +42,9 @@ const TransferredStock = () => {
         recievingDate: new Date().toISOString().split('T')[0],
     })
 
-    const { getBusinessWarehouses } = useSelector((state) => state.getBusinessWarehouseType)
+    const { loading: businessLoading, getBusinessWarehouses } = useSelector((state) => state.getBusinessWarehouseType)
     const { loading, getSerialization } = useSelector((state) => state.getSerialzationNumber)
-    const { getBusinessCustomers } = useSelector((state) => state.getBusinessCustomerType)
+    const { loading: customerLoading, getBusinessCustomers } = useSelector((state) => state.getBusinessCustomerType)
     const { loading: serialLoading, getExistingSerial } = useSelector((state) => state.getExistingSerialNumber)
     const { loading: createLoading, postStockIn } = useSelector((state) => state.postStockInApi)
 
@@ -345,7 +346,7 @@ const TransferredStock = () => {
                     setShowSterilizeData(updatedShowSterilizeData);
 
                 } else {
-                    errorNotify("Following are the same boxId found -- " + arrOfSameBoxId.join(', '));
+                    errorNotify("Following are the different boxId found -- " + arrOfSameBoxId.join(', '));
                     e.target.value = '';
                     return;
                 }
@@ -650,17 +651,17 @@ const TransferredStock = () => {
 
     }
 
-    const modal2 = <Modal centered show={stockInShow} onHide={() => navigate('/')} className='success' style={{ backgroundColor: '#00000040' }}>
+    const modal2 = <Modal centered show={stockInShow} onHide={() => navigate('/wms/dashboard')} className='success' style={{ backgroundColor: '#00000040' }}>
         <Modal.Body>
-            <MdClose className='close_btn' onClick={() => navigate('/')} />
+            <MdClose className='close_btn' onClick={() => navigate('/wms/dashboard')} />
 
             <div>
-                <img src='/images/correct_icon.png' alt='' />
+                <img src={allImages.correct_icon} alt='' />
                 <h2>Stock In Created!</h2>
                 <p>Transtional ID is <span>{stockInSgi}</span></p>
             </div>
         </Modal.Body>
-    </Modal >
+    </Modal>
 
     let count = 0
     let count2 = 0
@@ -673,7 +674,7 @@ const TransferredStock = () => {
             <div className='material_main' style={{ padding: "25px 0" }}>
                 <h5> <BsArrowLeftShort onClick={() => navigate(-1)} style={{ left: "10px" }} /> Transfer Stock
                     <div className='create serial_generate' onClick={serialModal}>
-                        <img src='/images/serial_icon.png' alt='' /> Generate Serial No</div>
+                        <img src={allImages.serial_icon} alt='' /> Generate Serial No</div>
                 </h5>
 
                 <Row style={{ padding: "0 20px" }} className='mt-2 align-items-center'>
@@ -716,15 +717,15 @@ const TransferredStock = () => {
                     </Col>
                     <Col md={5} className='mt-2'>
                         <label className='react_select_label'>Business Type <span>*</span></label>
-                        <Select options={businessTypeOption} onChange={getCustomerHandler} placeholder="Select Business Type" styles={materialColorStyles} />
+                        <Select isLoading={businessLoading} options={businessTypeOption} onChange={getCustomerHandler} placeholder="Select Business Type" styles={materialColorStyles} />
                     </Col>
                     <Col md={5} className='mt-2'>
                         <label className='react_select_label'>Warehouse <span>*</span></label>
-                        <Select options={warehouseOption} onChange={warehouseHandler} placeholder="Select Warehouse" styles={materialColorStyles} />
+                        <Select isLoading={businessLoading} options={warehouseOption} onChange={warehouseHandler} placeholder="Select Warehouse" styles={materialColorStyles} />
                     </Col>
                     <Col md={5} className='mt-2'>
                         <label className='react_select_label'>Customer <span>*</span></label>
-                        <Select options={customersOptions} onChange={customerHandler} placeholder="Select" styles={materialColorStyles} />
+                        <Select isLoading={customerLoading} options={customersOptions} onChange={customerHandler} placeholder="Select" styles={materialColorStyles} />
                     </Col>
                 </Row>
 
@@ -738,7 +739,7 @@ const TransferredStock = () => {
 
                             <Row className='my-2 mx-2 align-items-center'>
                                 <Col md={8}>
-                                    <Select options={partNoOtion} onChange={searchPartHandler} value={selectedBusiness} placeholder="Search Part No/Noms/NSN" styles={partColorStyles} className='react_select_inhouse stock' />
+                                    <Select isLoading={customerLoading} options={partNoOtion} onChange={searchPartHandler} value={selectedBusiness} placeholder="Search Part No/Noms/NSN" styles={partColorStyles} className='react_select_inhouse stock' />
                                 </Col>
                                 <Col md={4}>
                                     <p className='serialization_para'>
@@ -929,7 +930,7 @@ const TransferredStock = () => {
                             <Col md={12}>
                                 <FileUploader handleChange={(e) => setFile(e)} name="file"
                                     types={["PDF", "DOC", "DOCX"]} label="Attached Stock Document" />
-                                <img src='/images/stock_doc_icon.png' />
+                                <img src={allImages.stock_doc_icon} />
                             </Col>
                         </Row>
 

@@ -9,11 +9,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { BsFullscreen } from 'react-icons/bs'
 import Notification from "../Notification/Notification";
 import MobileSidebar from "../Header/MobileSideBar";
+import { allImages } from "../../Util/Images";
 
 function WarehouseHeader({ sideBarItems, fullScreen, closeScreen, handle }) {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const navbarRef = useRef();
+
+    const userFound = JSON.parse(localStorage.getItem("currentUser"))
 
     const [showNotificationBar, setShowNotificationBar] = useState(false)
 
@@ -31,6 +34,10 @@ function WarehouseHeader({ sideBarItems, fullScreen, closeScreen, handle }) {
         else navbarRef.current.style.width = "100%";
     };
 
+    const logoutHandler = () => {    
+        window.location.href = "https://crms.ajcl.net/mainMenu.html"
+      }
+
     return (
         <>
             <MobileSidebar
@@ -44,50 +51,53 @@ function WarehouseHeader({ sideBarItems, fullScreen, closeScreen, handle }) {
                         <Navbar.Brand>
                             <div className="d-flex align-items-center" style={{ gap: "20px" }}>
                                 <div>
-                                    <img src="/images/ajcl_logo_white.png" alt="" className="main_logo" onClick={() => navigate('/')} />
+                                    <img src={allImages.ajcleLogoImg} alt="" className="main_logo" onClick={() => navigate('/wms/dashboard')} />
                                 </div>
                                 <div className="search_box web_view">
-                                    <img src="/images/search_icon.png" alt="" />
+                                    <img src={allImages.search_icon} alt="" />
                                     <input placeholder="search anything" />
                                 </div>
                             </div>
                         </Navbar.Brand>
                         <Navbar.Toggle onClick={NavHandler} />
                         {/* <Navbar.Collapse> */}
-                            <Nav className="ms-auto warehouse_nav">
+                        <Nav className="ms-auto warehouse_nav">
+                            <div className="nav_header_right">
                                 <div className="nav_header_right">
-                                    <div className="nav_header_right">
-                                        <div>
-                                            {
-                                                !handle.active ?
-                                                    <BsFullscreen style={{ fontSize: "19px", cursor: "pointer", color: "#fff" }} onClick={fullScreen} />
-                                                    :
-                                                    <img src="/images/full_screen_icon_white.png" alt="" className="full_screen" onClick={closeScreen} />
-                                            }
-                                        </div>
-                                        <div className="user_nav">
-                                            <img src="/images/user_img.png" alt="" />
+                                    <div>
+                                        {
+                                            !handle.active ?
+                                                <BsFullscreen style={{ fontSize: "19px", cursor: "pointer", color: "#fff" }} onClick={fullScreen} />
+                                                :
+                                                <img src={allImages.full_screen_icon_white} alt="" className="full_screen" onClick={closeScreen} />
+                                        }
+                                    </div>
+                                    <div className="user_nav warehouse_nav">
+                                        <img src={userFound?.profile} alt="" />
 
-                                            <NavDropdown title="Admin" id="basic-nav-dropdown">
-                                                <NavDropdown.Item href="/">
-                                                    Logout
-                                                </NavDropdown.Item>
-                                            </NavDropdown>
-                                        </div>
-
-                                        <div className="notification_box">
-                                            <img src="/images/notification_icon_white.png" alt="" width={'15px'}
-                                                style={{ cursor: "pointer", width: "15px" }}
-                                                onClick={() => setShowNotificationBar(!showNotificationBar)} />
-
-                                            {
-                                                showNotificationBar && <Notification />
-                                            }
-                                        </div>
+                                        <NavDropdown title={userFound?.name} id="basic-nav-dropdown">
+                                            <NavDropdown.Item>
+                                                <Link to='/wms/profile'>Profile</Link>
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Item onClick={logoutHandler}>
+                                                <Link>Logout</Link>
+                                            </NavDropdown.Item>
+                                        </NavDropdown>
                                     </div>
 
+                                    <div className="notification_box">
+                                        <img src={allImages.notification_icon_white} alt="" width={'15px'}
+                                            style={{ cursor: "pointer", width: "15px" }}
+                                            onClick={() => setShowNotificationBar(!showNotificationBar)} />
+
+                                        {
+                                            showNotificationBar && <Notification />
+                                        }
+                                    </div>
                                 </div>
-                            </Nav>
+
+                            </div>
+                        </Nav>
                         {/* </Navbar.Collapse> */}
                     </Navbar>
                 </Container>

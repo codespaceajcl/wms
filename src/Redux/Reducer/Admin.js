@@ -1783,3 +1783,168 @@ export const getCurrentUserProfileReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const updateUserProfileImgReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "UPDATE_USER_PROFILE_IMAGE_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "UPDATE_USER_PROFILE_IMAGE_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        getUserProfileImg: action.payload,
+        error: false,
+      };
+    case "UPDATE_USER_PROFILE_IMAGE_FAILED":
+      return {
+        ...state,
+        loading: false,
+        getUserProfileImg: null,
+        error: action.payload,
+      };
+    case "UPDATE_USER_PROFILE_IMAGE_RESET":
+      return {
+        ...state,
+        loading: false,
+        getUserProfileImg: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const uupdateUserProfileApiReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "UPDATE_USER_PROFILE_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "UPDATE_USER_PROFILE_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        getUpdateUserProfile: action.payload,
+        error: false,
+      };
+    case "UPDATE_USER_PROFILE_FAILED":
+      return {
+        ...state,
+        loading: false,
+        getUpdateUserProfile: null,
+        error: action.payload,
+      };
+    case "UPDATE_USER_PROFILE_RESET":
+      return {
+        ...state,
+        loading: false,
+        getUpdateUserProfile: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const getUserNotificationsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_NOTIFICATION_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "GET_NOTIFICATION_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        getNotifyData: action.payload,
+        error: false,
+      };
+    case "GET_NOTIFICATION_FAILED":
+      return {
+        ...state,
+        loading: false,
+        getNotifyData: null,
+        error: action.payload,
+      };
+    case "GET_NOTIFICATION_RESET":
+      return {
+        ...state,
+        loading: false,
+        getNotifyData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const approveRevertReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "APPROVE_REVERT_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "APPROVE_REVERT_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        approveRevertData: action.payload,
+        error: false,
+      };
+    case "APPROVE_REVERT_FAILED":
+      return {
+        ...state,
+        loading: false,
+        approveRevertData: null,
+        error: action.payload,
+      };
+    case "APPROVE_REVERT_RESET":
+      return {
+        ...state,
+        loading: false,
+        approveRevertData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const rejectRevertReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "REJECT_REVERT_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "REJECT_REVERT_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        rejectRevertData: action.payload,
+        error: false,
+      };
+    case "REJECT_REVERT_FAILED":
+      return {
+        ...state,
+        loading: false,
+        rejectRevertData: null,
+        error: action.payload,
+      };
+    case "REJECT_REVERT_RESET":
+      return {
+        ...state,
+        loading: false,
+        rejectRevertData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};

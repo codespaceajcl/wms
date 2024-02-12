@@ -3,6 +3,7 @@
     /* justify-content: center; */
     /* flex-wrap: wrap; */
     /* gap: 10px 0; */
+    border-bottom: 1px solid lightgrey;
 }
 
 .report_tabs button {
@@ -13,12 +14,12 @@
     color: #003A70;
     font-weight: 500;
     font-size: 12px;
-    background-image: url('/public/images/report_inactive_tab.png');
+    background-image: url('../../../../assets/images/report_inactive_tab.png');
     background-size: 100% 100%;
 }
 
 .report_tabs button.active {
-    background-image: url('/public/images/report_active_tab.png');
+    background-image: url('../../../../assets/images/report_active_tab.png');
     background-size: 100% 100%;
     color: #fff;
 }
@@ -163,6 +164,21 @@
 .stock_expended_row .expended_row .make_red{
     color: #FF5733;
     font-size: 14px;
+}
+
+.downloading_report{
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.downloading_report a{
+    background-color: #003A70;
+    color: #fff !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 @media (max-width: 500px) {

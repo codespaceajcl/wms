@@ -34,7 +34,7 @@
 }
 
 .show_stockout_result {
-    background-image: url('/public/images/location_bg.png');
+    background-image: url('../../../../assets/images/location_bg.png');
     background-size: cover;
     border-radius: 15px;
     padding: 10px 0;

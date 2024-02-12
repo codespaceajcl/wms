@@ -4,6 +4,7 @@ import { Col, Row } from 'react-bootstrap';
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import './StockIn.css';
+import { allImages } from '../../../../Util/Images';
 
 const StockIn = () => {
     const navigate = useNavigate();
@@ -19,23 +20,23 @@ const StockIn = () => {
                 <div className='stockin_main mt-5'>
                     <Row className='justify-content-center'>
                         <Col md={4} sm={8}>
-                            <div className='stockin_box' onClick={() => navigate('/stock-in/shipment-stock')}>
-                                <img src='/images/purchase_stock.gif' alt='' className='black' />
+                            <div className='stockin_box' onClick={() => navigate('/wms/stock-in/shipment-stock')}>
+                                <img src={allImages.purchase_stock} alt='' className='black' />
                                 <h6>Shipment/ <br />
                                     Purchases <br />
                                     Stock</h6>
                             </div>
                         </Col>
                         <Col md={4} sm={8}>
-                            <div className='stockin_box' onClick={() => navigate('/stock-in/return-stock')}>
-                                <img src='/images/return_stock.gif' alt='' className='black' />
+                            <div className='stockin_box' onClick={() => navigate('/wms/stock-in/return-stock')}>
+                                <img src={allImages.return_stock} alt='' className='black' />
                                 <h6>Returned <br />
                                     Stock</h6>
                             </div>
                         </Col>
                         <Col md={4} sm={8}>
-                            <div className='stockin_box' onClick={() => navigate('/stock-in/transfer-stock')}>
-                                <img src='/images/transfer_stock.gif' alt='' className='black' />
+                            <div className='stockin_box' onClick={() => navigate('/wms/stock-in/transfer-stock')}>
+                                <img src={allImages.transfer_stock} alt='' className='black' />
                                 <h6>Transferred  <br /> Stock</h6>
                             </div>
                         </Col>

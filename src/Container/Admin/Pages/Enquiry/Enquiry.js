@@ -6,13 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { useState } from 'react';
 import './Enquiry.css';
+import { allImages } from '../../../../Util/Images';
 
 const Enquiry = () => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false)
 
     const enquiryHandler = (enquiry, name) => {
-        navigate("/enquiry/detail", {state: { serialNo: enquiry, name: name }})
+        navigate("/wms/enquiry/detail", { state: { serialNo: enquiry, name: name } })
     }
 
     return (
@@ -28,36 +29,36 @@ const Enquiry = () => {
                     <Row>
                         <Col md={4} sm={6}>
                             <div className='enquiry_box' onClick={() => enquiryHandler("sno", "Serial Number")}>
-                                <img src='/images/serialno_img.png' alt='' className='black' />
-                                <img src='/images/serialno_white.png' alt='' className='white' />
+                                <img src={allImages.serialno_img} alt='' className='black' />
+                                <img src={allImages.serialno_white} alt='' className='white' />
                                 <h6>Serial Number</h6>
                             </div>
                         </Col>
                         <Col md={4} sm={6}>
                             <div className='enquiry_box' onClick={() => enquiryHandler("partNo", "Part Number")}>
-                                <img src='/images/partno_img.png' alt='' className='black' />
-                                <img src='/images/partno_white.png' alt='' className='white' />
+                                <img src={allImages.partno_img} alt='' className='black' />
+                                <img src={allImages.partno_white} alt='' className='white' />
                                 <h6>Part Number</h6>
                             </div>
                         </Col>
                         <Col md={4} sm={6}>
                             <div className='enquiry_box' onClick={() => enquiryHandler("nomenclature", "NomenClature")}>
-                                <img src='/images/nomenclature_img.png' alt='' className='black' />
-                                <img src='/images/nomenclature__white.png' alt='' className='white' />
+                                <img src={allImages.nomenclature_img} alt='' className='black' />
+                                <img src={allImages.nomenclature__white} alt='' className='white' />
                                 <h6>Nomenclature</h6>
                             </div>
                         </Col>
                         <Col md={4} sm={6}>
                             <div className='enquiry_box' onClick={() => enquiryHandler("transactions", "Transactions")}>
-                                <img src='/images/nameclature_img.png' alt='' className='black' />
-                                <img src='/images/nameclature_white.png' alt='' className='white' />
+                                <img src={allImages.nomenclature_img} alt='' className='black' />
+                                <img src={allImages.nomenclature__white} alt='' className='white' />
                                 <h6>Transaction</h6>
                             </div>
                         </Col>
                         <Col md={4} sm={6}>
                             <div className='enquiry_box' onClick={() => enquiryHandler("location", "Location")}>
-                                <img src='/images/location_img.png' alt='' className='black' />
-                                <img src='/images/location_white.png' alt='' className='white' />
+                                <img src={allImages.location_img} alt='' className='black' />
+                                <img src={allImages.location_white} alt='' className='white' />
                                 <h6>Location</h6>
                             </div>
                         </Col>

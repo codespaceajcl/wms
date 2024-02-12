@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import { ChatOpenStatusReducer } from "./Chat";
 import {
     ConsigneePostReducer, DeliveryChallanGetReducer, ListMaterialPostReducer, PostDcDocumentReducer, RevertDocumentReducer,
+    approveRevertReducer,
     availableStockOutReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, callDebugReducer, changePalletMovementReducer, createFloorReducer,
     createLocationReducer, createRackReducer, createStockInReducer,
     createWarehouseCustomStoreReducer, createWarehousePalletsReducer,
@@ -11,7 +12,8 @@ import {
     getInventoryReportReducer, getLocationReducer, getPalletSerialNoReducer, getStockInReportFilterReducer, getStockInReportReducer, getStockOutPalletsReducer,
     getStockOutReportFilterReducer, getStockOutReportReducer, getStockReturnReportFilterReducer,
     getStockReturnReportReducer, getStockTransferReportFilterReducer, getStockTransferReportReducer,
-    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, stockOutApiReducer, stockoutbusinessTypeCustomerReducer
+    getUserNotificationsReducer,
+    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, rejectRevertReducer, stockOutApiReducer, stockoutbusinessTypeCustomerReducer, updateUserProfileImgReducer, uupdateUserProfileApiReducer
 } from "./Admin";
 
 const rootReducer = combineReducers({
@@ -93,7 +95,17 @@ const rootReducer = combineReducers({
     getDashboardApiData: dashboardApiReducer,
 
     // GET USER
-    currentUser: getCurrentUserProfileReducer
+    currentUser: getCurrentUserProfileReducer,
+    updateProfile: updateUserProfileImgReducer,
+    updateUserProfile: uupdateUserProfileApiReducer,
+
+    // NOTIFICATION
+    notificationData: getUserNotificationsReducer,
+
+    // REVERT
+
+    approvedRevert: approveRevertReducer,
+    rejectedRevert: rejectRevertReducer
 })
 
 export default rootReducer;

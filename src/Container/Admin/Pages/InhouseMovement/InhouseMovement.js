@@ -37,7 +37,7 @@ const InhouseMovement = () => {
 
     const tableHead = ["S.No", "Pallet No", "Current Location", "Store", "Rack", "Location"]
 
-    const { getWarehouseMovementData } = useSelector((state) => state.getWarehousesInhouse)
+    const { loading: warehouseLoading, getWarehouseMovementData } = useSelector((state) => state.getWarehousesInhouse)
     const { loading, getPalletsMovementData } = useSelector((state) => state.getPalletsInhouse)
     const { loading: saveLoading, palletSaveData } = useSelector((state) => state.palletChange)
 
@@ -311,7 +311,7 @@ const InhouseMovement = () => {
 
                 <Row className='mt-5'>
                     <Col md={12}>
-                        <Select styles={partColorStyles} options={options} placeholder="Select Inhouse Movement" className='react_select_inhouse'
+                        <Select isLoading={warehouseLoading} styles={partColorStyles} options={options} placeholder="Select Inhouse Movement" className='react_select_inhouse'
                             onChange={selectInhouseHandler} />
                     </Col>
                 </Row>

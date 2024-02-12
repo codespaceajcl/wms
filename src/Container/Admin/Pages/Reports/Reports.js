@@ -129,6 +129,9 @@ const Reports = () => {
 
     }
 
+    console.log(inventoryReportsData)
+
+
     return (
         <div>
             <Breadcrumbs list={["Dashboard", "Reports"]} />
@@ -139,32 +142,32 @@ const Reports = () => {
                 <Row className='mt-4' style={{ padding: "0 25px" }}>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>Warehouse</label>
-                        <Select options={warehouseOption} placeholder="Select Warehouse"
+                        <Select isLoading={filterLoading} options={warehouseOption} placeholder="Select Warehouse"
                             onChange={(d) => setFilterData({ ...filterData, warehouses: d.value })} styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>Business Type</label>
-                        <Select options={businessTypeOption}
+                        <Select isLoading={filterLoading} options={businessTypeOption}
                             onChange={(d) => setFilterData({ ...filterData, businessTypes: d.value })} placeholder="Select Business" styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>Type</label>
-                        <Select options={typeOption}
+                        <Select isLoading={filterLoading} options={typeOption}
                             onChange={(d) => setFilterData({ ...filterData, types: d.value })} placeholder="Select Type" styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>Industry</label>
-                        <Select options={industryOption}
+                        <Select isLoading={filterLoading} options={industryOption}
                             onChange={(d) => setFilterData({ ...filterData, industries: d.value })} placeholder="Select Industry" styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>SKU</label>
-                        <Select options={skuOption}
+                        <Select isLoading={filterLoading} options={skuOption}
                             onChange={(d) => setFilterData({ ...filterData, skus: d.value })} placeholder="Select SKU" styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>Consignee</label>
-                        <Select options={consigneeOption}
+                        <Select isLoading={filterLoading} options={consigneeOption}
                             onChange={(d) => setFilterData({ ...filterData, consignees: d.value })} placeholder="Select Consignee" styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='input_field mb-2'>
@@ -205,7 +208,7 @@ const Reports = () => {
                         {
                             (loading || allTabLoading) ? <Loader /> :
                                 <>
-                                    <Table striped bordered responsive>
+                                    {/* <Table striped bordered responsive>
                                         <thead>
                                             <tr className='super_head'>
                                                 <th colSpan={2}>SKU Details</th>
@@ -327,7 +330,11 @@ const Reports = () => {
                                                     }
                                                 </tbody>
                                         }
-                                    </Table>
+                                    </Table> */}
+
+                                    <div className='downloading_report'>
+                                        <a href={inventoryReportsData?.reportLink}> Download Report </a>
+                                    </div>
 
                                     {/* {
                                         (!inventoryReportsFilterAllData &&

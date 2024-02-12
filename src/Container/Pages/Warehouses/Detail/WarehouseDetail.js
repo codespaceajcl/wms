@@ -13,6 +13,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../../Util/Loader';
 import { errorNotify, successNotify } from '../../../../Util/Toast';
+import { allImages } from '../../../../Util/Images';
 
 const WarehouseDetail = () => {
   const navigate = useNavigate();
@@ -340,7 +341,7 @@ const WarehouseDetail = () => {
         </div>
 
         <div className='pallet_img'>
-          <img src='/images/pallet_modal_img.png' alt='' />
+          <img src={allImages.pallet_modal_img} alt='' />
 
           <div> <h4>Generate Pallets</h4>
             <p>Pallets Number will be generated
@@ -418,12 +419,12 @@ const WarehouseDetail = () => {
         loading ? <Loader color="#fff" /> :
           <Container>
             <div className="search_box mob_view">
-              <img src="/images/search_icon.png" alt="" />
+              <img src={allImages.search_icon} alt="" />
               <input placeholder="search anything" />
             </div>
 
             <div className='warehouse_head'>
-              <h6> <BsArrowLeft onClick={() => navigate('/warehouses')} /> {getWarehouseDetailsData?.getStore?.warehouse} </h6>
+              <h6> <BsArrowLeft onClick={() => navigate('/wms/warehouses')} /> {getWarehouseDetailsData?.getStore?.warehouse} </h6>
 
               <div className='d-flex flex-wrap justify-content-center' style={{ gap: "10px" }}>
                 <button onClick={() => setAddStore(true)}><AiOutlinePlus /> Add Store</button>
@@ -439,11 +440,11 @@ const WarehouseDetail = () => {
                     getWarehouseDetailsData?.getStore?.response?.map((store) => {
                       return (
                         <Col md={6} sm={6}>
-                          <div className='warehouse_detail_boxes' onClick={() => navigate(`/warehouse/details/location/${store.id}`, { state: { warehouseId: id } })}>
+                          <div className='warehouse_detail_boxes' onClick={() => navigate(`/wms/warehouse/details/location/${store.id}`, { state: { warehouseId: id } })}>
                             {
                               store?.storageType === "ambient" ?
-                                <img src='/images/ambient_icon.png' alt='' /> :
-                                <img src='/images/condition_icon.png' alt='' />
+                                <img src={allImages.AmbientIcon} alt='' /> :
+                                <img src={allImages.ConditionIcon} alt='' />
                             }
                             <h6> {store?.storageType === "ambient" ? store.storageType : store.storageType}</h6>
                             <div>
@@ -459,7 +460,7 @@ const WarehouseDetail = () => {
                       return (
                         <Col md={6} sm={6}>
                           <div className='warehouse_detail_boxes' onClick={() => stageModalHandler(stage)}>
-                            <img src='/images/stage_icon.png' alt='' />
+                            <img src={allImages.stage_icon} alt='' />
                             <h6>Stage</h6>
                             <div>
                               {stage?.sgi}
@@ -473,7 +474,7 @@ const WarehouseDetail = () => {
               </Col>
               <Col md={4} sm={8}>
                 <div className='warehouse_detail_boxes_right'>
-                  <img src='/images/pallet_img.png' alt='' />
+                  <img src={allImages.pallet_img} alt='' />
                   <div>
                     <p>Total Available Pallets</p>
                     <h4>{getWarehouseDetailsData?.getAvialablePallots?.response[0]}</h4>

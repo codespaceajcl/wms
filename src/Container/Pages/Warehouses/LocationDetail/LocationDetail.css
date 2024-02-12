@@ -559,7 +559,7 @@
 .add_rack_head {
     display: flex;
     justify-content: space-between;
-    background-image: url('/public/images/location_bg.png');
+    background-image: url('../../../../assets/images/location_bg.png');
     background-size: cover;
     color: #fff;
     padding: 10px 20px;

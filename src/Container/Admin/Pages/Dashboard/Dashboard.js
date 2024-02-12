@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dashboardApi, getCurrentUserProfile } from '../../../../Redux/Action/Admin.js';
 // import Loader from '../../../../Util/Loader.js';
 import Loading from '../../../../Components/Loading/Loading.js';
+import { allImages } from '../../../../Util/Images.js';
 
 ChartJS.register(
   ArcElement,
@@ -280,7 +281,7 @@ const Dashboard = () => {
         <h5>Dashboard</h5>
 
         <div className='calender_date'>
-          <img src='/images/calender_icon.png' alt='' />
+          <img src={allImages.CalenderIcon} alt='' />
           {/* <p>{currentDate} Fri 17 Jul  <BiChevronLeft /> Sat 24 Jul </p> */}
           <p>Date: {new Date().toJSON().slice(0, 10)}</p>
         </div>
@@ -294,28 +295,28 @@ const Dashboard = () => {
               <Row>
                 <Col md={3} xs={6}>
                   <div className='box warehouse_box'>
-                    <img src='/images/dashboard_box_img.png' alt='' />
+                    <img src={allImages.dashboard_box_img} alt='' />
                     <h5>Total No of Warehouses</h5>
                     <strong>{getDashboardData?.totalWarehouses}</strong>
                   </div>
                 </Col>
                 <Col md={3} xs={6}>
                   <div className='box consignee_box'>
-                    <img src='/images/consignee_box_img.png' alt='' />
+                    <img src={allImages.consignee_box_img} alt='' />
                     <h5>Total Consignees</h5>
                     <strong>{getDashboardData?.totalConsigees}</strong>
                   </div>
                 </Col>
                 <Col md={3} xs={6}>
                   <div className='box item_box'>
-                    <img src='/images/item_box_img.png' alt='' />
+                    <img src={allImages.item_box_img} alt='' />
                     <h5>Total Locations</h5>
                     <strong>{getDashboardData?.totalLocations}</strong>
                   </div>
                 </Col>
                 <Col md={3} xs={6}>
                   <div className='box pallet_box'>
-                    <img src='/images/pallet_box_img.png' alt='' />
+                    <img src={allImages.pallet_box_img} alt='' />
                     <h5>Total Pallets</h5>
                     <strong>{getDashboardData?.totalPallets}</strong>
                   </div>
@@ -348,7 +349,7 @@ const Dashboard = () => {
                   <div className='graph_box'>
                     <div>
                       <h6>Location Utilization</h6>
-                      <Select options={options} placeholder="Select Location" styles={dashboardColorStyles} value={selectLoc} onChange={locationHandler} />
+                      <Select isLoading={loading} options={options} placeholder="Select Location" styles={dashboardColorStyles} value={selectLoc} onChange={locationHandler} />
                     </div>
 
                     <div className='bar_chart'>

@@ -1475,9 +1475,7 @@ export const dashboardApi = (formData) => async (dispatch) => {
   }
 };
 
-
 // ========================= GET USER PROFILE =========================
-
 
 export const getCurrentUserProfile = (formData) => async (dispatch) => {
   try {
@@ -1502,6 +1500,133 @@ export const getCurrentUserProfile = (formData) => async (dispatch) => {
     }
     dispatch({
       type: "CURRENT_USER_PROFILE_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+export const updateUserProfileImage = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "UPDATE_USER_PROFILE_IMAGE_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/updateUserProfileImage/`, formData);
+
+    dispatch({
+      type: "UPDATE_USER_PROFILE_IMAGE_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "UPDATE_USER_PROFILE_IMAGE_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+}
+
+export const updateUserProfileApi = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "UPDATE_USER_PROFILE_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/updateUserProfile/`, formData);
+
+    dispatch({
+      type: "UPDATE_USER_PROFILE_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "UPDATE_USER_PROFILE_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+}
+
+// NOTIFICATION
+
+export const getUserNotifications = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_NOTIFICATION_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/getUserUpdates/`, formData);
+
+    dispatch({
+      type: "GET_NOTIFICATION_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "GET_NOTIFICATION_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+export const approveRevert = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "APPROVE_REVERT_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/stockOutRevertTransaction/`, formData);
+
+    dispatch({
+      type: "APPROVE_REVERT_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "APPROVE_REVERT_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+export const rejectRevert = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "REJECT_REVERT_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/rejectRevertTransaction/`, formData);
+
+    dispatch({
+      type: "REJECT_REVERT_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "REJECT_REVERT_FAILED",
       payload: e?.response?.data?.message,
       success: false,
     });

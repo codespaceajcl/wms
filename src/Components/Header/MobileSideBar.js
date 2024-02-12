@@ -2,6 +2,7 @@ import { MdClose } from "react-icons/md";
 import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { allImages } from "../../Util/Images";
 
 function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
   const { pathname } = useLocation();
@@ -11,6 +12,12 @@ function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
     navbarRef.current.style.width = "0%";
   }, [pathname]);
 
+  const logoutHandler = () => {
+    window.location.href = "https://crms.ajcl.net/mainMenu.html"
+  }
+
+  const userFound = JSON.parse(localStorage.getItem("currentUser"))
+
   return (
     <div className="overlay" ref={navbarRef}>
       <span className="closebtn" onClick={NavHandler}>
@@ -19,14 +26,14 @@ function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
       <div className={"overlay-content"}>
         <div className="d-flex align-items-center text-white gap-2 mb-3">
           <div className="mobile_sidebar_avatar">
-            <img src="/images/user_img.png" alt="" />
+            <img src={userFound?.profile} alt="" />
           </div>
           <div>
-            <NavDropdown title="Admin">
-              <NavDropdown.Item onClick={() => navigate('/profile')}>
-                <Link>Profile</Link>
+            <NavDropdown title={userFound?.name} id="basic-nav-dropdown">
+              <NavDropdown.Item>
+                <Link to='/wms/profile'>Profile</Link>
               </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => navigate('/')}>
+              <NavDropdown.Item onClick={logoutHandler}>
                 <Link>Logout</Link>
               </NavDropdown.Item>
             </NavDropdown>
@@ -47,8 +54,16 @@ function MobileSidebar({ navbarRef, NavHandler, sideBarItems }) {
         <Link to='messages/message' className={pathname === 'messages/message' ? "nav-active" : "nav-link"}>
           <span>12 - Inbox</span>
         </Link>
-        <Link to='/faqs' className={pathname === '/faqs' ? "nav-active" : "nav-link"}>
-          <span>12 - FAQS</span>
+        <Link to='/wms/faqs' className={pathname === '/wms/faqs' ? "nav-active" : "nav-link"}>
+          <span>13 - FAQS</span>
+        </Link>
+
+        <Link to='/wms/profile' className={pathname === '/wms/profile' ? "nav-active" : "nav-link"}>
+          <span>14 - Profile</span>
+        </Link>
+
+        <Link onClick={logoutHandler}>
+          <span>15 - Logout</span>
         </Link>
       </div>
     </div>

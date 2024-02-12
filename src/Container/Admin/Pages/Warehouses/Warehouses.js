@@ -18,6 +18,7 @@ import Select from "react-select";
 import Loader from '../../../../Util/Loader';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { errorNotify } from '../../../../Util/Toast';
+import { allImages } from '../../../../Util/Images';
 
 ChartJS.register(
   ArcElement,
@@ -457,19 +458,19 @@ const Warehouses = (props) => {
                       <Col md={4} sm={6} xs={10} key={w.id}>
                         <div className='warehouse_div'>
                           <div className='warehouse_img_div'>
-                            <img src={'/images/warehouse_img1.png'} alt='' />
+                            <img src={allImages.warehouse_img1} alt='' />
                             <h6>{w.name}</h6>
                           </div>
                           <div className='no_stores'>
                             <div>
-                              <img src='/images/store_icon.png' alt='' />
+                              <img src={allImages.store_icon} alt='' />
                               <p>No Of Stores</p>
                             </div>
                             <div>{getWarehouseData?.stat[w.id]?.store}</div>
                           </div>
                           <div className='no_stores'>
                             <div>
-                              <img src='/images/stages_icon.png' alt='' />
+                              <img src={allImages.stages_icon} alt='' />
                               <p>No Of Stages</p>
                             </div>
                             <div>{getWarehouseData?.stat[w.id]?.stage}</div>
@@ -479,14 +480,14 @@ const Warehouses = (props) => {
                             <Col md={6} xs={6}>
                               <div className='w_location'>
                                 <div className='loc'>
-                                  <img src='/images/location_icon.png' alt='' />
+                                  <img src={allImages.location_no} alt='' />
                                   <p>Locations</p>
                                 </div>
 
                                 <div className='warehouse_chart'>
                                   {
                                     (getWarehouseData?.stat[w.id]?.location == 0 && getWarehouseData?.stat[w.id]?.utilizeLocation == 0) ?
-                                      <img src='/images/empty_loc_pallet.png' alt='' /> :
+                                      <img src={allImages.empty_loc_pallet} alt='' /> :
                                       <Doughnut data={{
                                         labels: ['Total', 'Utilized'],
                                         datasets: [
@@ -519,14 +520,14 @@ const Warehouses = (props) => {
                             <Col md={6} xs={6}>
                               <div className='w_location'>
                                 <div className='loc'>
-                                  <img src='/images/pallet_icon.png' alt='' />
+                                  <img src={allImages.pallet_icon} alt='' />
                                   <p>Pallets</p>
                                 </div>
 
                                 <div className='warehouse_chart'>
                                   {
                                     (getWarehouseData?.stat[w.id]?.pallot == 0 && getWarehouseData?.stat[w.id]?.utilizePallots == 0) ?
-                                      <img src='/images/empty_loc_pallet.png' alt='' /> :
+                                      <img src={allImages.empty_loc_pallet} alt='' /> :
                                       <Doughnut data={{
                                         labels: ['Total', 'Utilized'],
                                         datasets: [
@@ -558,7 +559,7 @@ const Warehouses = (props) => {
                             </Col>
                           </Row>
                         </div>
-                        <button className='go_warehouse_btn' onClick={() => navigate(`/warehouse/details/${w.id}`)}>Go To Warehouse</button>
+                        <button className='go_warehouse_btn' onClick={() => navigate(`/wms/warehouse/details/${w.id}`)}>Go To Warehouse</button>
                       </Col>
                     )
                   })

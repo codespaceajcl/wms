@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listConsignee } from '../../../../Redux/Action/Admin';
 import { login } from '../../../../Util/Helper';
 import Loader from '../../../../Util/Loader';
+import { allImages } from '../../../../Util/Images';
 
 const Consignee = () => {
   const navigate = useNavigate();
@@ -25,8 +26,8 @@ const Consignee = () => {
   const [pageNum, setPageNum] = useState(0)
   const [addConsigneeModal, setAddConsigneeModal] = useState(false)
   const [show, setShow] = useState(false)
-
-  const tableHead = ["S.No", "Name & Address", "Contact", "Assigned"]
+  // "Assigned"
+  const tableHead = ["S.No", "Name & Address", "Contact"]
   const detailHead = ["SKU", "Quantity", "Business Type", "More"]
   const moreHead = ["Serial No", "Business Type", "Status", "Track", "Date"]
   const skuHead = ["Transaction ID", "Order/Invoice No", "Vehicle No", "Warehouse", "Destination",
@@ -103,7 +104,7 @@ const Consignee = () => {
           </div>
 
           <div className="search_box">
-            <img src="/images/search_icon.png" alt="" />
+            <img src={allImages.serial_icon} alt="" />
             <input placeholder="search anything" />
           </div>
 
@@ -149,16 +150,16 @@ const Consignee = () => {
                 <td>111</td>
                 <td>T&T</td>
                 <td><b style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "4px", color: "#329932" }}>
-                  <img src='/images/correct_icon.png' alt='' width={"16px"} />OK</b></td>
-                <td><img src='/images/track_icon.png' alt='' style={{ cursor: "pointer", width: "20px" }} onClick={() => setSkuModal(true)} /></td>
+                  <img src={allImages.correct_icon} alt='' width={"16px"} />OK</b></td>
+                <td><img src={allImages.track_icon} alt='' style={{ cursor: "pointer", width: "20px" }} onClick={() => setSkuModal(true)} /></td>
                 <td>20/06/2018</td>
               </tr>
               <tr>
                 <td>111</td>
                 <td>T&T</td>
                 <td><b style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "4px", color: "#329932" }}>
-                  <img src='/images/correct_icon.png' alt='' width={"16px"} />OK</b></td>
-                <td><img src='/images/track_icon.png' alt='' style={{ cursor: "pointer", width: "20px" }} onClick={() => setSkuModal(true)} /></td>
+                  <img src={allImages.correct_icon} alt='' width={"16px"} />OK</b></td>
+                <td><img src={allImages.track_icon} alt='' style={{ cursor: "pointer", width: "20px" }} onClick={() => setSkuModal(true)} /></td>
                 <td>20/06/2018</td>
               </tr>
             </tbody>
@@ -179,7 +180,7 @@ const Consignee = () => {
 
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <div className="search_box">
-              <img src="/images/search_icon.png" alt="" />
+              <img src={allImages.search_icon} alt="" />
               <input placeholder="search anything" />
             </div>
 
@@ -355,7 +356,7 @@ const Consignee = () => {
           <h5> <BsArrowLeftShort onClick={() => navigate(-1)} />
 
             <div className="search_box consignee web_view">
-              <img src="/images/search_icon.png" alt="" />
+              <img src={allImages.search_icon} alt="" />
               <input placeholder="search anything" onChange={searchConsigneeHandler} />
             </div>
             Consignee
@@ -364,7 +365,7 @@ const Consignee = () => {
         </div>
 
         <div className="search_box consignee mob_view">
-          <img src="/images/search_icon.png" alt="" />
+          <img src={allImages.search_icon} alt="" />
           <input placeholder="search anything" />
         </div>
 
@@ -394,7 +395,7 @@ const Consignee = () => {
                               <span>{c.address}</span>
                             </td>
                             <td style={{ fontWeight: "600" }}>{c.contact}</td>
-                            <td><button onClick={() => setConsigneeModal(!consigneeModal)}>View</button></td>
+                            {/* <td><button onClick={() => setConsigneeModal(!consigneeModal)}>View</button></td> */}
                           </tr>
                         )
                       })

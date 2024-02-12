@@ -14,6 +14,7 @@ import { createFloor, createLocation, createRack, editLocationTag, getAllWarehou
 import { useLocation, useParams } from 'react-router-dom';
 import Loader from '../../../../Util/Loader';
 import { successNotify } from '../../../../Util/Toast';
+import { allImages } from '../../../../Util/Images';
 
 const LocationDetail = () => {
     const dispatch = useDispatch();
@@ -425,7 +426,7 @@ const LocationDetail = () => {
                         <Col md={5}>
                             <div className='search_by'>
                                 <input type='date' />
-                                <button> <img src='/images/file_download.png' alt='' /> Download</button>
+                                <button> <img src={allImages.file_download} alt='' /> Download</button>
                             </div>
                         </Col>
                     </Row>
@@ -471,7 +472,7 @@ const LocationDetail = () => {
                     }
                 </div>
             </Modal.Body>
-        </Modal >
+        </Modal>
     )
 
     const showSuccessModal = (
@@ -482,7 +483,7 @@ const LocationDetail = () => {
                 </div>
 
                 <div className='success_detail'>
-                    <img src='/images/correct_icon2.png' alt='' />
+                    <img src={allImages.correct_icon2} alt='' />
                     <h2>Success!</h2>
                     <p>Location Status has been changed <br />
                         succesfully!</p>
@@ -565,7 +566,7 @@ const LocationDetail = () => {
                                     <h6>Warehouse Info.</h6>
 
                                     <div className='warehouse_info_detail'>
-                                        <img src='/images/agile_port_img.png' alt='' />
+                                        <img src={allImages.agilePortImg} alt='' />
 
                                         <div>
                                             <h6>{currentWarehouse?.name}</h6>
@@ -575,27 +576,27 @@ const LocationDetail = () => {
 
                                     <div className='location_list_detail'>
                                         <ul>
-                                            <li> <img src='/images/location_store_icon.png' alt='' /> No of Stores </li>
+                                            <li> <img src={allImages.location_store_icon} alt='' /> No of Stores </li>
                                             <li><strong>{getWarehouseData?.stat[state.warehouseId]?.store}</strong></li>
                                         </ul>
                                         <ul>
-                                            <li> <img src='/images/location_stage_icon.png' alt='' /> No of Stages </li>
+                                            <li> <img src={allImages.location_stage_icon} alt='' /> No of Stages </li>
                                             <li><strong>{getWarehouseData?.stat[state.warehouseId]?.stage}</strong></li>
                                         </ul>
                                         <ul>
-                                            <li> <img src='/images/location_no_icon.png' alt='' /> Total Location </li>
+                                            <li> <img src={allImages.location_no_icon} alt='' /> Total Location </li>
                                             <li><strong>{getWarehouseData?.stat[state.warehouseId]?.location}</strong></li>
                                         </ul>
                                         <ul>
-                                            <li> <img src='/images/utilized_location_icon.png' alt='' /> Utlized Location </li>
+                                            <li> <img src={allImages.utilized_location_icon} alt='' /> Utlized Location </li>
                                             <li><strong>{getWarehouseData?.stat[state.warehouseId]?.utilizeLocation}</strong></li>
                                         </ul>
                                         <ul>
-                                            <li> <img src='/images/location_pallet_icon.png' alt='' /> Total Pallets </li>
+                                            <li> <img src={allImages.location_pallet_icon} alt='' /> Total Pallets </li>
                                             <li><strong>{getWarehouseData?.stat[state.warehouseId]?.location}</strong></li>
                                         </ul>
                                         <ul>
-                                            <li> <img src='/images/utilized_pallet_loc.png' alt='' /> Utilized Pallets </li>
+                                            <li> <img src={allImages.utilized_pallet_loc} alt='' /> Utilized Pallets </li>
                                             <li><strong>{getWarehouseData?.stat[state.warehouseId]?.utilizeLocation}</strong></li>
                                         </ul>
                                     </div>
@@ -670,12 +671,12 @@ const LocationDetail = () => {
                                             </div>
                                         </div>
 
-                                        <div className='mt-4'>
+                                        {/* <div className='mt-4'>
                                             <Select options={options} placeholder="All Racks" styles={rackColorStyles} className='react_select_inhouse dc_doc' />
                                             <div>
                                                 <MdFilterList onClick={() => setShowFilterBox(!showFilterBox)} />
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         <div className='rack_box_info'>
                                             <p> <span></span> Empty </p>
@@ -727,9 +728,9 @@ const LocationDetail = () => {
                                                                                                     <div className='rack_place' onClick={() => openPalletModal(slot)}>
                                                                                                         {
                                                                                                             slot.status === 'filled' ?
-                                                                                                                <img src='/images/filled_rack.png' alt='' /> : slot.status === 'empty' ?
-                                                                                                                    <img src='/images/empty_rack.png' alt='' /> :
-                                                                                                                    <img src='/images/faulty_rack.png' alt='' />
+                                                                                                                <img src={allImages.filled_rack} alt='' /> : slot.status === 'empty' ?
+                                                                                                                    <img src={allImages.empty_rack} alt='' /> :
+                                                                                                                    <img src={allImages.faulty_rack} alt='' />
                                                                                                         }
                                                                                                         <span style={{ color: "#fff" }}>{slot.sgi}</span>
                                                                                                     </div>

@@ -7,9 +7,13 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { BsFullscreen } from 'react-icons/bs'
 import Notification from "../Notification/Notification";
 import { MdClose, MdSearch } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { chatOpenStatus } from "../../Redux/Action/Chat";
 import "./Header.css";
+import { getUserNotifications } from "../../Redux/Action/Admin";
+import { allImages } from "../../Util/Images";
+import { IoMdLogOut } from "react-icons/io";
+
 
 function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const { pathname } = useLocation();
@@ -23,13 +27,25 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const [showNotificationBar, setShowNotificationBar] = useState(false)
   const [newChatModal, setNewChatModal] = useState(false)
 
+  const { loading, getNotifyData } = useSelector((state) => state.notificationData)
+
   const userFound = JSON.parse(localStorage.getItem("currentUser"))
+
+  useEffect(() => {
+    const data = {
+      email: userFound?.email,
+      token: userFound?.token
+    }
+
+    const formData = JSON.stringify(data)
+    dispatch(getUserNotifications(formData))
+  }, [])
 
   const classes = (path) => {
     let splitPath = path.split("/");
     let splitPathname = pathname.split("/");
 
-    if (splitPath[1] === splitPathname[1]) {
+    if (splitPath[2] === splitPathname[2]) {
       return "nav_active";
     }
 
@@ -51,7 +67,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
 
   const onMessageHandler = () => {
     dispatch(chatOpenStatus(true))
-    navigate('/messages/message')
+    navigate('/wms/messages/message')
   }
 
   const modal = (
@@ -71,21 +87,21 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
           <h6>SUGGESTED</h6>
 
           <div className="users" onClick={onMessageHandler}>
-            <img src="/images/chat_img2.png" />
+            <img src={allImages.ChatImg2} />
 
             <div>
               <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
             </div>
           </div>
           <div className="users" onClick={onMessageHandler}>
-            <img src="/images/chat_img.png" />
+            <img src={allImages.ChatImg} />
 
             <div>
               <p><span>Ayesha Malik</span> <br /> Logistics Manager </p>
             </div>
           </div>
           <div className="users" onClick={onMessageHandler}>
-            <img src="/images/chat_img2.png" />
+            <img src={allImages.ChatImg2} />
 
             <div>
               <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
@@ -95,6 +111,12 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
       </Modal.Body>
     </Modal>
   )
+
+  const mergeNotificationData = getNotifyData?.approvals?.concat(getNotifyData?.messages)
+
+  const logoutHandler = () => {
+    window.location.href = "https://crms.ajcl.net/mainMenu.html"
+  }
 
   return (
     <>
@@ -113,9 +135,9 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
             <div className={sidebarToggle ? "layout_content_sidebar_section close" : "layout_content_sidebar_section"}>
               <div className="user_sidebar">
                 <div className="sidebar_top_logo" style={sidebarToggle ? { justifyContent: "center" } : null}>
-                  <img src="/images/ajcl_logo.png" alt="" className="main_logo" style={sidebarToggle ? { display: 'none' } : null} />
+                  <img src={allImages.ajclLogo} alt="" className="main_logo" style={sidebarToggle ? { display: 'none' } : null} />
                   <img
-                    src="/images/toggle_icon.png"
+                    src={allImages.toggle_icon}
                     alt=""
                     className="toggle_icon"
                     onClick={() => setSidebarToggle(!sidebarToggle)}
@@ -143,15 +165,31 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                     <h6 className={sidebarToggle ? 'toggler' : null}>Support</h6>
                     {/* <li>
                       <Link to='messages/message' style={sidebarToggle ? { padding: '12px 0px 12px 4px' } : null}>
-                        <img src={'/images/inbox_icon.png'} alt="" />
+                        <img src={allImages.inbox_icon} alt="" />
                         <span style={sidebarToggle ? { display: "none" } : null}>Inbox</span>
                       </Link>
                       <p className="chat_num">2</p>
                     </li> */}
-                    <li className={pathname.split("/")[1] === 'faqs' && "nav_active"}>
-                      <Link to='/faqs' style={sidebarToggle ? { padding: '12px 0px 12px 4px' } : null}>
-                        <img src={'/images/faq_icon.png'} alt="" />
+                    <li className={pathname.split("/")[2] === 'faqs' && "nav_active"}>
+                      <Link to='/wms/faqs' style={sidebarToggle ? { padding: '12px 0px 12px 4px' } : null}>
+                        <img src={allImages.faq_icon} alt="" />
                         <span style={sidebarToggle ? { display: "none" } : null}>FAQ</span>
+                      </Link>
+                    </li>
+                  </ul>
+
+                  <ul className="nav_list" style={{ borderTop: "1px solid #E7E7E7" }}>
+                    <h6 className={sidebarToggle ? 'toggler' : null}>Settings</h6>
+                    <li className={pathname.split("/")[2] === 'profile' && "nav_active"}>
+                      <Link to='/wms/profile' style={sidebarToggle ? { padding: '12px 0px 12px 4px' } : null}>
+                        <img src={allImages.inbox_icon} alt="" />
+                        <span style={sidebarToggle ? { display: "none" } : null}>Profile</span>
+                      </Link>
+                    </li>
+                    <li className={pathname.split("/")[2] === 'faqs' && "nav_active"} onClick={logoutHandler}>
+                      <Link style={sidebarToggle ? { padding: '12px 0px 12px 4px' } : null}>
+                        <IoMdLogOut className="logout_icon" />
+                        <span style={sidebarToggle ? { display: "none" } : null}>Logout</span>
                       </Link>
                     </li>
                   </ul>
@@ -249,14 +287,14 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
               <Row className="align-items-center make_col_reverse">
                 <Col md={6}>
                   <div className="search_box">
-                    <img src="/images/search_icon.png" alt="" />
+                    <img src={allImages.search_icon} alt="" />
                     <input placeholder="search anything" />
                   </div>
                 </Col>
                 <Col md={6}>
                   <Navbar collapseOnSelect expand="lg">
                     <Navbar.Brand onClick={() => navigate("/")}>
-                      <img src="/images/ajcl_logo.png" alt="" className="mob_responsive_logo" />
+                      <img src={allImages.ajclLogo} alt="" className="mob_responsive_logo" />
                     </Navbar.Brand>
                     <Navbar.Toggle
                       aria-controls="responsive-navbar-nav"
@@ -266,32 +304,33 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                       <Nav className="ms-auto">
                         {/* <p>Version 2.0</p> */}
                         <div className="nav_header_right">
-                          <div>
+                          {/* <div>
                             {
                               !handle.active ?
                                 <BsFullscreen style={{ fontSize: "19px", cursor: "pointer" }} onClick={fullScreen} /> :
                                 <img src="/images/full_screen_icon.png" alt="" className="full_screen" onClick={closeScreen} />
                             }
-                          </div>
+                          </div> */}
                           <div className="user_nav">
                             <img src={userFound?.profile} alt="" />
 
                             <NavDropdown title={userFound?.name} id="basic-nav-dropdown">
                               <NavDropdown.Item>
-                                <Link to='/profile'>Profile</Link>
+                                <Link to='/wms/profile'>Profile</Link>
                               </NavDropdown.Item>
-                              <NavDropdown.Item href="/">
+                              <NavDropdown.Item onClick={logoutHandler}>
                                 <Link>Logout</Link>
                               </NavDropdown.Item>
                             </NavDropdown>
                           </div>
 
                           <div className="notification_box">
-                            <img src="/images/notification_icon.png" alt="" width={'15px'}
+                            <img src={allImages.notification_icon} alt="" width={'15px'}
                               style={{ cursor: "pointer" }}
                               onClick={() => setShowNotificationBar(!showNotificationBar)} />
+                            <span className="noti_num">{mergeNotificationData ? mergeNotificationData?.length : 0}</span>
 
-                            {showNotificationBar && <Notification />}
+                            {showNotificationBar && <Notification loading={loading} notificationData={getNotifyData} />}
                           </div>
                         </div>
                       </Nav>

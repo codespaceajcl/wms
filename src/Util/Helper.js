@@ -1,6 +1,9 @@
+const getEmail = localStorage.getItem("email")
+const getToken = localStorage.getItem("token")
+
 export const login = {
-    email: "msohaibajcl@gmail.com",
-    token: "D9sd5fYm041kMm1B"
+    email: getEmail,
+    token: getToken
 }
 
 export const dashboardColorStyles = {

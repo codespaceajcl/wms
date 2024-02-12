@@ -11,6 +11,7 @@ import { MdSearch, MdClose } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { chatOpenStatus } from "../../Redux/Action/Chat";
 import "./Header.css";
+import { allImages } from "../../Util/Images";
 
 function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children }) {
     const { pathname } = useLocation();
@@ -68,21 +69,21 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                     <h6>SUGGESTED</h6>
 
                     <div className="users" onClick={onMessageHandler}>
-                        <img src="/images/chat_img2.png" />
+                        <img src={allImages.ChatImg2} />
 
                         <div>
                             <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
                         </div>
                     </div>
                     <div className="users" onClick={onMessageHandler}>
-                        <img src="/images/chat_img.png" />
+                        <img src={allImages.ChatImg} />
 
                         <div>
                             <p><span>Ayesha Malik</span> <br /> Logistics Manager </p>
                         </div>
                     </div>
                     <div className="users" onClick={onMessageHandler}>
-                        <img src="/images/chat_img2.png" />
+                        <img src={allImages.ChatImg2} />
 
                         <div>
                             <p><span>Summit Roy</span> <br /> Supply Chain Executive </p>
@@ -95,6 +96,10 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
 
     const openChatHandler = () => {
         dispatch(chatOpenStatus(true))
+    }
+
+    const logoutHandler = () => {
+        window.location.href = "https://crms.ajcl.net/mainMenu.html"
     }
 
     return (
@@ -114,7 +119,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                         <div className={"layout_content_sidebar_section close chat_main_div"} style={{ marginBottom: 0, paddingBottom: 0, borderRadius: "0" }}>
                             <div className="user_sidebar">
                                 <div className="sidebar_top_logo" style={{ justifyContent: "center", padding: '20px 8px 20px' }}>
-                                    <img src="/images/ajcl_logo.png" alt="" className="main_logo" />
+                                    <img src={allImages.ajclLogo} alt="" className="main_logo" />
 
                                 </div>
 
@@ -137,13 +142,13 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                     <ul className="nav_list">
                                         <h6 className={'toggler'}>Support</h6>
                                         <li>
-                                            <Link to='/messages/message' style={{ padding: '12px 0px 12px 0px', display: "flex", justifyContent: "center" }}>
-                                                <img src={'/images/inbox_icon.png'} alt="" />
+                                            <Link to='/wms/messages/message' style={{ padding: '12px 0px 12px 0px', display: "flex", justifyContent: "center" }}>
+                                                <img src={allImages.inbox_icon} alt="" />
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to='/faqs' style={{ padding: '12px 0px 12px 0px', display: "flex", justifyContent: "center" }}>
-                                                <img src={'/images/faq_icon.png'} alt="" />
+                                            <Link to='/wms/faqs' style={{ padding: '12px 0px 12px 0px', display: "flex", justifyContent: "center" }}>
+                                                <img src={allImages.faq_icon} alt="" />
                                             </Link>
                                         </li>
                                     </ul>
@@ -167,7 +172,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                             </h5>
 
                             <div className="chat_search">
-                                <img src="/images/search_icon.png" alt="" />
+                                <img src={allImages.search_icon} alt="" />
                                 <input placeholder="Search for chats..." />
                             </div>
 
@@ -181,7 +186,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                             <div className="inboxes">
                                 <div className="chat_box" onClick={openChatHandler}>
                                     <div>
-                                        <img src="/images/chat_img2.png" alt="" className="user_img" />
+                                        <img src={allImages.ChatImg2} alt="" className="user_img" />
                                     </div>
                                     <div className="chat_msg">
                                         <div>
@@ -197,7 +202,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                 </div>
                                 <div className="chat_box" onClick={openChatHandler}>
                                     <div>
-                                        <img src="/images/chat_img.png" alt="" className="user_img" />
+                                        <img src={allImages.ChatImg} alt="" className="user_img" />
                                     </div>
                                     <div className="chat_msg">
                                         <div>
@@ -213,7 +218,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                 </div>
                                 <div className="chat_box" onClick={openChatHandler}>
                                     <div>
-                                        <img src="/images/user_chat_img2.png" alt="" className="user_img" />
+                                        <img src={allImages.ChatImg2} alt="" className="user_img" />
                                     </div>
                                     <div className="chat_msg">
                                         <div>
@@ -228,7 +233,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                 </div>
                                 <div className="chat_box" onClick={openChatHandler}>
                                     <div>
-                                        <img src="/images/chat_img.png" alt="" className="user_img" />
+                                        <img src={allImages.ChatImg2} alt="" className="user_img" />
                                     </div>
                                     <div className="chat_msg">
                                         <div>
@@ -244,7 +249,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                 </div>
                                 <div className="chat_box" onClick={openChatHandler}>
                                     <div>
-                                        <img src="/images/chat_img2.png" alt="" className="user_img" />
+                                        <img src={allImages.ChatImg2} alt="" className="user_img" />
                                     </div>
                                     <div className="chat_msg">
                                         <div>
@@ -260,7 +265,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                 </div>
                                 <div className="chat_box" onClick={openChatHandler}>
                                     <div>
-                                        <img src="/images/chat_img.png" alt="" className="user_img" />
+                                        <img src={allImages.ChatImg2} alt="" className="user_img" />
                                     </div>
                                     <div className="chat_msg">
                                         <div>
@@ -288,7 +293,7 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                 <Col md={6}>
                                     <Navbar collapseOnSelect expand="lg">
                                         <Navbar.Brand onClick={() => navigate("/")}>
-                                            <img src="/images/ajcl_logo.png" alt="" className="mob_responsive_logo" />
+                                            <img src={allImages.ajclLogo} alt="" className="mob_responsive_logo" />
                                         </Navbar.Brand>
                                         <Navbar.Toggle
                                             aria-controls="responsive-navbar-nav"
@@ -301,24 +306,24 @@ function ChatHeader({ sideBarItems, fullScreen, closeScreen, handle, children })
                                                         {
                                                             !handle.active ?
                                                                 <BsFullscreen style={{ fontSize: "19px", cursor: "pointer" }} onClick={fullScreen} /> :
-                                                                <img src="/images/full_screen_icon.png" alt="" className="full_screen" onClick={closeScreen} />
+                                                                <img src={allImages.full_screen_icon} alt="" className="full_screen" onClick={closeScreen} />
                                                         }
                                                     </div>
                                                     <div className="user_nav">
-                                                        <img src="/images/user_img.png" alt="" />
+                                                        <img src={allImages.user_img} alt="" />
 
                                                         <NavDropdown title="Admin" id="basic-nav-dropdown">
                                                             <NavDropdown.Item>
-                                                                <Link to='/profile'>Profile</Link>
+                                                                <Link to='/wms/profile'>Profile</Link>
                                                             </NavDropdown.Item>
-                                                            <NavDropdown.Item href="/">
+                                                            <NavDropdown.Item onClick={logoutHandler}>
                                                                 <Link>Logout</Link>
                                                             </NavDropdown.Item>
                                                         </NavDropdown>
                                                     </div>
 
                                                     <div className="notification_box">
-                                                        <img src="/images/notification_icon.png" alt="" width={'15px'}
+                                                        <img src={allImages.notification_icon} alt="" width={'15px'}
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => setShowNotificationBar(!showNotificationBar)} />
 

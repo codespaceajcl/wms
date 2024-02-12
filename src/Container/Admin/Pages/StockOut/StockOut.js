@@ -17,7 +17,7 @@ import { availableStockOut, businessTypeWarehouse, callDebug, destinationStockou
 import { errorNotify, successNotify } from "../../../../Util/Toast";
 import Loader from "../../../../Util/Loader";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { CleaningServices } from "@mui/icons-material";
+import { allImages } from "../../../../Util/Images";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -60,19 +60,25 @@ const StockOut = () => {
   const [showCartDetail, setShowCartDetail] = useState({})
   const [show, setShow] = useState(false)
   const [getPalletManualData, setGetPalletManualData] = useState([])
+  const [serialNoText, setSerialNoText] = useState('')
+  const [showSerialNos, setShowSerialNos] = useState(null)
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
 
   const { loading: debugLoading, postCallDebug } = useSelector((state) => state.getDebug);
-  const { getBusinessWarehouses } = useSelector((state) => state.getBusinessWarehouseType);
-  const { getstockoutCustomers } = useSelector((state) => state.getCustomersStockout);
-  const { getDestinationStockout } = useSelector((state) => state.getStockoutDestination);
-  const { getAvailableStockOut } = useSelector((state) => state.getStockOutAvailable);
+  const { loading: businessLoading, getBusinessWarehouses } = useSelector((state) => state.getBusinessWarehouseType);
+  const { loading: stockoutLoading, getstockoutCustomers } = useSelector((state) => state.getCustomersStockout);
+  const { loading: desLoading, getDestinationStockout } = useSelector((state) => state.getStockoutDestination);
+  const { loading: optionLoading, getAvailableStockOut } = useSelector((state) => state.getStockOutAvailable);
   const { loading, getPalletStockOut } = useSelector((state) => state.stockOutItem);
   const { loading: saveLoading, postStockOut } = useSelector((state) => state.saveStockOut);
   const { loading: serialLoading, postPalletSerial } = useSelector((state) => state.palletSerialNo);
+
+  useEffect(() => {
+    setShowSerialNos(postPalletSerial?.serialNos)
+  }, [postPalletSerial])
 
   useEffect(() => {
     return () => {
@@ -380,6 +386,17 @@ const StockOut = () => {
     }
   }
 
+  const searchSerialHandler = (e) => {
+    const getArr = postPalletSerial?.serialNos?.filter((s) => {
+      const searchString = e.target.value.toLowerCase();
+      return (
+        s.serialNo.toLowerCase().includes(searchString)
+      );
+    });
+
+    setShowSerialNos(getArr)
+  }
+
   const stockOutModel = (
     <Modal
       show={showModal}
@@ -394,7 +411,7 @@ const StockOut = () => {
           style={{ backgroundColor: "#003A70" }}
         >
           <div>
-            Pallet No: <span>{getIndPallet?.pallot}</span> | Address:{" "}
+            Pallet No: <span>{getIndPallet?.pallot}</span> | Address:
             <span>{getIndPallet?.pallotLocations?.location}</span>
           </div>
           <AiOutlineClose
@@ -407,8 +424,8 @@ const StockOut = () => {
           <Row>
             <Col md={8}>
               <div>
-                <img src="/images/search_icon.png" alt="" />
-                <input placeholder="Search by ID, Pallet No, or Serial No" />
+                <img src={allImages.search_icon} alt="" />
+                <input placeholder="Search by Serial No" onChange={searchSerialHandler} />
               </div>
             </Col>
             <Col md={4}>
@@ -449,13 +466,13 @@ const StockOut = () => {
                   className={tab2 === "AUTO" ? "active" : ""}
                   onClick={() => setTab2("AUTO")}
                 >
-                  <img src="/images/auto_icon.png" /> Auto
+                  <img src={allImages.AutoIcon} /> Auto
                 </button>
                 <button
                   className={tab2 === "MANUAL" ? "active" : ""}
                   onClick={() => setTab2("MANUAL")}
                 >
-                  <img src="/images/manual_icon.png" /> Manual
+                  <img src={allImages.manual_icon} /> Manual
                 </button>
               </div>
             </Col>
@@ -465,7 +482,7 @@ const StockOut = () => {
           <div>
             {serialLoading ? (
               <div className="show_loader">
-                <img src="/images/brand_loader.gif" alt="" width={100} />
+                <img src={allImages.BrandLoader} alt="" width={100} />
                 <p>Manual Serial No Selection Mode</p>
               </div>
             ) : (
@@ -483,7 +500,7 @@ const StockOut = () => {
                     </TableHead>
                     <TableBody>
                       {
-                        postPalletSerial?.serialNos?.map((s, i) => {
+                        showSerialNos?.map((s, i) => {
                           return (
                             <TableRow>
                               <TableCell padding="checkbox">
@@ -539,7 +556,7 @@ const StockOut = () => {
             ) : (
               <div style={{ margin: "60px 0", textAlign: "center" }}>
                 <p style={{ fontSize: "20px", fontWeight: "600" }}>
-                  No Quantity Addedss
+                  No Quantity Added
                 </p>
               </div>
             )}
@@ -667,7 +684,7 @@ const StockOut = () => {
     <Modal.Body>
       <div className='preview_show' style={{ transition: "all 0.3s ease" }}>
         <div className=''>
-          <MdClose className='close_icon_pdf' onClick={() => { setShowPdfModal(false), navigate('/') }} />
+          <MdClose className='close_icon_pdf' onClick={() => { setShowPdfModal(false), navigate('/wms/dashboard') }} />
 
           <Document file={previewPdf} onLoadSuccess={onDocumentLoadSuccess} loading={<div style={{ height: "200px" }}> <Loader color={"#fff"} /> </div>}>
             <Page pageNumber={pageNumber} />
@@ -700,7 +717,7 @@ const StockOut = () => {
             onClick={debugHandler}
             style={debugLoading ? { cursor: "wait" } : null}
           >
-            <img src="/images/debug_icon.png" alt="" /> Debug
+            <img src={allImages.debug_icon} alt="" /> Debug
           </div>
         </h5>
         <p>Please fill out this form with the required information</p>
@@ -712,6 +729,7 @@ const StockOut = () => {
             </label>
             <Select
               options={warehouseOption}
+              isLoading={businessLoading}
               placeholder="Select Warehouse"
               styles={materialColorStyles}
               onChange={(w) =>
@@ -725,6 +743,7 @@ const StockOut = () => {
             </label>
             <Select
               options={businessTypeOption}
+              isLoading={businessLoading}
               placeholder="Select Business"
               styles={materialColorStyles}
               onChange={businessTypeHandler}
@@ -750,6 +769,7 @@ const StockOut = () => {
             </label>
             <Select
               options={destinationOption}
+              isLoading={desLoading}
               placeholder="Select"
               styles={materialColorStyles}
               onChange={(v) => setStockoutForm({
@@ -764,6 +784,7 @@ const StockOut = () => {
             </label>
             <Select
               options={customerOption}
+              isLoading={stockoutLoading}
               placeholder="Select"
               styles={materialColorStyles}
               onChange={(w) =>
@@ -836,6 +857,7 @@ const StockOut = () => {
             </label>
             <Select
               options={businessTypeOption}
+              isLoading={businessLoading}
               placeholder="Select"
               styles={materialColorStyles}
               isDisabled={isAllocateDisabled}
@@ -854,6 +876,7 @@ const StockOut = () => {
             <Select
               styles={nomenStyles}
               options={partOption}
+              isLoading={optionLoading}
               onChange={nomenClatureHandler}
               placeholder="Search Part No/Noms/NSN"
               className="react_select_inhouse stock_out"
@@ -894,7 +917,7 @@ const StockOut = () => {
               <div className="ware_pallet">
                 <p>Warehouse Pallets</p>
 
-                <img src="/images/empty_cart.png" alt="" />
+                <img src={allImages.empty_cart} alt="" />
 
               </div>
             ) : (
@@ -905,7 +928,7 @@ const StockOut = () => {
                   style={{ position: "relative" }}
                   onClick={() => setShowCart(!showCart)}
                 >
-                  <img src="/images/fill_cart.png" alt="" />
+                  <img src={allImages.file_cart} alt="" />
                   <span>{addRemoveData?.length}</span>
                 </div>
               </div>
@@ -923,7 +946,7 @@ const StockOut = () => {
                               <div className="stockout_pallet_box">
                                 <div>
                                   <img
-                                    src="/images/filled_rack.png"
+                                    src={allImages.filled_rack}
                                     alt=""
                                     className="rack"
                                   />
@@ -939,7 +962,7 @@ const StockOut = () => {
                                   <Row>
                                     <Col md={3} xs={3}>
                                       <img
-                                        src="/images/from_loc.png"
+                                        src={allImages.from_loc}
                                         className="f_loc"
                                       />
                                     </Col>
@@ -949,7 +972,7 @@ const StockOut = () => {
                                   </Row>
                                   <Row>
                                     <Col md={3} xs={3}>
-                                      <img src="/images/to_loc.png" />
+                                      <img src={allImages.to_loc} />
                                     </Col>
                                     <Col md={9} xs={9}>
                                       <p> {p?.pallotLocations?.tag} </p>
@@ -973,12 +996,12 @@ const StockOut = () => {
                           <div className="cart_dsc">
                             <IoIosCloseCircleOutline className="close_cart_detail" onClick={closeCartHandler} />
                             <div className="show_rack">
-                              <img src="/images/filled_rack.png" alt="" />
+                              <img src={allImages.filled_rack} alt="" />
                               <span>{showCartDetail?.getIndPallet?.pallot}</span>
                             </div>
                             <div className="added_cart">
                               <img
-                                src="/images/correct_icon.png"
+                                src={allImages.correct_icon}
                                 alt=""
                               />
                               <p>Added To Cart</p>
@@ -1048,7 +1071,7 @@ const StockOut = () => {
                     </button>
                   </Col>
                   <Col md={6}>
-                    <button onClick={() => navigate('/')}>Discard</button>
+                    <button onClick={() => navigate('/wms/dashboard')}>Discard</button>
                   </Col>
                 </Row>
               )}

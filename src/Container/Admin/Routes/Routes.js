@@ -25,120 +25,121 @@ import Chat from "../../Pages/Chat/Chat/Chat";
 import Message from "../../Pages/Chat/Message/Message";
 import Notifications from "../Pages/Notifications/Notifications";
 import EnquiryDetail from "../Pages/Enquiry/Details/Details";
+import { allImages } from "../../../Util/Images";
 
 export const adminRoutes = [
   {
-    path: "/",
+    path: "/wms/dashboard",
     component: <Dashboard />,
   },
   {
-    path: "/list-materials",
+    path: "/wms/list-materials",
     component: <ListMaterials />,
   },
   {
-    path: "/warehouses",
+    path: "/wms/warehouses",
     component: <Warehouses />,
   },
   {
-    path: "/consignee",
+    path: "/wms/consignee",
     component: <Consignee />,
   },
   {
-    path: "/rma",
+    path: "/wms/rma",
     component: <RMA />,
   },
   {
-    path: "/enquiry",
+    path: "/wms/enquiry",
     component: <Enquiry />,
   },
   {
-    path: "/enquiry/detail",
+    path: "/wms/enquiry/detail",
     component: <EnquiryDetail />,
   },
   {
-    path: "/inhouse-movement",
+    path: "/wms/inhouse-movement",
     component: <InhouseMovement />,
   },
   {
-    path: "/dc-document",
+    path: "/wms/dc-document",
     component: <DcDocument />,
   },
   {
-    path: "/reports",
+    path: "/wms/reports",
     component: <Reports />,
   },
   {
-    path: "/stock-in",
+    path: "/wms/stock-in",
     component: <StockIn />,
   },
   {
-    path: "/stock-in/return-stock",
+    path: "/wms/stock-in/return-stock",
     component: <ReturnStock />,
   },
   {
-    path: "/stock-in/return-stock/known",
+    path: "/wms/stock-in/return-stock/known",
     component: <KnownStock />,
   },
   {
-    path: "/stock-in/return-stock/unknown",
+    path: "/wms/stock-in/return-stock/unknown",
     component: <UnknownStock />,
   },
   {
-    path: "/stock-in/shipment-stock",
+    path: "/wms/stock-in/shipment-stock",
     component: <ShipmentStock />,
   },
   {
-    path: "/stock-in/transfer-stock",
+    path: "/wms/stock-in/transfer-stock",
     component: <TransferredStock />,
   },
   {
-    path: "/stock-out",
+    path: "/wms/stock-out",
     component: <StockOut />,
   },
   {
-    path: "/faqs",
+    path: "/wms/faqs",
     component: <FAQs />,
   },
   {
-    path: "/profile",
+    path: "/wms/profile",
     component: <Profile />,
   },
   {
-    path: "/profile/edit-profile",
+    path: "/wms/profile/edit-profile",
     component: <EditProfile />,
   },
   {
-    path: "/profile/privacy-policy",
+    path: "/wms/profile/privacy-policy",
     component: <PrivacyPolicy />,
   },
   {
-    path: "/profile/settings",
+    path: "/wms/profile/settings",
     component: <Settings />,
   },
   {
-    path: "/all-notifications",
+    path: "/wms/all-notifications",
     component: <Notifications />,
   },
 ];
 
 export const warehouseRoutes = [
   {
-    path: "/warehouse/details/:id",
+    path: "/wms/warehouse/details/:id",
     component: <WarehouseDetail />,
   },
   {
-    path: "/warehouse/details/location/:id",
+    path: "/wms/warehouse/details/location/:id",
     component: <LocationDetail />,
   },
 ]
 
 export const messageRoutes = [
   {
-    path: "/messages/message",
+    path: "/wms/messages/message",
     component: <Message />,
   },
   {
-    path: "/messages/chat",
+    path: "/wms/messages/chat",
     component: <Chat />,
   },
 ]
@@ -146,58 +147,58 @@ export const messageRoutes = [
 
 export const adminSideBarItems = [
   {
-    path: "/",
-    icon: "/images/dashboard_icon.png",
+    path: "/wms/dashboard",
+    icon: allImages.dashboard_icon,
     title: "Dashboard",
   },
   {
-    path: "/list-materials",
-    icon: "/images/material_icon.png",
+    path: "/wms/list-materials",
+    icon: allImages.material_icon,
     title: "List Of Materials",
   },
   {
-    path: "/warehouses",
-    icon: "/images/warehouse_icon.png",
+    path: "/wms/warehouses",
+    icon: allImages.warehouse_icon,
     title: "Warehouses",
   },
   {
-    path: "/consignee",
-    icon: "/images/consignee_icon.png",
+    path: "/wms/consignee",
+    icon: allImages.consignee_icon,
     title: "Consignee",
   },
   {
-    path: "/stock-in",
-    icon: "/images/stock_icon.png",
+    path: "/wms/stock-in",
+    icon: allImages.stock_icon,
     title: "Stock In",
   },
   {
-    path: "/stock-out",
-    icon: "/images/stock_out.png",
+    path: "/wms/stock-out",
+    icon: allImages.stock_out,
     title: "Stock Out",
   },
   {
-    path: "/rma",
-    icon: "/images/rma_icon.png",
+    path: "/wms/rma",
+    icon: allImages.rma_icon,
     title: "RMA",
   },
   {
-    path: "/enquiry",
-    icon: "/images/enquiry_icon.png",
+    path: "/wms/enquiry",
+    icon: allImages.enquiry_icon,
     title: "General Enquiry",
   },
   {
-    path: "/inhouse-movement",
-    icon: "/images/move_icon.png",
+    path: "/wms/inhouse-movement",
+    icon: allImages.move_icon,
     title: "Inhouse Movement",
   },
   {
-    path: "/dc-document",
-    icon: "/images/dc_icon.png",
+    path: "/wms/dc-document",
+    icon: allImages.dc_icon,
     title: "DC Document",
   },
   {
-    path: "/reports",
-    icon: "/images/report_icon.png",
+    path: "/wms/reports",
+    icon: allImages.report_icon,
     title: "Report",
   },
 ];

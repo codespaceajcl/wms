@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../../Util/Loader';
 import { successNotify } from '../../../../Util/Toast';
 import { usePDF } from 'react-to-pdf';
+import { allImages } from '../../../../Util/Images';
 
 const DcDocument = () => {
     const navigate = useNavigate();
@@ -309,8 +310,8 @@ const DcDocument = () => {
                     <div className='dc_document_search'>
                         <Select styles={partColorStyles} options={options} placeholder="Select DC" className='react_select_inhouse dc_doc' />
                         <div className='change_table_icons'>
-                            <img src='/images/change_grid_view.png' alt='' onClick={() => showView('table')} className={view === 'table' ? 'active' : null} />
-                            <img src='/images/change_table_view.png' alt='' onClick={() => showView('grid')} className={view === 'grid' ? 'active' : null} />
+                            <img src={allImages.ChangeGridView} alt='' onClick={() => showView('table')} className={view === 'table' ? 'active' : null} />
+                            <img src={allImages.ChangeTableView} alt='' onClick={() => showView('grid')} className={view === 'grid' ? 'active' : null} />
                         </div>
                     </div>
                 </Row>

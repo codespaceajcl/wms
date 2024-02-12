@@ -88,6 +88,7 @@
     border-radius: 13px;
     position: absolute;
     bottom: 0;
+    border: 1px solid #fff;
 }
 
 .warehouse_detail_boxes_right div p {
@@ -140,7 +141,7 @@
 }
 
 .pallet_modal_main .store_head{
-    background-image: url('/public/images/add_rack_head_bg.png');
+    background-image: url('../../../../assets/images/add_rack_head_bg.png');
     color: #fff;
     background-size: cover;
     width: fit-content;
