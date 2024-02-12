@@ -16,7 +16,7 @@ const App = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const handle = useFullScreenHandle();
 
-  const userFound = JSON.parse(localStorage.getItem("currentUser"))
+  // const userFound = JSON.parse(localStorage.getItem("currentUser"))
 
   useEffect(() => {
     function onlineHandler() {
