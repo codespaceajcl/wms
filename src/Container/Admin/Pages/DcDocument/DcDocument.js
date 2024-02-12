@@ -16,6 +16,7 @@ import Loader from '../../../../Util/Loader';
 import { successNotify } from '../../../../Util/Toast';
 import { usePDF } from 'react-to-pdf';
 import { allImages } from '../../../../Util/Images';
+import { FaDownload } from "react-icons/fa";
 
 const DcDocument = () => {
     const navigate = useNavigate();
@@ -343,7 +344,7 @@ const DcDocument = () => {
                                                             return (
                                                                 <tr>
                                                                     <td> {i + 1}</td>
-                                                                    <td>{c.dc}</td>
+                                                                    <td><span className='dc_download'>{c.dc} <a href={c?.documentPath} target='_blank'> <FaDownload /> </a> </span></td>
                                                                     <td>{c.vehicleNumber}</td>
                                                                     <td>{c.origin}</td>
                                                                     <td>{c.destination}</td>

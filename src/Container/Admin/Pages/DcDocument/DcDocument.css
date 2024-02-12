@@ -297,6 +297,30 @@
     box-shadow: #003a7063 0px 1px 4px;
 }
 
+.dc_download{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-around;
+    color: #000 !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+}
+
+.dc_download svg{
+    cursor: pointer;
+}
+
+.dc_download a{
+    background-color: transparent !important;
+    color: rgb(43, 166, 43) !important;
+    min-width: auto !important;
+    padding: 0 !important;
+    width: auto !important;
+    font-size: 16px !important;
+    margin-bottom: 5px !important;
+}
+
 .filter_div label{
     display: flex;
     padding-left: 5px;
