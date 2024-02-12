@@ -265,7 +265,7 @@ const Warehouses = (props) => {
                 <label style={{ fontSize: "14px", fontWeight: "400" }}>Warehouse Address <span>*</span></label>
                 <GooglePlacesAutocomplete
                   autocompletionRequest={[]}
-                  apiKey={'AIzaSyDPEA-Ig4-_6Kf_oa_PHAc6CTZrkEj-ZLU'}
+                  apiKey={process.env.REACT_APP_GOOGLE_KEY}
                   selectProps={{
                     placeholder: 'Enter Warehouse Address',
                     value: googlePlace,
@@ -577,6 +577,6 @@ const LoadingContainer = (props) => (
 )
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyDPEA-Ig4-_6Kf_oa_PHAc6CTZrkEj-ZLU'),
+  apiKey: (process.env.REACT_APP_GOOGLE_KEY),
   LoadingContainer: LoadingContainer
 })(Warehouses)
