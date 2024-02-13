@@ -65,6 +65,10 @@ const LocationDetail = () => {
     const { loading: statusLoading, statusData } = useSelector((state) => state.getStatusChange)
     const { loading: tagLoading, editLocData } = useSelector((state) => state.getEditTag)
 
+    let getWarehouseId = localStorage.getItem('warehouseId');
+
+    console.log(getWarehouseId)
+
     useEffect(() => {
         const formData = new FormData()
         formData.append("email", login.email)
@@ -105,7 +109,7 @@ const LocationDetail = () => {
 
     useEffect(() => {
         if (getWarehouseData) {
-            const getCurrentWarehouse = getWarehouseData?.respnse?.find((w) => w.id == state.warehouseId)
+            const getCurrentWarehouse = getWarehouseData?.respnse?.find((w) => w.id == getWarehouseId)
             setCurrentWarehouse(getCurrentWarehouse)
         }
     }, [getWarehouseData])
@@ -219,7 +223,7 @@ const LocationDetail = () => {
         const data = {
             noOfFloors: addRackModal.noOfFloors,
             noOfLocations: addRackModal.noOfLocations,
-            warehouse: state.warehouseId,
+            warehouse: getWarehouseId,
             store: id
         }
 
@@ -571,27 +575,27 @@ const LocationDetail = () => {
                                     <div className='location_list_detail'>
                                         <ul>
                                             <li> <img src={allImages.location_store_icon} alt='' /> No of Stores </li>
-                                            <li><strong>{getWarehouseData?.stat[state.warehouseId]?.store}</strong></li>
+                                            <li><strong>{getWarehouseData?.stat[getWarehouseId]?.store}</strong></li>
                                         </ul>
                                         <ul>
                                             <li> <img src={allImages.location_stage_icon} alt='' /> No of Stages </li>
-                                            <li><strong>{getWarehouseData?.stat[state.warehouseId]?.stage}</strong></li>
+                                            <li><strong>{getWarehouseData?.stat[getWarehouseId]?.stage}</strong></li>
                                         </ul>
                                         <ul>
                                             <li> <img src={allImages.location_no_icon} alt='' /> Total Location </li>
-                                            <li><strong>{getWarehouseData?.stat[state.warehouseId]?.location}</strong></li>
+                                            <li><strong>{getWarehouseData?.stat[getWarehouseId]?.location}</strong></li>
                                         </ul>
                                         <ul>
                                             <li> <img src={allImages.utilized_location_icon} alt='' /> Utlized Location </li>
-                                            <li><strong>{getWarehouseData?.stat[state.warehouseId]?.utilizeLocation}</strong></li>
+                                            <li><strong>{getWarehouseData?.stat[getWarehouseId]?.utilizeLocation}</strong></li>
                                         </ul>
                                         <ul>
                                             <li> <img src={allImages.location_pallet_icon} alt='' /> Total Pallets </li>
-                                            <li><strong>{getWarehouseData?.stat[state.warehouseId]?.location}</strong></li>
+                                            <li><strong>{getWarehouseData?.stat[getWarehouseId]?.location}</strong></li>
                                         </ul>
                                         <ul>
                                             <li> <img src={allImages.utilized_pallet_loc} alt='' /> Utilized Pallets </li>
-                                            <li><strong>{getWarehouseData?.stat[state.warehouseId]?.utilizeLocation}</strong></li>
+                                            <li><strong>{getWarehouseData?.stat[getWarehouseId]?.utilizeLocation}</strong></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -604,25 +608,25 @@ const LocationDetail = () => {
                                         <Row>
                                             <Col md={6} xs={6}>
                                                 <div className='location_center_boxes'>
-                                                    <h4>{getWarehouseData?.stat[state.warehouseId]?.pallot}</h4>
+                                                    <h4>{getWarehouseData?.stat[getWarehouseId]?.pallot}</h4>
                                                     <p>No Of <br /> Utilized Pallets</p>
                                                 </div>
                                             </Col>
                                             <Col md={6} xs={6}>
                                                 <div className='location_center_boxes'>
-                                                    <h4>{getWarehouseData?.stat[state.warehouseId]?.pallot - getWarehouseData?.stat[state.warehouseId]?.utilizePallots}</h4>
+                                                    <h4>{getWarehouseData?.stat[getWarehouseId]?.pallot - getWarehouseData?.stat[getWarehouseId]?.utilizePallots}</h4>
                                                     <p>No Of <br /> Empty Pallets</p>
                                                 </div>
                                             </Col>
                                             <Col md={6} xs={6}>
                                                 <div className='location_center_boxes'>
-                                                    <h4>{getWarehouseData?.stat[state.warehouseId]?.location}</h4>
+                                                    <h4>{getWarehouseData?.stat[getWarehouseId]?.location}</h4>
                                                     <p>No Of Utilized <br /> Location</p>
                                                 </div>
                                             </Col>
                                             <Col md={6} xs={6}>
                                                 <div className='location_center_boxes'>
-                                                    <h4>{getWarehouseData?.stat[state.warehouseId]?.location - getWarehouseData?.stat[state.warehouseId]?.utilizeLocation}</h4>
+                                                    <h4>{getWarehouseData?.stat[getWarehouseId]?.location - getWarehouseData?.stat[getWarehouseId]?.utilizeLocation}</h4>
                                                     <p>No Of Empty <br /> Location</p>
                                                 </div>
                                             </Col>

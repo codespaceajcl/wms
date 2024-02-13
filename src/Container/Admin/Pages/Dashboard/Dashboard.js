@@ -44,7 +44,7 @@ const Dashboard = () => {
     formData.append("token", login.token)
 
     dispatch(dashboardApi(formData))
-    dispatch(getCurrentUserProfile(formData))
+    // dispatch(getCurrentUserProfile(formData))
   }, [])
 
   // useEffect(() => {

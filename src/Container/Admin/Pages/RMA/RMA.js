@@ -183,6 +183,8 @@ const RMA = () => {
                         dispatch(postRmaForm(formData))
 
                         resetForm()
+                        setNoOfProducts(null)
+                        setNoOfPro([])
 
                     }}
                 >

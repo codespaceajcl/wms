@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import './MainPage.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { errorNotify } from '../../../Util/Toast';
+import { getCurrentUserProfile } from '../../../Redux/Action/Admin';
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -11,17 +12,28 @@ const MainPage = () => {
     const email = searchParams.get("email")
     const access = searchParams.get("access")
 
-    if (email && access) {
-        localStorage.setItem("email", email)
-        localStorage.setItem("token", access)
-    }
+    useEffect(() => {
+        if (email && access) {
+            localStorage.setItem("email", email)
+            localStorage.setItem("token", access)
+        }
+    }, [email & access])
+
+    useEffect(() => {
+
+        const formData = new FormData()
+        formData.append("email", email)
+        formData.append("token", access)
+
+        dispatch(getCurrentUserProfile(formData))
+    }, [])
 
     useEffect(() => {
         const redirectTimer = setTimeout(() => {
-            let getEmail = localStorage.getItem("email")
-            let getAccess = localStorage.getItem("token")
+            // let getEmail = localStorage.getItem("email")
+            // let getAccess = localStorage.getItem("token")
 
-            if (getEmail && getAccess) {
+            if (email && access) {
                 navigate('/wms/dashboard');
             }
             else {

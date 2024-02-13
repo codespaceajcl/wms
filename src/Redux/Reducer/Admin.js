@@ -64,6 +64,72 @@ export const ConsigneePostReducer = (state = {}, action) => {
   }
 };
 
+export const ConsigneCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "ADD_CONSIGNEE_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "ADD_CONSIGNEE_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        createConsigneeData: action.payload,
+        error: false,
+      };
+    case "ADD_CONSIGNEE_FAILED":
+      return {
+        ...state,
+        loading: false,
+        createConsigneeData: null,
+        error: action.payload,
+      };
+    case "ADD_CONSIGNEE_RESET":
+      return {
+        ...state,
+        loading: false,
+        createConsigneeData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const IndustryCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "ADD_INDUSTRY_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "ADD_INDUSTRY_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        createIndustryData: action.payload,
+        error: false,
+      };
+    case "ADD_INDUSTRY_FAILED":
+      return {
+        ...state,
+        loading: false,
+        createIndustryData: null,
+        error: action.payload,
+      };
+    case "ADD_INDUSTRY_RESET":
+      return {
+        ...state,
+        loading: false,
+        createIndustryData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
 export const DeliveryChallanGetReducer = (state = {}, action) => {
   switch (action.type) {
     case "LIST_DELIVERY_CHALLAN_REQUEST":

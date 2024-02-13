@@ -5,7 +5,7 @@ import AdminLayout from "./Layouts/AdminLayout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import MainLayout from "./Layouts/MainLayout";
-import ChatLayout from "./Layouts/ChatLayout";
+// import ChatLayout from "./Layouts/ChatLayout";
 import { ToastContainer } from "react-toastify";
 import NoInternetModal from "./Components/Modals/NoInternetModal";
 import MainPage from "./Container/Pages/MainPage/MainPage";

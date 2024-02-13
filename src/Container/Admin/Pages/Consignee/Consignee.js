@@ -4,17 +4,19 @@ import { AiOutlineUserAdd, AiOutlineClose } from "react-icons/ai"
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { BiChevronLeft } from "react-icons/bi";
-import { Col, Modal, Row, Table, Form } from "react-bootstrap"
+import { Col, Modal, Row, Table, Form, Spinner } from "react-bootstrap"
 import './Consignee.css';
 import { Field, Formik } from "formik";
 import Input from '../../../../Components/Input/Input';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
 import { consigneeCreateSchema } from '../../../../Util/Validations';
 import { useDispatch, useSelector } from 'react-redux';
-import { listConsignee } from '../../../../Redux/Action/Admin';
-import { login } from '../../../../Util/Helper';
+import { addConsignee, addIndustry, businessTypeWarehouse, listConsignee } from '../../../../Redux/Action/Admin';
+import { login, materialColorStyles } from '../../../../Util/Helper';
 import Loader from '../../../../Util/Loader';
 import { allImages } from '../../../../Util/Images';
+import SelectField from '../../../../Components/SelectField/SelectField';
+import { errorNotify, successNotify } from '../../../../Util/Toast';
 
 const Consignee = () => {
   const navigate = useNavigate();
@@ -35,11 +37,36 @@ const Consignee = () => {
 
   const { loading, getConsigneeData } = useSelector((state) => state.getConsignee)
 
+  const { loading: addLoading, createConsigneeData } = useSelector((state) => state.addingConsignee)
+  const { createIndustryData } = useSelector((state) => state.addingIndustry)
+
   const [totalElements, setTotalElements] = useState(getConsigneeData?.totalConsignees);
   const [elementsPerPage] = useState(getConsigneeData?.response?.length);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [showNext, setShowNext] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+
+  useEffect(() => {
+    const formData = new FormData();
+    formData.append("email", login.email)
+    formData.append("token", login.token)
+    dispatch(addIndustry(formData))
+  }, [])
+
+  useEffect(() => {
+
+    if (createConsigneeData?.response == "exist") {
+      errorNotify("Consignee Already Exist!")
+      dispatch({ type: "ADD_CONSIGNEE_RESET" })
+      setAddConsigneeModal(false)
+    }
+    else if (createConsigneeData?.response) {
+      successNotify("Consignee Added Successfully!");
+      dispatch({ type: "ADD_CONSIGNEE_RESET" })
+      setAddConsigneeModal(false)
+    }
+
+  }, [createConsigneeData])
 
   useEffect(() => {
     const pages = Math.ceil(totalElements / elementsPerPage);
@@ -56,7 +83,11 @@ const Consignee = () => {
 
     dispatch(listConsignee(pageNum, formData))
 
-  }, [pageNum])
+    if(createConsigneeData?.response != "exist"){
+      dispatch(listConsignee(pageNum, formData))
+    }
+
+  }, [pageNum, createConsigneeData])
 
   const consigneeDetailModal = (
     <Modal show={consigneeModal}
@@ -236,6 +267,14 @@ const Consignee = () => {
     setShow(true)
   }
 
+  const businessType = createIndustryData?.businessType?.map((b) => {
+    return { value: b, label: b }
+  })
+
+  const industryType = createIndustryData?.industry?.map((b) => {
+    return { value: b, label: b }
+  })
+
   const modal = <Modal show={addConsigneeModal} onHide={() => setAddConsigneeModal(false)} size='lg' className='add_warehouse_modal'>
     <Modal.Body>
       <div className='add_warehouse_head'>
@@ -258,20 +297,43 @@ const Consignee = () => {
               contact: "",
             }}
             onSubmit={(values, { resetForm }) => {
-              setAddConsigneeModal(false)
-              setShow(true);
+
+              const data = {
+                industryName: values.industryName,
+                consigneeName: values.consigneeName,
+                commenceAddress: values.consigneeAddress,
+                commenceDate: values.commerceDate,
+                contact: values.contact,
+                poc: values.pocName,
+                businessType: values.businessTypeSelected,
+                email: login.email,
+                token: login.token
+              }
+
+              let formData = JSON.stringify(data)
+              dispatch(addConsignee(formData))
+              resetForm()
+
             }}
           >
             {({ handleSubmit }) => (
               <Row>
-                <Col md={6}>
-                  <Field
+                <Col md={6} className='input_field'>
+                  {/* <Field
                     component={Input}
                     name="industryName"
                     label="Industry Name"
                     placeholder="Enter Industry Name"
+                  /> */}
+                  <label>Add Industry <span>*</span> </label>
+                  <Field name={'industryName'}
+                    component={SelectField}
+                    options={industryType}
+                    styleCss={materialColorStyles}
+                    placeholder="Select Business Type"
                   />
                 </Col>
+
                 <Col md={6}>
                   <Field
                     component={Input}
@@ -280,7 +342,7 @@ const Consignee = () => {
                     placeholder="Enter Consignee Name"
                   />
                 </Col>
-                <Col md={12}>
+                <Col md={6}>
                   <Field
                     component={Input}
                     name="consigneeAddress"
@@ -312,8 +374,17 @@ const Consignee = () => {
                     placeholder="Enter Contact"
                   />
                 </Col>
+                <Col md={12} className='input_field'>
+                  <label>Add Business Type <span>*</span> </label>
+                  <Field name={'businessTypeSelected'}
+                    component={SelectField}
+                    options={businessType}
+                    styleCss={materialColorStyles}
+                    placeholder="Select Business Type"
+                  />
+                </Col>
                 <Col md={12} className='mt-4'>
-                  <div><button type='button' onClick={handleSubmit}>Submit</button></div>
+                  <div><button type='button' onClick={handleSubmit}> {addLoading ? <Spinner animation='border' size='sm' /> : "Submit"}</button></div>
                 </Col>
                 <Col md={12}>
                   <div><button type="button" className='cancel_btn' onClick={() => setAddConsigneeModal(false)}>Cancel</button></div>
@@ -412,7 +483,7 @@ const Consignee = () => {
                 <p>Pg No: {pageNum}</p>
 
                 {
-                  showNext &&
+                  filteredConsigneeData?.length !== 0 &&
                   <h6 onClick={() => setPageNum(pageNum + 1)}>Next</h6>
                 }
               </div>

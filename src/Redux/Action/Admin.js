@@ -53,6 +53,58 @@ export const listConsignee = (page_no, formData) => async (dispatch) => {
   }
 };
 
+//Add consignee
+export const addConsignee = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "ADD_CONSIGNEE_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/addConsignee`, formData);
+
+    dispatch({
+      type: "ADD_CONSIGNEE_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "ADD_CONSIGNEE_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+//Add consignee
+export const addIndustry = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "ADD_INDUSTRY_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/getIndustry`, formData);
+
+    dispatch({
+      type: "ADD_INDUSTRY_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "ADD_INDUSTRY_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
 //get Delivery Challan
 export const listDeliveryChallan = (page_no, formData) => async (dispatch) => {
   try {
@@ -1415,11 +1467,19 @@ export const stockOutApi = (formData) => async (dispatch) => {
     if (e?.message === "Network Error") {
       errorNotify(e.message)
     }
-    dispatch({
-      type: "STOCK_OUT_FAILED",
-      payload: e?.response?.data?.message,
-      success: false,
-    });
+    else if (e?.message) {
+      dispatch({
+        type: "STOCK_OUT_FAILED",
+        payload: e?.message,
+        success: false,
+      });
+    }
+    else
+      dispatch({
+        type: "STOCK_OUT_FAILED",
+        payload: e?.response?.data?.message,
+        success: false,
+      });
   }
 };
 

@@ -119,6 +119,10 @@ const StockOut = () => {
       setShowPdfModal(true)
       dispatch({ type: "STOCK_OUT_RESET" })
     }
+
+    else if(postStockOut?.response){
+      errorNotify(postStockOut?.response)
+    }
   }, [postStockOut])
 
   useEffect(() => {
@@ -647,6 +651,8 @@ const StockOut = () => {
       email: login.email,
       token: login.token
     }
+
+    console.log(data)
 
     try {
       validateData(data);

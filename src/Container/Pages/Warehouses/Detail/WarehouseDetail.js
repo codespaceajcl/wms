@@ -301,7 +301,7 @@ const WarehouseDetail = () => {
             {storeLoading ? <Spinner animation='border' size='sm' /> : "Add"}</button>
         </div>
       </Modal.Body>
-    </Modal >
+    </Modal>
   )
 
   const stageModal = (
@@ -408,6 +408,11 @@ const WarehouseDetail = () => {
     </Modal>
   )
 
+  const warehouseBoxHandler = (store) => {
+    navigate(`/wms/warehouse/details/location/${store.id}`, { state: { warehouseId: id } })
+    localStorage.setItem('warehouseId', id);
+  }
+
   return (
     <div className='warehouse_detail_main'>
       {storeModal}
@@ -440,7 +445,7 @@ const WarehouseDetail = () => {
                     getWarehouseDetailsData?.getStore?.response?.map((store) => {
                       return (
                         <Col md={6} sm={6}>
-                          <div className='warehouse_detail_boxes' onClick={() => navigate(`/wms/warehouse/details/location/${store.id}`, { state: { warehouseId: id } })}>
+                          <div className='warehouse_detail_boxes' onClick={() => warehouseBoxHandler(store)}>
                             {
                               store?.storageType === "ambient" ?
                                 <img src={allImages.AmbientIcon} alt='' /> :

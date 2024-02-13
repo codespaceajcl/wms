@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
 import { ChatOpenStatusReducer } from "./Chat";
 import {
-    ConsigneePostReducer, DeliveryChallanGetReducer, ListMaterialPostReducer, PostDcDocumentReducer, RevertDocumentReducer,
+    ConsigneCreateReducer,
+    ConsigneePostReducer, DeliveryChallanGetReducer, IndustryCreateReducer, ListMaterialPostReducer, PostDcDocumentReducer, RevertDocumentReducer,
     approveRevertReducer,
     availableStockOutReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, callDebugReducer, changePalletMovementReducer, createFloorReducer,
     createLocationReducer, createRackReducer, createStockInReducer,
@@ -26,6 +27,8 @@ const rootReducer = combineReducers({
     postRevert: RevertDocumentReducer,
     postDc: PostDcDocumentReducer,
     postRma: postRmaFormReducer,
+    addingConsignee: ConsigneCreateReducer,
+    addingIndustry: IndustryCreateReducer,
 
     getWarehouses: getWarehouseReducer,
     postWarehouse: createWarehouseReducer,
