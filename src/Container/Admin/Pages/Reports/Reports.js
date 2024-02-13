@@ -129,9 +129,6 @@ const Reports = () => {
 
     }
 
-    console.log(inventoryReportsData)
-
-
     return (
         <div>
             <Breadcrumbs list={["Dashboard", "Reports"]} />

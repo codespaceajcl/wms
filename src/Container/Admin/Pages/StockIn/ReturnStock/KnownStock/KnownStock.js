@@ -58,6 +58,11 @@ const KnownStock = () => {
             setStockInSgi(postStockIn?.sgi)
             dispatch({ type: "CREATE_STOCK_IN_RESET" })
         }
+
+        else if (postStockIn?.response === "noAccess") {
+            errorNotify(postStockIn?.response)
+            dispatch({ type: "CREATE_STOCK_IN_RESET" })
+        }
     }, [postStockIn])
 
     useEffect(() => {

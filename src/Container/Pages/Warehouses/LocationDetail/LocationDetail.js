@@ -67,8 +67,6 @@ const LocationDetail = () => {
 
     let getWarehouseId = localStorage.getItem('warehouseId');
 
-    console.log(getWarehouseId)
-
     useEffect(() => {
         const formData = new FormData()
         formData.append("email", login.email)

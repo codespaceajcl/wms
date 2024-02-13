@@ -1309,6 +1309,13 @@ export const createStockIn = (formData) => async (dispatch) => {
     if (e?.message === "Network Error") {
       errorNotify(e.message)
     }
+    else if (e?.message) {
+      dispatch({
+        type: "STOCK_OUT_FAILED",
+        payload: e?.message,
+        success: false,
+      });
+    }
     dispatch({
       type: "CREATE_STOCK_IN_FAILED",
       payload: e?.response?.data?.message,

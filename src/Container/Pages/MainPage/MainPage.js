@@ -3,9 +3,11 @@ import './MainPage.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { errorNotify } from '../../../Util/Toast';
 import { getCurrentUserProfile } from '../../../Redux/Action/Admin';
+import { useDispatch } from 'react-redux';
 
 const MainPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const location = useLocation();
 
     const searchParams = new URLSearchParams(location.search)

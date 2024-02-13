@@ -122,6 +122,7 @@ const StockOut = () => {
 
     else if(postStockOut?.response){
       errorNotify(postStockOut?.response)
+      dispatch({ type: "STOCK_OUT_RESET" })
     }
   }, [postStockOut])
 
@@ -652,8 +653,6 @@ const StockOut = () => {
       token: login.token
     }
 
-    console.log(data)
-
     try {
       validateData(data);
       const d = JSON.stringify(data)
@@ -738,8 +737,11 @@ const StockOut = () => {
               isLoading={businessLoading}
               placeholder="Select Warehouse"
               styles={materialColorStyles}
-              onChange={(w) =>
-                setGetNomenClature({ ...getNomenClature, warehouse: w.value })
+              onChange={(w) => {
+                let idString = w.value.toString();
+                setGetNomenClature({ ...getNomenClature, warehouse: idString })
+              }
+                
               }
             />
           </Col>
