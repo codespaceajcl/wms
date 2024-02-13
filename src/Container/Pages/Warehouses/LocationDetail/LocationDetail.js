@@ -34,8 +34,6 @@ const LocationDetail = () => {
         value: '',
         location: ''
     });
-    const [scrollPosition1, setScrollPosition1] = useState(0);
-    const [scrollPosition2, setScrollPosition2] = useState(0);
     const [currentWarehouse, setCurrentWarehouse] = useState({})
 
     const [addRackModal, setAddRackModal] = useState({
@@ -57,9 +55,6 @@ const LocationDetail = () => {
         item: "",
         status: ""
     })
-
-    // const rackContainerRef1 = useRef(null);
-    // const rackContainerRef2 = useRef(null);
 
     const { loading, getWarehouseData } = useSelector((state) => state.getWarehouses)
     const { loading: locationLoading, getLocationData } = useSelector((state) => state.getWarehouseLocation)
@@ -115,24 +110,11 @@ const LocationDetail = () => {
         }
     }, [getWarehouseData])
 
-    // const handleScroll = (scrollValue, containerRef, setScrollPosition) => {
-    //     const newScrollPosition = setScrollPosition + scrollValue;
-    //     setScrollPosition(newScrollPosition);
+    const rackContainerRefs = useRef([]);
 
-    //     if (containerRef.current) {
-    //         containerRef.current.scrollBy({ left: scrollValue, behavior: 'smooth' });
-    //     }
-    // };
-
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const rackContainerRef1 = useRef(null);
-
-    const handleScroll = (scrollValue) => {
-        const newScrollPosition = scrollPosition + scrollValue;
-        setScrollPosition(newScrollPosition);
-
-        if (rackContainerRef1.current) {
-            rackContainerRef1.current.scrollBy({ left: scrollValue, behavior: 'smooth' });
+    const handleScroll = (scrollValue, index) => {
+        if (rackContainerRefs.current[index]) {
+            rackContainerRefs.current[index].scrollBy({ left: scrollValue, behavior: 'smooth' });
         }
     };
 
@@ -705,21 +687,20 @@ const LocationDetail = () => {
                                 <Row className='mt-4 make_reverse_loc_div' style={{ transition: "all 0.3s ease", gap: "10px 0" }}>
                                     <Col md={showFilterBox ? 8 : 12} style={{ transition: "all 0.3s ease" }}>
                                         {
-                                            getLocationData?.response && Object.entries(getLocationData?.response)?.map((loc) => {
+                                            getLocationData?.response && Object.entries(getLocationData?.response)?.map((loc, index) => {
                                                 return (
                                                     <div className='rack_placing'>
                                                         <div style={{ position: "relative" }}>
                                                             <h4>{loc[0]}</h4>
 
                                                             <div className='scroll_chevrons'>
-                                                                {/* <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef1, setScrollPosition1)} /> */}
-                                                                {/* <FaChevronRight onClick={() => handleScroll(300, rackContainerRef1, setScrollPosition1)} /> */}
-
-                                                                <FaChevronLeft onClick={() => handleScroll(-300)} />
-                                                                <FaChevronRight onClick={() => handleScroll(300)} />
+                                                                <FaChevronLeft onClick={() => handleScroll(-300, index)} />
+                                                                <FaChevronRight onClick={() => handleScroll(300, index)} />
                                                             </div>
                                                         </div>
                                                         <div
+                                                            // ref={rackContainerRef1}
+                                                            ref={el => rackContainerRefs.current[index] = el}
                                                             className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}
                                                             style={{
                                                                 overflowX: 'auto',
@@ -729,7 +710,7 @@ const LocationDetail = () => {
                                                             {
                                                                 Object.entries(loc[1])?.map((w) => {
                                                                     return (
-                                                                        <table ref={rackContainerRef1} style={showFilterBox ? { width: `${w[1].length * 20}%` } : { width: `${w[1].length * 15}%` }}>
+                                                                        <table style={showFilterBox ? { width: `${w[1].length * 20}%` } : { width: `${w[1].length * 15}%` }}>
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td><p>{w[0]}</p></td>
