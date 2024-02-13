@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Breadcrumbs = ({ list }) => {
     const navigate = useNavigate();
+
     return (
         <div className='d-flex align-items-center flex-wrap'>
             {
@@ -16,8 +17,8 @@ const Breadcrumbs = ({ list }) => {
                                     <p onClick={() => navigate('/wms/dashboard')}>{l}</p> :
                                     l === 'Warehouse' ?
                                         <p onClick={() => navigate('/wms/warehouses')}>{l}</p> :
-                                        l === 'Agility Port Qasim' ?
-                                            <p onClick={() => navigate('/wms/warehouse/details')}>{l}</p> : <p>{l}</p>
+                                        ( list[0] === "Warehouse" && list[1] ) ?
+                                            <p onClick={() => navigate(-1)}>{l}</p> : <p>{l}</p>
                             }
                             <BiChevronRight style={list.length - 1 === i ? { display: "none" } : null} />
                         </div>

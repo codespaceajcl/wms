@@ -452,7 +452,7 @@
   cursor: pointer;
 }
 
-.warehouse_header .user_nav .nav-item a {
+.warehouse_header .user_nav .nav-item #basic-nav-dropdown {
   color: #fff !important;
   font-size: 14px;
   display: flex;
@@ -903,6 +903,10 @@
 .chat_layout_right {
   margin-top: 0;
   padding-top: 80px;
+}
+
+.warehouse_nav .warehouse_nav_link{
+
 }
 
 @media (max-width: 1200px) {

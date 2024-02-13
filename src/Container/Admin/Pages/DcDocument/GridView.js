@@ -5,6 +5,7 @@ import lottie_ok from "../../../../Util/Lottie/Lottie_ok.json";
 import { Col, Row } from 'react-bootstrap';
 import Loader from '../../../../Util/Loader';
 import { allImages } from '../../../../Util/Images';
+import { FaDownload } from "react-icons/fa";
 
 const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loading, pageNum, setPageNum, showNext, getDcData, revertModal, setRevertModal }) => {
 
@@ -97,7 +98,8 @@ const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loadi
                               <h6>DC No.</h6>
                             </Col>
                             <Col md={8}>
-                              <p>{d.dc}</p>
+                              <p className='d-flex align-items-center justify-content-end gap-2'> 
+                              {d.dc} <a href={d?.documentPath} target='_blank'> <FaDownload /> </a> </p>
                             </Col>
                           </Row>
 

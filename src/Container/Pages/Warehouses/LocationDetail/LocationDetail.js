@@ -58,8 +58,8 @@ const LocationDetail = () => {
         status: ""
     })
 
-    const rackContainerRef1 = useRef(null);
-    const rackContainerRef2 = useRef(null);
+    // const rackContainerRef1 = useRef(null);
+    // const rackContainerRef2 = useRef(null);
 
     const { loading, getWarehouseData } = useSelector((state) => state.getWarehouses)
     const { loading: locationLoading, getLocationData } = useSelector((state) => state.getWarehouseLocation)
@@ -101,7 +101,7 @@ const LocationDetail = () => {
             setShowSuccess(true)
             dispatch({ type: "PALLET_LOC_RESET" })
         }
-        if(editLocData?.response === "success"){
+        if (editLocData?.response === "success") {
             setEditInput(!editInput)
             setShowDetail(!showDetail)
             successNotify("Tag Edit Successfully!")
@@ -115,12 +115,24 @@ const LocationDetail = () => {
         }
     }, [getWarehouseData])
 
-    const handleScroll = (scrollValue, containerRef, setScrollPosition) => {
-        const newScrollPosition = setScrollPosition + scrollValue;
+    // const handleScroll = (scrollValue, containerRef, setScrollPosition) => {
+    //     const newScrollPosition = setScrollPosition + scrollValue;
+    //     setScrollPosition(newScrollPosition);
+
+    //     if (containerRef.current) {
+    //         containerRef.current.scrollBy({ left: scrollValue, behavior: 'smooth' });
+    //     }
+    // };
+
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const rackContainerRef1 = useRef(null);
+
+    const handleScroll = (scrollValue) => {
+        const newScrollPosition = scrollPosition + scrollValue;
         setScrollPosition(newScrollPosition);
 
-        if (containerRef.current) {
-            containerRef.current.scrollBy({ left: scrollValue, behavior: 'smooth' });
+        if (rackContainerRef1.current) {
+            rackContainerRef1.current.scrollBy({ left: scrollValue, behavior: 'smooth' });
         }
     };
 
@@ -700,16 +712,24 @@ const LocationDetail = () => {
                                                             <h4>{loc[0]}</h4>
 
                                                             <div className='scroll_chevrons'>
-                                                                <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef1, setScrollPosition1)} />
-                                                                <FaChevronRight onClick={() => handleScroll(300, rackContainerRef1, setScrollPosition1)} />
+                                                                {/* <FaChevronLeft onClick={() => handleScroll(-300, rackContainerRef1, setScrollPosition1)} /> */}
+                                                                {/* <FaChevronRight onClick={() => handleScroll(300, rackContainerRef1, setScrollPosition1)} /> */}
+
+                                                                <FaChevronLeft onClick={() => handleScroll(-300)} />
+                                                                <FaChevronRight onClick={() => handleScroll(300)} />
                                                             </div>
                                                         </div>
-                                                        <div ref={rackContainerRef1}
-                                                            className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}>
+                                                        <div
+                                                            className={showFilterBox ? 'rack_box_container make_shrink' : 'rack_box_container'}
+                                                            style={{
+                                                                overflowX: 'auto',
+                                                                whiteSpace: 'nowrap',
+                                                                transition: 'all 0.3s ease'
+                                                            }}>
                                                             {
                                                                 Object.entries(loc[1])?.map((w) => {
                                                                     return (
-                                                                        <table style={showFilterBox ? { width: `${w[1].length * 20}%` } : { width: `${w[1].length * 15}%` }}>
+                                                                        <table ref={rackContainerRef1} style={showFilterBox ? { width: `${w[1].length * 20}%` } : { width: `${w[1].length * 15}%` }}>
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td><p>{w[0]}</p></td>
