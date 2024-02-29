@@ -61,7 +61,7 @@ const Reports = () => {
     const warehouseOption = inventoryFilterData?.warehouses?.map((w) => {
         return {
             value: `${w.id}`,
-            label: `${w.sgi} | ${w.name}`
+            label: `${w.name}`
         }
     })
 
@@ -136,16 +136,16 @@ const Reports = () => {
             <div className='material_main' style={{ padding: "25px 0" }}>
                 <h5> <BsArrowLeftShort onClick={() => navigate(-1)} style={{ left: "10px" }} /> Warehouse Inventory Report</h5>
 
-                <Row className='mt-4' style={{ padding: "0 25px" }}>
+                <Row className='mt-4 align-items-center' style={{ padding: "0 25px" }}>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>Warehouse</label>
                         <Select isLoading={filterLoading} options={warehouseOption} placeholder="Select Warehouse"
                             onChange={(d) => setFilterData({ ...filterData, warehouses: d.value })} styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
-                        <label className='react_select_label'>Business Type</label>
+                        <label className='react_select_label'>Company</label>
                         <Select isLoading={filterLoading} options={businessTypeOption}
-                            onChange={(d) => setFilterData({ ...filterData, businessTypes: d.value })} placeholder="Select Business" styles={materialColorStyles} />
+                            onChange={(d) => setFilterData({ ...filterData, businessTypes: d.value })} placeholder="Select Company" styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>Type</label>
@@ -153,9 +153,9 @@ const Reports = () => {
                             onChange={(d) => setFilterData({ ...filterData, types: d.value })} placeholder="Select Type" styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
-                        <label className='react_select_label'>Industry</label>
+                        <label className='react_select_label'>Category</label>
                         <Select isLoading={filterLoading} options={industryOption}
-                            onChange={(d) => setFilterData({ ...filterData, industries: d.value })} placeholder="Select Industry" styles={materialColorStyles} />
+                            onChange={(d) => setFilterData({ ...filterData, industries: d.value })} placeholder="Select Category" styles={materialColorStyles} />
                     </Col>
                     <Col md={4} className='mb-2'>
                         <label className='react_select_label'>SKU</label>
@@ -181,7 +181,7 @@ const Reports = () => {
                             type={'Date'}
                         />
                     </Col>
-                    <Col md={9} className='mt-2'>
+                    <Col md={4} className='mt-2'>
                         <button className='submit_btn' type="button"
                             onClick={handleFilterSubmit}>
                             Generate Report

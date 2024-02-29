@@ -6,6 +6,8 @@ import {
     approveRevertReducer,
     availableStockOutReducer, businessTypeCustomerReducer, businessTypeWarehouseReducer, callDebugReducer, changePalletMovementReducer, createFloorReducer,
     createLocationReducer, createRackReducer, createStockInReducer,
+    createStockReturnReducer,
+    createStockTransferReducer,
     createWarehouseCustomStoreReducer, createWarehousePalletsReducer,
     createWarehouseReducer, createWarehouseStageReducer, dashboardApiReducer, destinationStockoutReducer, editLocationTagReducer, generateSerialNoReducer, getAllPalletInhouseMovementReducer,
     getAllWarehousesInhouseMovementReducer, getAvailLocationStockInReducer, getAvailPalletStockInReducer, getAvailStagesStockInReducer, getCurrentUserProfileReducer, getExistingSerialNoReducer, getGeneralEnquiryDetailReducer, getGeneralEnquiryReducer,
@@ -82,6 +84,8 @@ const rootReducer = combineReducers({
     getStagesStockIn: getAvailStagesStockInReducer,
 
     postStockInApi: createStockInReducer,
+    postStockReturnApi: createStockReturnReducer,
+    postStockTransferApi: createStockTransferReducer,
 
     // STOCK OUT
     getDebug: callDebugReducer,

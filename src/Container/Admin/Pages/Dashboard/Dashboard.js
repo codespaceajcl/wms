@@ -223,7 +223,7 @@ const Dashboard = () => {
   };
 
   const tableHead = ["S.No", "Date", "Transaction By", "Truck Number", "Warehouse", "Action"]
-  const detailHead = ["SKU", "Quantity", "Business Type"]
+  const detailHead = ["SKU", "Quantity", "Company"]
 
   const consigneeDetailModal = (
     <Modal show={recentModal}

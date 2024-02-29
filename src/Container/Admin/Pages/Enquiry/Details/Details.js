@@ -23,7 +23,7 @@ const EnquiryDetail = () => {
     const [seNo, setSeNo] = useState('')
 
     const skuHead = ["Transaction ID", "Order/Invoice No", "Vehicle No", "Warehouse", "Destination",
-        "Business Type", "Date", "Document", "Action"]
+        "Company", "Date", "Document", "Action"]
 
     const { loading, getGeneralEnquiryData } = useSelector((state) => state.generalEnquiryGet)
     const { loading: detailLoading, getEnquiryDetailData } = useSelector((state) => state.enquiryDetailGet)
@@ -168,7 +168,7 @@ const EnquiryDetail = () => {
                                                                         <p>Customer  <br /> <span>{enq.customer}</span></p>
                                                                     </Col>
                                                                     <Col md={8}>
-                                                                        <p>Business Type  <br /> <span>{enq.businessType}</span></p>
+                                                                        <p>Company  <br /> <span>{enq.businessType}</span></p>
                                                                     </Col>
 
                                                                     <Col md={4}>

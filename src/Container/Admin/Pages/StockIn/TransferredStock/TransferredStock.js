@@ -10,7 +10,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { useDispatch, useSelector } from 'react-redux';
 import readXlsxFile from 'read-excel-file';
 import {
-    businessTypeWarehouse, bussinessTypeCustomer, createStockIn, generateSerialNo, getAvailLocationStockIn,
+    businessTypeWarehouse, bussinessTypeCustomer, createStockIn, createStockTransfer, generateSerialNo, getAvailLocationStockIn,
     getAvailPalletStockIn, getAvailStagesStockIn, getSerialNoExist
 } from '../../../../../Redux/Action/Admin';
 import { errorNotify } from '../../../../../Util/Toast';
@@ -21,6 +21,7 @@ const TransferredStock = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [file, setFile] = useState(null);
+    const [format, setFormat] = useState(null)
     const [show, setShow] = useState(false)
     const [stockInShow, setStockInShow] = useState(false)
     const [stockInSgi, setStockInSgi] = useState('')
@@ -46,24 +47,24 @@ const TransferredStock = () => {
     const { loading, getSerialization } = useSelector((state) => state.getSerialzationNumber)
     const { loading: customerLoading, getBusinessCustomers } = useSelector((state) => state.getBusinessCustomerType)
     const { loading: serialLoading, getExistingSerial } = useSelector((state) => state.getExistingSerialNumber)
-    const { loading: createLoading, postStockIn } = useSelector((state) => state.postStockInApi)
+    const { loading: createLoading, postStockTransfer } = useSelector((state) => state.postStockTransferApi)
 
     const { getAvailPallet } = useSelector((state) => state.getPalletStockIn)
     const { getLoctionPallet } = useSelector((state) => state.getLocationStockIn)
     const { getStagesPallet } = useSelector((state) => state.getStagesStockIn)
 
     useEffect(() => {
-        if (postStockIn?.response === "success") {
+        if (postStockTransfer?.response === "success") {
             setStockInShow(true)
-            setStockInSgi(postStockIn?.sgi)
+            setStockInSgi(postStockTransfer?.sgi)
             dispatch({ type: "CREATE_STOCK_IN_RESET" })
         }
 
-        else if (postStockIn?.response === "noAccess") {
-            errorNotify(postStockIn?.response)
+        else if (postStockTransfer?.response === "noAccess") {
+            errorNotify(postStockTransfer?.response)
             dispatch({ type: "CREATE_STOCK_IN_RESET" })
         }
-    }, [postStockIn])
+    }, [postStockTransfer])
 
     useEffect(() => {
         if (getExistingSerial) {
@@ -149,7 +150,7 @@ const TransferredStock = () => {
     const warehouseOption = getBusinessWarehouses?.warehouses?.map((w) => {
         return {
             value: w.id,
-            label: `${w.sgi} | ${w.name}`
+            label: `${w.name}`
         }
     })
 
@@ -535,6 +536,19 @@ const TransferredStock = () => {
         setShowRacks(updatedRowOptions)
     };
 
+    const imageFileHandler = (e) => {
+        if (e.size > 31457280) {
+            errorNotify("File size must be less than 30MB");
+            return;
+        }
+        const file = e;
+        if (file) {
+            const fileType = file.name.split('.')
+            setFormat(fileType[fileType.length - 1])
+            setFile(file)
+        }
+    }
+
     const submitStockInHandler = () => {
         const transformedFinalData = transformFinalData(selectedAvailLocations);
 
@@ -547,7 +561,7 @@ const TransferredStock = () => {
             businessTypes: businessTypeId,
             warehouse: warehouseId,
             customer: customerId,
-            // stockDocument: file,
+            stockDocument: file,
             user: login.email,
             email: login.email,
             token: login.token
@@ -562,8 +576,35 @@ const TransferredStock = () => {
             return;
         }
 
-        let d = JSON.stringify(finalData)
-        dispatch(createStockIn(d))
+        if (!file) {
+            errorNotify("upload file")
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("selectedItems", JSON.stringify(transformedFinalData.selectedItems))
+        formData.append("selectedItemsType", JSON.stringify(transformedFinalData.selectedItemsType))
+        formData.append("selectedPallotsStockIn", JSON.stringify(transformedFinalData.selectedPallotsStockIn))
+        formData.append("selectedSerialNos", JSON.stringify(transformedFinalData.selectedSerialNos))
+        formData.append("stockInItemStatus", JSON.stringify(transformedFinalData.stockInItemStatus))
+        formData.append("storage", JSON.stringify(transformedFinalData.storage))
+
+        formData.append("receivingDate", stockInDetail.recievingDate)
+        formData.append("order", stockInDetail.orderNo.value)
+        formData.append("shipmentNumber", stockInDetail.transactionalNo)
+        formData.append("truckNumber", stockInDetail.vehicleNo)
+        formData.append("businessTypes", businessTypeId)
+        formData.append("warehouse", warehouseId)
+        formData.append("customer", customerId)
+        formData.append("user", login.email)
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+        formData.append("documentFormat", format)
+        formData.append("document", file)
+
+        // let d = JSON.stringify(finalData)
+        dispatch(createStockTransfer(formData))
 
     }
 
@@ -662,7 +703,7 @@ const TransferredStock = () => {
 
             <div>
                 <img src={allImages.correct_icon} alt='' />
-                <h2>Stock In Created!</h2>
+                <h2 style={{ textAlign: "center" }}>Stock Transferred Successfully!</h2>
                 <p>Transtional ID is <span>{stockInSgi}</span></p>
             </div>
         </Modal.Body>
@@ -721,8 +762,8 @@ const TransferredStock = () => {
                         />
                     </Col>
                     <Col md={5} className='mt-2'>
-                        <label className='react_select_label'>Business Type <span>*</span></label>
-                        <Select isLoading={businessLoading} options={businessTypeOption} onChange={getCustomerHandler} placeholder="Select Business Type" styles={materialColorStyles} />
+                        <label className='react_select_label'>Company <span>*</span></label>
+                        <Select isLoading={businessLoading} options={businessTypeOption} onChange={getCustomerHandler} placeholder="Select Company" styles={materialColorStyles} />
                     </Col>
                     <Col md={5} className='mt-2'>
                         <label className='react_select_label'>Warehouse <span>*</span></label>
@@ -933,8 +974,8 @@ const TransferredStock = () => {
 
                         <Row className='file_upload_handler'>
                             <Col md={12}>
-                                <FileUploader handleChange={(e) => setFile(e)} name="file"
-                                    types={["PDF", "DOC", "DOCX"]} label="Attached Stock Document" />
+                                <FileUploader handleChange={imageFileHandler} name="file"
+                                    label="Attached Stock Document" />
                                 <img src={allImages.stock_doc_icon} />
                             </Col>
                         </Row>

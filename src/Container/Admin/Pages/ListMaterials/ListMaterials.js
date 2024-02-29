@@ -89,12 +89,12 @@ const ListMaterials = () => {
           {({ handleSubmit }) => (
             <Row className="justify-content-around align-items-end mt-5">
               <Col md={6}>
-                <label className="react_select_label">Business Type <span>*</span> </label>
+                <label className="react_select_label">Company <span>*</span> </label>
                 <Field name={'businessTypeSelected'}
                   component={SelectField}
                   options={businessType}
                   styleCss={materialColorStyles}
-                  placeholder="Select Business Type"
+                  placeholder="Select Company"
                 />
               </Col>
               <Col md={6}>

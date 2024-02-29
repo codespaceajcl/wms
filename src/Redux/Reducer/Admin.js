@@ -1551,6 +1551,72 @@ export const createStockInReducer = (state = {}, action) => {
   }
 };
 
+export const createStockReturnReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "CREATE_STOCK_RETURN_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "CREATE_STOCK_RETURN_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        postStockReturn: action.payload,
+        error: false,
+      };
+    case "CREATE_STOCK_RETURN_FAILED":
+      return {
+        ...state,
+        loading: false,
+        postStockReturn: null,
+        error: action.payload,
+      };
+    case "CREATE_STOCK_RETURN_RESET":
+      return {
+        ...state,
+        loading: false,
+        postStockReturn: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const createStockTransferReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "CREATE_STOCK_TRANSFER_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "CREATE_STOCK_TRANSFER_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        postStockTransfer: action.payload,
+        error: false,
+      };
+    case "CREATE_STOCK_TRANSFER_FAILED":
+      return {
+        ...state,
+        loading: false,
+        postStockTransfer: null,
+        error: action.payload,
+      };
+    case "CREATE_STOCK_TRANSFER_RESET":
+      return {
+        ...state,
+        loading: false,
+        postStockTransfer: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
 // ================ STOCK OUT ==================
 
 export const callDebugReducer = (state = {}, action) => {

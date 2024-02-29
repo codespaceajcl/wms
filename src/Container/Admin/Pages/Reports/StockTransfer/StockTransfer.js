@@ -71,7 +71,7 @@ function Row(props) {
 
 export default function StockTransferTab() {
     const [openRow, setOpenRow] = React.useState(null);
-    const tableHead = ['S.No.', 'Transaction Code', 'Action By', 'Truck No', 'Suppllier', 'Date', 'Business Type', 'Warehouse']
+    const tableHead = ['S.No.', 'Transaction Code', 'Action By', 'Truck No', 'Suppllier', 'Date', 'Company', 'Warehouse']
 
 
     const dispatch = useDispatch()

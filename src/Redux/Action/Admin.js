@@ -1311,13 +1311,77 @@ export const createStockIn = (formData) => async (dispatch) => {
     }
     else if (e?.message) {
       dispatch({
-        type: "STOCK_OUT_FAILED",
+        type: "CREATE_STOCK_IN_FAILED",
         payload: e?.message,
         success: false,
       });
     }
     dispatch({
       type: "CREATE_STOCK_IN_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+export const createStockReturn = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "CREATE_STOCK_RETURN_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/stockReturn`, formData);
+
+    dispatch({
+      type: "CREATE_STOCK_RETURN_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    else if (e?.message) {
+      dispatch({
+        type: "CREATE_STOCK_RETURN_FAILED",
+        payload: e?.message,
+        success: false,
+      });
+    }
+    dispatch({
+      type: "CREATE_STOCK_RETURN_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+export const createStockTransfer = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "CREATE_STOCK_TRANSFER_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/stockTransfer`, formData);
+
+    dispatch({
+      type: "CREATE_STOCK_TRANSFER_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    else if (e?.message) {
+      dispatch({
+        type: "CREATE_STOCK_TRANSFER_FAILED",
+        payload: e?.message,
+        success: false,
+      });
+    }
+    dispatch({
+      type: "CREATE_STOCK_TRANSFER_FAILED",
       payload: e?.response?.data?.message,
       success: false,
     });

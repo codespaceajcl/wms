@@ -38,7 +38,7 @@ const DcDocument = () => {
     const [showConfirm, setShowConfirm] = useState(false)
     const [selectedStatus, setSelectedStatus] = useState(null);
 
-    const tableHead = ["S.No", "DC No", "Vehicle", "Origin", "Destination", "Date", "Transaction By", "Transaction Number", "Status", "Action"]
+    const tableHead = ["S.No", "DC No", "Vehicle", "Origin", "Destination", "Date", "Transaction By", "Transaction Number", "Reference", "Status", "Action"]
 
     const { loading, getDcData } = useSelector((state) => state.getDc)
     const { loading: postLoading, revertData } = useSelector((state) => state.postRevert)
@@ -261,10 +261,10 @@ const DcDocument = () => {
                             </span>
                             {
                                 showDownload && <div className='filter_div' style={{ minWidth: "180px" }}>
-                                    <div className='checkbox_div' onClick={handleDownload} style={{display: "block"}}>
+                                    <div className='checkbox_div' onClick={handleDownload} style={{ display: "block" }}>
                                         <label style={{ cursor: "pointer" }} s>Download as CSV</label>
                                     </div>
-                                    <div className='checkbox_div' onClick={() => toPDF()} style={{display: "block"}}>
+                                    <div className='checkbox_div' onClick={() => toPDF()} style={{ display: "block" }}>
                                         <label style={{ cursor: "pointer" }}>Download as PDF</label>
                                     </div>
                                 </div>
@@ -351,6 +351,7 @@ const DcDocument = () => {
                                                                     <td>{c.date}</td>
                                                                     <td>{c.transactionBy}</td>
                                                                     <td>{c.transactionalNumber}</td>
+                                                                    <td><span className='dc_download'><a href={c?.reference}> <FaDownload /> </a> </span></td>
                                                                     <td style={c.status === 'In-transit' ? { color: "#B99C00" } : { color: "#329932" }}>{c.status}</td>
                                                                     <td>
                                                                         {

@@ -18,6 +18,7 @@ import { errorNotify, successNotify } from "../../../../Util/Toast";
 import Loader from "../../../../Util/Loader";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { allImages } from "../../../../Util/Images";
+import { FileUploader } from "react-drag-drop-files";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -62,6 +63,8 @@ const StockOut = () => {
   const [getPalletManualData, setGetPalletManualData] = useState([])
   const [serialNoText, setSerialNoText] = useState('')
   const [showSerialNos, setShowSerialNos] = useState(null)
+  const [file, setFile] = useState(null)
+  const [format, setFormat] = useState(null)
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -120,7 +123,7 @@ const StockOut = () => {
       dispatch({ type: "STOCK_OUT_RESET" })
     }
 
-    else if(postStockOut?.response){
+    else if (postStockOut?.response) {
       errorNotify(postStockOut?.response)
       dispatch({ type: "STOCK_OUT_RESET" })
     }
@@ -201,7 +204,7 @@ const StockOut = () => {
   const warehouseOption = getBusinessWarehouses?.warehouses?.map((w) => {
     return {
       value: w.id,
-      label: `${w.sgi} | ${w.name}`,
+      label: `${w.name}`,
     };
   });
 
@@ -247,7 +250,7 @@ const StockOut = () => {
   const destinationOption = getDestinationStockout?.response?.map((d) => {
     return {
       value: d.id,
-      label: d.sgi ? `${d.sgi} | ${d.name}` : `${d.industry} | ${d.name}`,
+      label: d.sgi ? `${d.name}` : `${d.name}`,
     };
   });
 
@@ -603,8 +606,18 @@ const StockOut = () => {
   };
 
   const removeCartHandler = (r) => {
+    let existWarehouseIndex = warehousePallets.findIndex((item) => item.pallot === r?.getIndPallet?.pallot)
+
     const filterData = addRemoveData?.filter((item) => item?.getIndPallet?.pallot !== r?.getIndPallet?.pallot)
     setAddRemoveData(filterData)
+
+    let removeQuantity = r.getIndPallet.removeQuantity ? r.getIndPallet.removeQuantity : r?.getIndPallet.serialNos?.length
+
+    setWarehousePallets((prev) => {
+      const updatedData = [...prev];
+      updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) + parseInt(removeQuantity)
+      return updatedData;
+    })
   }
 
   const dispatchHandler = () => {
@@ -648,15 +661,42 @@ const StockOut = () => {
       fmsDepartment: fmsDepartment.value,
       stockOutOrderStatus: tab,
       selectedStockOutQuantity: selectedStockOutQuantity,
+      // documentFormat: format,
       username: login.email,
       email: login.email,
-      token: login.token
+      token: login.token,
+      // document: file,
     }
 
     try {
       validateData(data);
-      const d = JSON.stringify(data)
-      dispatch(stockOutApi(d))
+
+      const formData = new FormData();
+
+      formData.append("businessTypes", getNomenClature.businessTypes)
+      formData.append("customer", getNomenClature.customer)
+      formData.append("warehouse", getNomenClature.warehouse)
+
+      formData.append("bilti", stockOutForm.bilti)
+      formData.append("date", stockOutForm.date)
+      formData.append("destination", stockOutForm.destination)
+      formData.append("sendTo", stockOutForm.sendTo)
+      formData.append("transactionNumber", stockOutForm.transactionNumber)
+      formData.append("truckNumber", stockOutForm.truckNumber)
+      formData.append("seal", stockOutForm.seal)
+
+      formData.append("fms", issueToFMS.value)
+      formData.append("fmsDepartment", fmsDepartment.value)
+      formData.append("stockOutOrderStatus", tab)
+      formData.append("selectedStockOutQuantity", JSON.stringify(selectedStockOutQuantity))
+      formData.append("documentFormat", format)
+      formData.append("username", login.email)
+      formData.append("email", login.email)
+      formData.append("token", login.token)
+      formData.append("document", file)
+
+      // const d = JSON.stringify(data)
+      dispatch(stockOutApi(formData))
 
     } catch (error) {
       errorNotify(error.message);
@@ -708,6 +748,24 @@ const StockOut = () => {
     </Modal.Body>
   </Modal>
 
+  const stockOutHandler = (e) => {
+    const file = e;
+
+    if (file) {
+      const fileType = file.name.split('.')
+
+      setFormat(fileType[fileType.length - 1])
+      setFile(file)
+
+      // const reader = new FileReader();
+      // reader.onloadend = () => {
+      //   const base64Image = reader.result.split(',')[1];
+      //   setFile(base64Image);
+      // };
+      // reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div>
       {stockOutModel}
@@ -730,7 +788,7 @@ const StockOut = () => {
         <Row className="mt-5 justify-content-center">
           <Col md={4}>
             <label className="react_select_label">
-              Source/ Dispatch Warehouse <span>*</span>
+              Source Warehouse <span>*</span>
             </label>
             <Select
               options={warehouseOption}
@@ -741,13 +799,13 @@ const StockOut = () => {
                 let idString = w.value.toString();
                 setGetNomenClature({ ...getNomenClature, warehouse: idString })
               }
-                
+
               }
             />
           </Col>
           <Col md={4}>
             <label className="react_select_label">
-              Business Type <span>*</span>
+              Company <span>*</span>
             </label>
             <Select
               options={businessTypeOption}
@@ -773,7 +831,7 @@ const StockOut = () => {
           </Col>
           <Col md={4} className="mt-2">
             <label className="react_select_label">
-              Destination Consignee/Warehouse<span>*</span>
+              Destination Warehouse<span>*</span>
             </label>
             <Select
               options={destinationOption}
@@ -869,6 +927,7 @@ const StockOut = () => {
               placeholder="Select"
               styles={materialColorStyles}
               isDisabled={isAllocateDisabled}
+              className={isAllocateDisabled ? "disabled-select" : ""}
               onChange={(v) => setFmsDepartment(v)}
             />
           </Col>
@@ -1067,6 +1126,18 @@ const StockOut = () => {
                   </Col>
                 )}
               </Row>
+
+              {/* { */}
+              {/* addRemoveData?.length > 0 && */}
+              <Row className='file_upload_handler' style={{ backgroundColor: "#fff", borderRadius: "10px" }}>
+                <Col md={12}>
+                  <FileUploader handleChange={stockOutHandler} name="file"
+                    // types={["pdf", "doc", "docx", "png", "jpg", "jpeg"]} 
+                    label="Attached StockOut Document" />
+                  <img src={allImages.stock_doc_icon} />
+                </Col>
+              </Row>
+              {/* } */}
 
               {addRemoveData?.length > 0 && (
                 <Row

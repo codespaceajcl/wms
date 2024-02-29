@@ -30,10 +30,10 @@ const Consignee = () => {
   const [show, setShow] = useState(false)
   // "Assigned"
   const tableHead = ["S.No", "Name & Address", "Contact"]
-  const detailHead = ["SKU", "Quantity", "Business Type", "More"]
-  const moreHead = ["Serial No", "Business Type", "Status", "Track", "Date"]
+  const detailHead = ["SKU", "Quantity", "Company", "More"]
+  const moreHead = ["Serial No", "Company", "Status", "Track", "Date"]
   const skuHead = ["Transaction ID", "Order/Invoice No", "Vehicle No", "Warehouse", "Destination",
-    "Business Type", "Date", "Document", "Action"]
+    "Company", "Date", "Document", "Action"]
 
   const { loading, getConsigneeData } = useSelector((state) => state.getConsignee)
 
@@ -83,7 +83,7 @@ const Consignee = () => {
 
     dispatch(listConsignee(pageNum, formData))
 
-    if(createConsigneeData?.response != "exist"){
+    if (createConsigneeData?.response != "exist") {
       dispatch(listConsignee(pageNum, formData))
     }
 
@@ -319,18 +319,12 @@ const Consignee = () => {
             {({ handleSubmit }) => (
               <Row>
                 <Col md={6} className='input_field'>
-                  {/* <Field
-                    component={Input}
-                    name="industryName"
-                    label="Industry Name"
-                    placeholder="Enter Industry Name"
-                  /> */}
-                  <label>Add Industry <span>*</span> </label>
+                  <label>Category <span>*</span> </label>
                   <Field name={'industryName'}
                     component={SelectField}
                     options={industryType}
                     styleCss={materialColorStyles}
-                    placeholder="Select Business Type"
+                    placeholder="Select Category"
                   />
                 </Col>
 
@@ -375,12 +369,12 @@ const Consignee = () => {
                   />
                 </Col>
                 <Col md={12} className='input_field'>
-                  <label>Add Business Type <span>*</span> </label>
+                  <label>Company <span>*</span> </label>
                   <Field name={'businessTypeSelected'}
                     component={SelectField}
                     options={businessType}
                     styleCss={materialColorStyles}
-                    placeholder="Select Business Type"
+                    placeholder="Select Company"
                   />
                 </Col>
                 <Col md={12} className='mt-4'>

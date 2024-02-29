@@ -9,14 +9,10 @@ import MainLayout from "./Layouts/MainLayout";
 import { ToastContainer } from "react-toastify";
 import NoInternetModal from "./Components/Modals/NoInternetModal";
 import MainPage from "./Container/Pages/MainPage/MainPage";
-// import { login } from "./Util/Helper";
-// import { errorNotify } from "./Util/Toast";
 
 const App = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const handle = useFullScreenHandle();
-
-  // const userFound = JSON.parse(localStorage.getItem("currentUser"))
 
   useEffect(() => {
     function onlineHandler() {

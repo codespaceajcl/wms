@@ -47,8 +47,7 @@ export const listOfMaterialSchema = Yup.object().shape({
         .max(30, ({ min }) => `Customer not be more than ${min} characters`),
 
     businessTypeSelected: Yup.string()
-        .required('Business Type is required'),
-    // .oneOf([true], 'You must select a Business Type')
+        .required('Company is required'),
 
     currencySelected: Yup.string()
         .required('Currency selection is required'),
@@ -62,16 +61,16 @@ export const reportListSchema = Yup.object().shape({
         .required('Warehouse selection is required'),
 
     businessTypeSelected: Yup.boolean()
-        .oneOf([true], 'You must select a Business Type')
-        .required('Business Type selection is required'),
+        .oneOf([true], 'You must select a Company')
+        .required('Company selection is required'),
 
     typeSelected: Yup.boolean()
         .oneOf([true], 'You must select a Type')
         .required('Type selection is required'),
 
     inudstrySelected: Yup.boolean()
-        .oneOf([true], 'You must select a Industry')
-        .required('Industry selection is required'),
+        .oneOf([true], 'You must select a Category')
+        .required('Category selection is required'),
 
     skuNumber: Yup.string()
         .required('SKU Number Required')
@@ -152,7 +151,7 @@ export const warehouseCreateSchema = Yup.object().shape({
 //Consignee
 export const consigneeCreateSchema = Yup.object().shape({
     industryName: Yup.string()
-        .required('Industry Name is Required'),
+        .required('Category Name is Required'),
 
     consigneeName: Yup.string()
         .required('Consignee Name is Required'),
@@ -186,8 +185,8 @@ export const stockInShipmentSchema = Yup.object().shape({
         .required('Receiving Date is Required'),
 
     businessTypeSelected: Yup.boolean()
-        .oneOf([true], 'You must select a Business Type')
-        .required('Business Type selection is required'),
+        .oneOf([true], 'You must select a Company')
+        .required('Company selection is required'),
 
     warehouseSelected: Yup.boolean()
         .oneOf([true], 'You must select a Warehouse')
@@ -205,8 +204,8 @@ export const stockOutSchema = Yup.object().shape({
         .required('Warehouse is required'),
 
     businessTypeSelected: Yup.boolean()
-        .oneOf([true], 'You must select a Business Type')
-        .required('Business Type selection is required'),
+        .oneOf([true], 'You must select a Company')
+        .required('Company selection is required'),
 
     destinationSelected: Yup.boolean()
         .oneOf([true], 'You must select a Destination')
