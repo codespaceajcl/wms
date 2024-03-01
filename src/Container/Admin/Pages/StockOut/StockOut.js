@@ -661,11 +661,9 @@ const StockOut = () => {
       fmsDepartment: fmsDepartment.value,
       stockOutOrderStatus: tab,
       selectedStockOutQuantity: selectedStockOutQuantity,
-      // documentFormat: format,
       username: login.email,
       email: login.email,
       token: login.token,
-      // document: file,
     }
 
     try {
@@ -695,7 +693,6 @@ const StockOut = () => {
       formData.append("token", login.token)
       formData.append("document", file)
 
-      // const d = JSON.stringify(data)
       dispatch(stockOutApi(formData))
 
     } catch (error) {
@@ -753,16 +750,8 @@ const StockOut = () => {
 
     if (file) {
       const fileType = file.name.split('.')
-
       setFormat(fileType[fileType.length - 1])
       setFile(file)
-
-      // const reader = new FileReader();
-      // reader.onloadend = () => {
-      //   const base64Image = reader.result.split(',')[1];
-      //   setFile(base64Image);
-      // };
-      // reader.readAsDataURL(file);
     }
   };
 
@@ -798,9 +787,7 @@ const StockOut = () => {
               onChange={(w) => {
                 let idString = w.value.toString();
                 setGetNomenClature({ ...getNomenClature, warehouse: idString })
-              }
-
-              }
+              }}
             />
           </Col>
           <Col md={4}>
@@ -831,7 +818,8 @@ const StockOut = () => {
           </Col>
           <Col md={4} className="mt-2">
             <label className="react_select_label">
-              Destination Warehouse<span>*</span>
+              Destination {stockOutForm?.destination === "warehouse" ? "Warehouse" :
+                stockOutForm.destination === "consignee" ? "Consignee" : ""}<span> *</span>
             </label>
             <Select
               options={destinationOption}

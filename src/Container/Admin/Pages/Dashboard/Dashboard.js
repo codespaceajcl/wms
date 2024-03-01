@@ -70,7 +70,7 @@ const Dashboard = () => {
 
   const pieData = {
     labels: getDashboardData?.pallotsUtilization?.map((p) => {
-      return `Idle ${p.percentage}%`
+      return `${p.name} ${p.percentage}%`
     }),
     datasets: [
       {
