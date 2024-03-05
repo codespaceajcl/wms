@@ -26,7 +26,6 @@ const App = () => {
     window.addEventListener("online", onlineHandler);
     window.addEventListener("offline", offlineHandler);
 
-
     return () => {
       window.removeEventListener("online", onlineHandler);
       window.removeEventListener("offline", offlineHandler);

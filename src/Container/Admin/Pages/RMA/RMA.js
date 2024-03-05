@@ -299,7 +299,7 @@ const RMA = () => {
                                     />
                                 </Col>
                                 <Col md={12}>
-                                    <button className='submit_btn' type='button' onClick={handleSubmit}>
+                                    <button className='submit_btn' type='button' onClick={handleSubmit} disabled={loading}>
                                         {loading ? <Spinner animation='border' size='sm' /> : "Submit"}</button>
                                 </Col>
                             </Row>

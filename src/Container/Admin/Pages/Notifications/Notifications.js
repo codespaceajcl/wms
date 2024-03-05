@@ -91,10 +91,10 @@ const Notifications = () => {
                 <p>{saveTnNum.text}</p>
 
                 <div>
-                    <button onClick={approveHandler}>{approveLoading ?
+                    <button onClick={approveHandler} disabled={approveLoading}>{approveLoading ?
                         <Spinner animation='border' size='sm' /> : <> <MdThumbUp /> Approve </>} </button>
 
-                    <button onClick={rejectHandler}>
+                    <button onClick={rejectHandler} disabled={rejectLoading}>
                         {rejectLoading ?
                             <Spinner animation='border' size='sm' /> : <> <MdThumbDown /> Reject </>}
                     </button>

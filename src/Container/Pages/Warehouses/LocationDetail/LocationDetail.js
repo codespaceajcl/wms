@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createFloor, createLocation, createRack, editLocationTag, getAllWarehouses, getLocation, palletLocationDetail, palletStatusChange } from '../../../../Redux/Action/Admin';
 import { useLocation, useParams } from 'react-router-dom';
 import Loader from '../../../../Util/Loader';
-import { successNotify } from '../../../../Util/Toast';
+import { errorNotify, successNotify } from '../../../../Util/Toast';
 import { allImages } from '../../../../Util/Images';
 
 const LocationDetail = () => {
@@ -218,6 +218,11 @@ const LocationDetail = () => {
 
     const addRackHandler = () => {
 
+        if(!addRackModal.noOfFloors || !addRackModal.noOfLocations){
+            errorNotify("filled up fields")
+            return;
+        }
+
         const data = {
             noOfFloors: addRackModal.noOfFloors,
             noOfLocations: addRackModal.noOfLocations,
@@ -261,7 +266,7 @@ const LocationDetail = () => {
                     </div>
 
                     <hr />
-                    <button className='submit_btn' type='submit' onClick={addRackHandler}>
+                    <button className='submit_btn' type='submit' onClick={addRackHandler} disabled={rackLoading}>
                         {
                             rackLoading ? <Spinner animation='border' size='sm' /> : 'Add'
                         }
@@ -272,6 +277,11 @@ const LocationDetail = () => {
     )
 
     const addFloorHandler = () => {
+
+        if(!addFloorModal.noOfFloor || !addFloorModal.rack){
+            errorNotify("filled up fields")
+            return;
+        }
 
         const data = {
             noOfFloor: addFloorModal.noOfFloor,
@@ -314,7 +324,7 @@ const LocationDetail = () => {
                     </div>
 
                     <hr />
-                    <button className='submit_btn' onClick={addFloorHandler}>
+                    <button className='submit_btn' onClick={addFloorHandler} disabled={floorLoading}>
                         {floorLoading ? <Spinner animation='border' size='sm' /> : 'Add'}</button>
                 </div>
             </Modal.Body>
@@ -322,6 +332,11 @@ const LocationDetail = () => {
     )
 
     const addLocationHandler = () => {
+        if(!addLocationModal.noOfLocation || !addLocationModal.rack){
+            errorNotify("filled up fields")
+            return;
+        }
+
         const data = {
             noOfLocation: addLocationModal.noOfLocation,
             rack: addLocationModal.rack,
@@ -363,7 +378,7 @@ const LocationDetail = () => {
                     </div>
 
                     <hr />
-                    <button className='submit_btn' onClick={addLocationHandler}>
+                    <button className='submit_btn' onClick={addLocationHandler} disabled={locLoading}>
                         {locLoading ? <Spinner animation='border' size='sm' /> : "Add"}</button>
                 </div>
             </Modal.Body>
@@ -516,7 +531,7 @@ const LocationDetail = () => {
                     <p>Do you really want to change <br /> status?</p>
 
                     <div>
-                        <button onClick={statusHandler}>
+                        <button onClick={statusHandler} disabled={statusLoading}>
                             {statusLoading ? <Spinner animation='border' size='sm' /> : "Yes"}</button>
                         <button onClick={() => setShowChange(!showChange)}>No</button>
                     </div>

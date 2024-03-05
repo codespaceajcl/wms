@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { generalEnquiry, generalEnquiryDetails } from '../../../../../Redux/Action/Admin';
 import { login } from '../../../../../Util/Helper';
 import Loader from '../../../../../Util/Loader';
+import { errorNotify } from '../../../../../Util/Toast';
 
 const EnquiryDetail = () => {
     const navigate = useNavigate();
@@ -35,6 +36,11 @@ const EnquiryDetail = () => {
     }, [])
 
     const searchHandler = () => {
+        if(filter.length === 0){
+            errorNotify("fill up field");
+            return;
+        }
+        
         const postData = {
             search: filter,
             filter: enquiryId,

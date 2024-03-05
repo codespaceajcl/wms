@@ -378,7 +378,7 @@ const Consignee = () => {
                   />
                 </Col>
                 <Col md={12} className='mt-4'>
-                  <div><button type='button' onClick={handleSubmit}> {addLoading ? <Spinner animation='border' size='sm' /> : "Submit"}</button></div>
+                  <div><button type='button' onClick={handleSubmit} disabled={addLoading}> {addLoading ? <Spinner animation='border' size='sm' /> : "Submit"}</button></div>
                 </Col>
                 <Col md={12}>
                   <div><button type="button" className='cancel_btn' onClick={() => setAddConsigneeModal(false)}>Cancel</button></div>

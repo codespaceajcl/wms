@@ -160,7 +160,7 @@ const DcDocument = () => {
                     <p>Do you really want to revert this transaction?</p>
 
                     <div className='d-flex justify-content-between' style={{ gap: "5px" }}>
-                        <button onClick={revertDoneHandler}> {postLoading ? <Spinner animation='border' size='sm' /> : 'Yes'} </button>
+                        <button onClick={revertDoneHandler} disabled={postLoading}> {postLoading ? <Spinner animation='border' size='sm' /> : 'Yes'} </button>
                         <button onClick={() => setRevertModal(!revertModal)} className='no_btn'> No</button>
                     </div>
                 </div>

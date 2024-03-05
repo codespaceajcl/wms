@@ -2080,3 +2080,69 @@ export const rejectRevertReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const powerBiGetReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "POWER_PI_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "POWER_PI_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        powerPiData: action.payload,
+        error: false,
+      };
+    case "POWER_PI_FAILED":
+      return {
+        ...state,
+        loading: false,
+        powerPiData: null,
+        error: action.payload,
+      };
+    case "POWER_PI_RESET":
+      return {
+        ...state,
+        loading: false,
+        powerPiData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const powerBiLinkCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "POWER_PI_LINK_CREATE_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "POWER_PI_LINK_CREATE_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        powerPiCreateData: action.payload,
+        error: false,
+      };
+    case "POWER_PI_LINK_CREATE_FAILED":
+      return {
+        ...state,
+        loading: false,
+        powerPiCreateData: null,
+        error: action.payload,
+      };
+    case "POWER_PI_LINK_CREATE_RESET":
+      return {
+        ...state,
+        loading: false,
+        powerPiCreateData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};

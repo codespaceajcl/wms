@@ -980,7 +980,7 @@ const ShipmentStock = () => {
                         </Row>
 
                         <div className='mx-3'>
-                            <button className='submit_btn' type='button' onClick={submitStockInHandler}> {createLoading ? <Spinner animation='border' size='sm' /> : 'Submit'} </button>
+                            <button className='submit_btn' type='button' onClick={submitStockInHandler} disabled={createLoading}> {createLoading ? <Spinner animation='border' size='sm' /> : 'Submit'} </button>
                             <button className='back_btn' type='button' onClick={() => navigate(-1)}>Back</button>
                         </div>
                     </>

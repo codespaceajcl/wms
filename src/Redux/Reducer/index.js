@@ -16,7 +16,7 @@ import {
     getStockOutReportFilterReducer, getStockOutReportReducer, getStockReturnReportFilterReducer,
     getStockReturnReportReducer, getStockTransferReportFilterReducer, getStockTransferReportReducer,
     getUserNotificationsReducer,
-    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, rejectRevertReducer, stockOutApiReducer, stockoutbusinessTypeCustomerReducer, updateUserProfileImgReducer, uupdateUserProfileApiReducer
+    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, powerBiGetReducer, powerBiLinkCreateReducer, rejectRevertReducer, stockOutApiReducer, stockoutbusinessTypeCustomerReducer, updateUserProfileImgReducer, uupdateUserProfileApiReducer
 } from "./Admin";
 
 const rootReducer = combineReducers({
@@ -112,7 +112,10 @@ const rootReducer = combineReducers({
     // REVERT
 
     approvedRevert: approveRevertReducer,
-    rejectedRevert: rejectRevertReducer
+    rejectedRevert: rejectRevertReducer,
+
+    powerBiApi: powerBiGetReducer,
+    powerBiCreateApi: powerBiLinkCreateReducer
 })
 
 export default rootReducer;

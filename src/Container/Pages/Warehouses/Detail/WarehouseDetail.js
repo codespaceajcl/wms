@@ -86,6 +86,11 @@ const WarehouseDetail = () => {
 
   const addPalletHandler = () => {
 
+    if(!pallets){
+      errorNotify("filled the field")
+      return;
+    }
+
     const data = {
       email: login.email,
       token: login.token,
@@ -97,6 +102,11 @@ const WarehouseDetail = () => {
   }
 
   const addStageHandler = () => {
+    if(!noOfStages){
+      errorNotify("filled the field")
+      return;
+    }
+
     const data = {
       email: login.email,
       token: login.token,
@@ -297,7 +307,7 @@ const WarehouseDetail = () => {
             })
           }
 
-          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }} onClick={addStoreHandler}>
+          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }} onClick={addStoreHandler} disabled={storeLoading}>
             {storeLoading ? <Spinner animation='border' size='sm' /> : "Add"}</button>
         </div>
       </Modal.Body>
@@ -322,7 +332,7 @@ const WarehouseDetail = () => {
               onChange={(e) => setNoOfStages(e.target.value)} />
           </div>
           <hr />
-          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }} onClick={addStageHandler}>
+          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }} onClick={addStageHandler} disabled={stagesLoading}>
             {stagesLoading ? <Spinner animation='border' size='sm' /> : "Add"} </button>
         </div>
       </Modal.Body>
@@ -354,7 +364,7 @@ const WarehouseDetail = () => {
             <input placeholder='Enter no of pallets' type='number'
               onChange={(e) => setPallets(e.target.value)} />
           </div>
-          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }} onClick={() => addPalletHandler()}>
+          <button className='submit_btn' type='submit' style={{ padding: "6px 0" }} onClick={() => addPalletHandler()} disabled={palletLoading}>
             {palletLoading ? <Spinner animation='border' size='sm' /> : "Add"}</button>
         </div>
       </Modal.Body>

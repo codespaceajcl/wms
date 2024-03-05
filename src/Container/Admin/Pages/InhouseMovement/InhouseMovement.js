@@ -328,7 +328,7 @@ const InhouseMovement = () => {
                                                 {
                                                     (inhouseChange?.store.length > 0 && inhouseChange?.rack.length > 0 && inhouseChange?.location.length > 0) && <div>
                                                         <button onClick={() => setShow(false)}>No</button>
-                                                        <button className='make_green' onClick={saveChangeHandler}>
+                                                        <button className='make_green' onClick={saveChangeHandler} disabled={saveLoading}>
                                                             {saveLoading ? <Spinner animation='border' size='sm' /> : "Save"}</button>
                                                     </div>
                                                 }
@@ -336,7 +336,7 @@ const InhouseMovement = () => {
                                                 {
                                                     (inhouseChange?.store.length > 0) && <div>
                                                         <button onClick={() => setShow(false)}>No</button>
-                                                        <button className='make_green' onClick={saveChangeHandler}>
+                                                        <button className='make_green' onClick={saveChangeHandler} disabled={saveLoading}>
                                                             {saveLoading ? <Spinner animation='border' size='sm' /> : "Save"}</button>
                                                     </div>
                                                 }

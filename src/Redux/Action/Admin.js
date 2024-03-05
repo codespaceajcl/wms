@@ -1763,3 +1763,53 @@ export const rejectRevert = (formData) => async (dispatch) => {
     });
   }
 };
+
+export const powerBiGet = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "POWER_PI_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/getBiDashboards`, formData);
+
+    dispatch({
+      type: "POWER_PI_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "POWER_PI_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+export const powerBiLinkCreate = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "POWER_PI_LINK_CREATE_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/addBiDashboards`, formData);
+
+    dispatch({
+      type: "POWER_PI_LINK_CREATE_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "POWER_PI_LINK_CREATE_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};

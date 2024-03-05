@@ -97,7 +97,7 @@ const EditProfile = () => {
                             </div>
                         </Col>
                         <Col md={12} className='mt-3 d-flex align-items-center gap-3'>
-                            <button className='submit_btn' type='submit'>{loading ? <Spinner animation='border' size='sm' /> : "Save Changes"}</button>
+                            <button className='submit_btn' type='submit' disabled={loading}>{loading ? <Spinner animation='border' size='sm' /> : "Save Changes"}</button>
                             <button className='back_btn mt-0' type='button' onClick={() => navigate(-1)}>Back</button>
                         </Col>
                     </Row>
