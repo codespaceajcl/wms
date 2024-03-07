@@ -269,21 +269,20 @@ const Dashboard = () => {
   return (
     <div>
       {consigneeDetailModal}
-      <Breadcrumbs list={["Dashboard", " "]} />
+      {/* <Breadcrumbs list={["Dashboard", " "]} /> */}
 
-      <div className='dashboard_head'>
-        <h5>Dashboard</h5>
+      {
+        !showPowerBi &&
+        <div className='dashboard_head'>
+          <h5>Dashboard</h5>
 
-        <div className='dashboard_head_right'>
-          <div className='power_bi_dashboard'>
-            <button onClick={() => setShowPowerBi(true)}> <img src={powerBiLogo} alt='' /> Power Bi Dashboard</button>
-          </div>
-          <div className='calender_date'>
-            <img src={allImages.CalenderIcon} alt='' />
-            <p>Date: {new Date().toJSON().slice(0, 10)}</p>
+          <div className='dashboard_head_right'>
+            <div className='power_bi_dashboard'>
+              <button onClick={() => setShowPowerBi(true)}> <img src={powerBiLogo} alt='' /> Power Bi Dashboard</button>
+            </div>
           </div>
         </div>
-      </div>
+      }
 
       {
         showPowerBi ?

@@ -68,7 +68,7 @@ const App = () => {
         draggable
         pauseOnHover
         theme="light" />
-
+        
       <BrowserRouter basename="/wms">
         <Routes>
           <Route path="/" element={<MainPage />} />
