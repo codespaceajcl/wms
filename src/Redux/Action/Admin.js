@@ -1813,3 +1813,14 @@ export const powerBiLinkCreate = (formData) => async (dispatch) => {
     });
   }
 };
+
+export const showPowerBiSidebar = () => async (dispatch) => {
+  dispatch({
+    type: "POWER_PI_SHOW",
+  });
+
+  dispatch({
+    type: "POWER_PI_HIDE",
+  });
+};
+

@@ -9,6 +9,7 @@ import MainLayout from "./Layouts/MainLayout";
 import { ToastContainer } from "react-toastify";
 import NoInternetModal from "./Components/Modals/NoInternetModal";
 import MainPage from "./Container/Pages/MainPage/MainPage";
+import PowerBiDashboard from "./Container/Admin/Pages/Dashboard/PowerBiDashboard";
 
 const App = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -75,6 +76,7 @@ const App = () => {
           {adminLayout}
           {warehouseLayout}
           {/* {chatLayout} */}
+          <Route path="/powerbi-dashboards" element={<PowerBiDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

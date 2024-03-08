@@ -63,6 +63,33 @@ export const materialColorStyles = {
     menuPortal: base => ({ ...base, zIndex: 9999 }),
 };
 
+export const powerBiStyles = {
+    control: (baseStyles, state) => ({
+        ...baseStyles,
+        backgroundColor: 'white', borderRadius: "4px", cursor: "pointer", fontSize: "12px", boxShadow: "none", padding: "0px",
+        minHeight: "33px", minWidth: "120px",
+        borderColor: state.isFocused || state.isHovered || state.isActive || state.onHovered ? '#A9C23F' : '#bec0c3',
+        '&:hover': {
+            borderColor: state.isFocused || state.isActive ? '#A9C23F' : '#bec0c3',
+        },
+    }),
+    dropdownIndicator: (base, state) => ({
+        ...base,
+        padding: "2px 4px"
+    }),
+    menu: (provided, state) => ({
+        ...provided,
+        marginTop: 0, // or adjust as needed
+    }),
+    option: (styles) => {
+        return {
+            ...styles,
+            fontSize: "12px",
+        };
+    },
+    menuPortal: base => ({ ...base, zIndex: 9999 }),
+};
+
 export const rackColorStyles = {
     control: (baseStyles, state) => ({
         ...baseStyles,

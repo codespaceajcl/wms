@@ -266,6 +266,11 @@ const Dashboard = () => {
     setSortApi(sortedApi);
   };
 
+  const powerBiHandler = () => {
+    setShowPowerBi(true)
+    dispatch({ type: "POWER_PI_SHOW" })
+  }
+
   return (
     <div>
       {consigneeDetailModal}
@@ -278,7 +283,7 @@ const Dashboard = () => {
 
           <div className='dashboard_head_right'>
             <div className='power_bi_dashboard'>
-              <button onClick={() => setShowPowerBi(true)}> <img src={powerBiLogo} alt='' /> Power Bi Dashboard</button>
+              <button onClick={powerBiHandler}> <img src={powerBiLogo} alt='' /> Power Bi Analytics</button>
             </div>
           </div>
         </div>

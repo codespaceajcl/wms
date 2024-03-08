@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { businessTypeWarehouse, powerBiGet, powerBiLinkCreate } from '../../../../Redux/Action/Admin';
 import { login, materialColorStyles } from '../../../../Util/Helper';
@@ -8,11 +8,14 @@ import { Col, Form, Modal, Row, Spinner } from 'react-bootstrap';
 import Select from "react-select";
 import { errorNotify, successNotify } from '../../../../Util/Toast';
 import { FaCirclePlus } from "react-icons/fa6";
-// import systematicalLogo from "../../../../assets/images/systematical_icon.png";
+import powerBiLogo from "../../../../assets/images/power_bi_logo.png";
+import systematicLogo from "../../../../assets/images/dashboard_icon_pi.png"
 
-const PowerBiDashboard = ({setShowPowerBi}) => {
+const PowerBiDashboard = ({ setShowPowerBi }) => {
+    const columnRef = useRef(null)
     const [showTab, setShowTab] = useState("0")
     const [showAdd, setShowAdd] = useState(false)
+    const [show, setShow] = useState(false)
     const [addData, setAddData] = useState({
         name: "",
         link: "",
@@ -50,6 +53,23 @@ const PowerBiDashboard = ({setShowPowerBi}) => {
         dispatch(powerBiGet(formData))
         dispatch(businessTypeWarehouse(formData));
     }, [])
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [])
+
+    useEffect(() => {
+        setShow(false)
+    }, [showTab])
+
+    const handleClickOutside = (event) => {
+        if (columnRef.current && !columnRef.current.contains(event.target)) {
+            setShow(false);
+        }
+    };
 
     const handleLinkSubmit = () => {
         if (addData.name.length === 0 || addData.link.length === 0 || addData.warehouse.length === 0) {
@@ -133,36 +153,56 @@ const PowerBiDashboard = ({setShowPowerBi}) => {
         </Modal.Body>
     </Modal>
 
+    const systemHandler = () => {
+        setShowPowerBi(false)
+        dispatch({ type: "POWER_PI_HIDE" })
+    }
+
+    const showPowerBiDrawer = () => {
+        setShow(!show)
+    }
+
     return (
         <div className='powerbi_main_dashboard'>
             {modal}
 
+            <div className='powerbi_dashboard' ref={columnRef}>
+                <img src={powerBiLogo} alt="" style={{ width: "20px", cursor: "pointer" }} onClick={showPowerBiDrawer} />
+
+                {
+                    show &&
+                    <div className='right_side_dashboard_overlay'>
+                        <div className='top_btns'>
+                            <button onClick={systemHandler}>
+                                <img src={systematicLogo} alt='' style={{ width: "17px" }} />
+                                Systematical Dashboard</button>
+                            <button onClick={() => setShowAdd(true)}>
+                                <FaCirclePlus style={{ fontSize: "14px" }} /> Add
+                            </button>
+                        </div>
+                        <div className='powerbi_left_ul'>
+                            <h6>Recent Dashboard</h6>
+                            <ul>
+                                {
+                                    powerPiData?.response?.map((p, i) => {
+                                        return (<li className={showTab == i ? 'active' : ''} onClick={() => setShowTab(i)}>{i + 1}- {p.name}</li>
+                                        )
+                                    })
+                                }
+                                {/* <li onClick={() => setShowTab(i)}>2- DMS</li>
+                                <li onClick={() => setShowTab(i)}>3- TMS</li>
+                                <li onClick={() => setShowTab(i)}>3- TMS</li>
+                                <li onClick={() => setShowTab(i)}>3- TMS</li> */}
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
             <div>
                 {
                     loading ? <div style={{ minHeight: "80vh" }}> <Loader /> </div> :
-                        <Row>
-                            <Col md={2}>
-                                <div className='systematic_dashboard'>
-                                    <button onClick={() => setShowPowerBi(false)}> Systematical Dashboard</button>
-                                </div>
-                                <div className='powerbi_close_btn'>
-                                    <button onClick={() => setShowAdd(true)}>
-                                        <FaCirclePlus style={{ fontSize: "17px" }} /> Add Dashboard
-                                    </button>
-                                </div>
-
-                                <div className='powerbi_left_ul'>
-                                    <ul>
-                                        {
-                                            powerPiData?.response?.map((p, i) => {
-                                                return (<li className={showTab == i ? 'active' : ''} onClick={() => setShowTab(i)}>{p.name}</li>
-                                                )
-                                            })
-                                        }
-                                    </ul>
-                                </div>
-                            </Col>
-                            <Col md={10}>
+                        <div className='dashboard_wrapper'>
+                            <div className='left_side_dashboard'>
                                 {
                                     loading ? <div style={{ minHeight: "60vh" }}> <Loader /> </div> :
                                         <>
@@ -172,24 +212,15 @@ const PowerBiDashboard = ({setShowPowerBi}) => {
                                                         <h2>No Data Found</h2>
                                                     </div> :
                                                     <>
-                                                        {
-                                                            showTab?.length === 0 &&
-                                                            <div className='no_powerbi_tab'>
-                                                                <h2>Select Any Tab</h2>
-                                                            </div>
-                                                        }
-                                                        {
-                                                            showTab?.length !== 0 &&
-                                                            <div className='show_iframe'>
-                                                                <iframe className='demo_iframe' src={powerPiData?.response[showTab]?.link} />
-                                                            </div>
-                                                        }
+                                                        <div className='show_iframe'>
+                                                            <iframe className='demo_iframe' src={powerPiData?.response[showTab]?.link} />
+                                                        </div>
                                                     </>
                                             }
                                         </>
                                 }
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
                 }
             </div>
         </div>

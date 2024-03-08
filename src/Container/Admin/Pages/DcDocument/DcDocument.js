@@ -165,7 +165,7 @@ const DcDocument = () => {
                     </div>
                 </div>
             </Modal.Body>
-        </Modal >
+        </Modal>
     )
 
     const revertHandler = (c) => {

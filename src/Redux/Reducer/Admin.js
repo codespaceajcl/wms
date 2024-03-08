@@ -2146,3 +2146,19 @@ export const powerBiLinkCreateReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const showPowerBiSidebar = (state = {}, action) => {
+  switch (action.type) {
+    case "POWER_PI_SHOW":
+      return {
+        showDashboard: true
+      };
+    case "POWER_PI_HIDE":
+      return {
+        ...state,
+        showDashboard: false
+      };
+    default:
+      return state;
+  }
+};

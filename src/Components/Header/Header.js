@@ -28,6 +28,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const [newChatModal, setNewChatModal] = useState(false)
 
   const { loading, getNotifyData } = useSelector((state) => state.notificationData)
+  const { showDashboard } = useSelector((state) => state.sidebarShowPowerBi)
 
   const userFound = JSON.parse(localStorage.getItem("currentUser"))
 
@@ -40,6 +41,13 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
     const formData = JSON.stringify(data)
     dispatch(getUserNotifications(formData))
   }, [])
+
+  useEffect(() => {
+    if (showDashboard) {
+      setSidebarToggle(true)
+      dispatch({ type: "POWER_PI_HIDE" })
+    }
+  }, [showDashboard])
 
   const classes = (path) => {
     let splitPath = path.split("/");
@@ -118,6 +126,8 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
     window.location.href = "https://crms.ajcl.net/mainMenu.html"
   }
 
+  console.log(showDashboard)
+
   return (
     <>
       {modal}
@@ -186,7 +196,7 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
                         <span style={sidebarToggle ? { display: "none" } : null}>Profile</span>
                       </Link>
                     </li>
-                    <li className={pathname.split("/")[2] === 'faqs' && "nav_active"} onClick={logoutHandler}>
+                    <li onClick={logoutHandler}>
                       <Link style={sidebarToggle ? { padding: '12px 0px 12px 4px' } : null}>
                         <IoMdLogOut className="logout_icon" />
                         <span style={sidebarToggle ? { display: "none" } : null}>Logout</span>
