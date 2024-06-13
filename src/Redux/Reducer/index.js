@@ -16,7 +16,7 @@ import {
     getStockOutReportFilterReducer, getStockOutReportReducer, getStockReturnReportFilterReducer,
     getStockReturnReportReducer, getStockTransferReportFilterReducer, getStockTransferReportReducer,
     getUserNotificationsReducer,
-    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, powerBiGetReducer, powerBiLinkCreateReducer, rejectRevertReducer, showPowerBiSidebar, stockOutApiReducer, stockoutbusinessTypeCustomerReducer, updateUserProfileImgReducer, uupdateUserProfileApiReducer
+    getWarehouseDetailReducer, getWarehouseReducer, getWarehouseStageItemReducer, palletLocationReducer, palletStatusChangeReducer, postRmaFormReducer, powerBiGetReducer, powerBiLinkCreateReducer, rejectRevertReducer, searchDeliveryChallanReducer, showPowerBiSidebar, stockInRequestDetailsReducer, stockInRequestsReducer, stockOutApiReducer, stockoutbusinessTypeCustomerReducer, updateUserProfileImgReducer, uupdateUserProfileApiReducer
 } from "./Admin";
 
 const rootReducer = combineReducers({
@@ -26,6 +26,7 @@ const rootReducer = combineReducers({
     postMaterial: ListMaterialPostReducer,
     getConsignee: ConsigneePostReducer,
     getDc: DeliveryChallanGetReducer,
+    getSearchDc: searchDeliveryChallanReducer,
     postRevert: RevertDocumentReducer,
     postDc: PostDcDocumentReducer,
     postRma: postRmaFormReducer,
@@ -116,6 +117,10 @@ const rootReducer = combineReducers({
 
     powerBiApi: powerBiGetReducer,
     powerBiCreateApi: powerBiLinkCreateReducer,
+
+    // STOCK IN REQUEST
+    stockInRequestsData: stockInRequestsReducer,
+    stockInRequestDetailsData: stockInRequestDetailsReducer,
 
 
     sidebarShowPowerBi: showPowerBiSidebar

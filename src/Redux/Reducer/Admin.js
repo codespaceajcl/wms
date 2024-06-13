@@ -163,6 +163,39 @@ export const DeliveryChallanGetReducer = (state = {}, action) => {
   }
 };
 
+export const searchDeliveryChallanReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SEARCH_DELIVERY_CHALLAN_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "SEARCH_DELIVERY_CHALLAN_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        getDcSearchData: action.payload,
+        error: false,
+      };
+    case "SEARCH_DELIVERY_CHALLAN_FAILED":
+      return {
+        ...state,
+        loading: false,
+        getDcSearchData: null,
+        error: action.payload,
+      };
+    case "SEARCH_DELIVERY_CHALLAN_RESET":
+      return {
+        ...state,
+        loading: false,
+        getDcSearchData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
 export const RevertDocumentReducer = (state = {}, action) => {
   switch (action.type) {
     case "REVERT_DOCUMENT_REQUEST":
@@ -2157,6 +2190,75 @@ export const showPowerBiSidebar = (state = {}, action) => {
       return {
         ...state,
         showDashboard: false
+      };
+    default:
+      return state;
+  }
+};
+
+
+// STOCK IN REQUESTS
+
+export const stockInRequestsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_STOCKIN_REQUESTS_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "GET_STOCKIN_REQUESTS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        getStockInRequestData: action.payload,
+        error: false,
+      };
+    case "GET_STOCKIN_REQUESTS_FAILED":
+      return {
+        ...state,
+        loading: false,
+        getStockInRequestData: null,
+        error: action.payload,
+      };
+    case "GET_STOCKIN_REQUESTS_RESET":
+      return {
+        ...state,
+        loading: false,
+        getStockInRequestData: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const stockInRequestDetailsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_STOCKIN_REQUEST_DETAILS_REQUEST":
+      return {
+        loading: true,
+        error: false,
+      };
+    case "GET_STOCKIN_REQUEST_DETAILS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        getStockInRequestDeatilsData: action.payload,
+        error: false,
+      };
+    case "GET_STOCKIN_REQUEST_DETAILS_FAILED":
+      return {
+        ...state,
+        loading: false,
+        getStockInRequestDeatilsData: null,
+        error: action.payload,
+      };
+    case "GET_STOCKIN_REQUEST_DETAILS_RESET":
+      return {
+        ...state,
+        loading: false,
+        getStockInRequestDeatilsData: null,
+        error: null,
       };
     default:
       return state;

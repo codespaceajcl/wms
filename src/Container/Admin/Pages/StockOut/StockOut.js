@@ -63,6 +63,7 @@ const StockOut = () => {
   const [getPalletManualData, setGetPalletManualData] = useState([])
   const [serialNoText, setSerialNoText] = useState('')
   const [showSerialNos, setShowSerialNos] = useState(null)
+  const [manualTab, setManualTab] = useState("fifo")
   const [file, setFile] = useState(null)
   const [format, setFormat] = useState(null)
 
@@ -82,6 +83,17 @@ const StockOut = () => {
   useEffect(() => {
     setShowSerialNos(postPalletSerial?.serialNos)
   }, [postPalletSerial])
+
+  useEffect(() => {
+    if (manualTab === 'fifo') {
+      setShowSerialNos(postPalletSerial?.serialNos)
+    }
+    else if (manualTab === 'lifo') {
+
+      const reversedPallets = [...postPalletSerial?.serialNos].reverse();
+      setShowSerialNos(reversedPallets)
+    }
+  }, [manualTab])
 
   useEffect(() => {
     return () => {
@@ -168,6 +180,7 @@ const StockOut = () => {
         pallot: item.pallot,
         quantity: item.quantity,
         pallotLocations: getPalletStockOut?.pallotLocations[item.pallot],
+        date: item.date
       }))
       setWarehousePallets(pallets)
     }
@@ -175,19 +188,21 @@ const StockOut = () => {
 
   useEffect(() => {
     if (tab === 'fifo') {
-      const pallets = warehousePallets?.map((item) => ({
+      const pallets = getPalletStockOut?.response?.map((item) => ({
         pallot: item.pallot,
         quantity: item.quantity,
         pallotLocations: getPalletStockOut?.pallotLocations[item.pallot],
+        date: item.date
       }))
 
       setWarehousePallets(pallets)
     }
     else if (tab === 'lifo') {
-      const pallets = warehousePallets?.map((item) => ({
+      const pallets = getPalletStockOut?.response?.map((item) => ({
         pallot: item.pallot,
         quantity: item.quantity,
         pallotLocations: getPalletStockOut?.pallotLocations[item.pallot],
+        date: item.date
       }))
         .reverse();
 
@@ -200,6 +215,10 @@ const StockOut = () => {
       setShowCart(false)
     }
   }, [addRemoveData])
+
+  const uid = function () {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
 
   const warehouseOption = getBusinessWarehouses?.warehouses?.map((w) => {
     return {
@@ -308,7 +327,8 @@ const StockOut = () => {
 
   const addOnRemoveHandler = () => {
 
-    let existPallotIndex = addRemoveData.findIndex((item) => item.getIndPallet.pallot === getIndPallet.pallot)
+    let existPallotIndex = addRemoveData.findIndex((item) => item.getIndPallet.pallot === getIndPallet.pallot && item.saveNomenVal.id === saveNomenVal.id)
+    // let existPallotId = addRemoveData.findIndex((item) => item.saveNomenVal.id === saveNomenVal.id)
     let existWarehouseIndex = warehousePallets.findIndex((item) => item.pallot === getIndPallet.pallot)
 
     if (tab2 === "AUTO") {
@@ -324,6 +344,7 @@ const StockOut = () => {
 
           setWarehousePallets((prev) => {
             const updatedData = [...prev];
+            updatedData[existWarehouseIndex].nomenVal = saveNomenVal.id
             updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getIndPallet.removeQuantity)
             return updatedData;
           })
@@ -331,10 +352,11 @@ const StockOut = () => {
         else {
           setWarehousePallets((prev) => {
             const updatedData = [...prev];
+            updatedData[existWarehouseIndex].nomenVal = saveNomenVal.id
             updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getIndPallet.removeQuantity)
             return updatedData;
           })
-          setAddRemoveData((prev) => [...prev, { saveNomenVal, getIndPallet }]);
+          setAddRemoveData((prev) => [...prev, { saveNomenVal, getIndPallet, uuid: uid() }]);
         }
         setShowModal(false)
       }
@@ -358,6 +380,7 @@ const StockOut = () => {
 
           setWarehousePallets((prev) => {
             const updatedData = [...prev];
+            updatedData[existWarehouseIndex].nomenVal = saveNomenVal.id
             updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getPalletManualData.length)
             updatedData[existWarehouseIndex].serialNos = getPalletManualData
             updatedData[existWarehouseIndex].status = "manual"
@@ -367,12 +390,13 @@ const StockOut = () => {
         else {
           setWarehousePallets((prev) => {
             const updatedData = [...prev];
+            updatedData[existWarehouseIndex].nomenVal = saveNomenVal.id
             updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) - parseInt(getPalletManualData.length)
             updatedData[existWarehouseIndex].serialNos = getPalletManualData
             updatedData[existWarehouseIndex].status = "manual"
             return updatedData;
           })
-          setAddRemoveData((prev) => [...prev, { saveNomenVal, getIndPallet }]);
+          setAddRemoveData((prev) => [...prev, { saveNomenVal, getIndPallet, uuid: uid() }]);
         }
         setShowModal(false)
       }
@@ -386,11 +410,11 @@ const StockOut = () => {
 
   };
 
-  const saveSerialNoHandler = (e) => {
+  const saveSerialNoHandler = (e, v) => {
     if (e.target.checked) {
-      setGetPalletManualData((prevData) => [...prevData, e.target.value]);
+      setGetPalletManualData((prevData) => [...prevData, v]);
     } else {
-      setGetPalletManualData((prevData) => prevData.filter(item => item !== e.target.value));
+      setGetPalletManualData((prevData) => prevData.filter(item => item !== v));
     }
   }
 
@@ -404,6 +428,8 @@ const StockOut = () => {
 
     setShowSerialNos(getArr)
   }
+
+  console.log(getPalletManualData)
 
   const stockOutModel = (
     <Modal
@@ -495,6 +521,23 @@ const StockOut = () => {
               </div>
             ) : (
               <div className="serial_wrapper">
+                <div className="stock_out_search" style={{ backgroundColor: "transparent" }}>
+                  <div className="d-flex align-items-center justify-content-center gap-2">
+                    <button
+                      className={manualTab === "fifo" ? "active" : ""}
+                      onClick={() => setManualTab("fifo")}
+                    >
+                      FIFO
+                    </button>
+                    <button
+                      className={manualTab === "lifo" ? "active" : ""}
+                      onClick={() => setManualTab("lifo")}
+                    >
+                      LIFO
+                    </button>
+                  </div>
+                </div>
+
                 <TableContainer>
                   <Table className="stock_out_pallet_table">
                     <TableHead>
@@ -513,8 +556,9 @@ const StockOut = () => {
                             <TableRow>
                               <TableCell padding="checkbox">
                                 <Checkbox
-                                  onChange={saveSerialNoHandler}
+                                  onChange={(e) => saveSerialNoHandler(e, s.serialNo)}
                                   style={{ color: "green" }}
+                                  checked={getPalletManualData.includes(s.serialNo)}
                                   value={s.serialNo}
                                 />
                               </TableCell>
@@ -606,18 +650,21 @@ const StockOut = () => {
   };
 
   const removeCartHandler = (r) => {
-    let existWarehouseIndex = warehousePallets.findIndex((item) => item.pallot === r?.getIndPallet?.pallot)
 
-    const filterData = addRemoveData?.filter((item) => item?.getIndPallet?.pallot !== r?.getIndPallet?.pallot)
+    let existWarehouseIndex = warehousePallets.findIndex((item) => item.pallot === r?.getIndPallet?.pallot && item.nomenVal === r?.saveNomenVal?.id)
+
+    const filterData = addRemoveData?.filter((item) => item.uuid !== r.uuid)
     setAddRemoveData(filterData)
 
     let removeQuantity = r.getIndPallet.removeQuantity ? r.getIndPallet.removeQuantity : r?.getIndPallet.serialNos?.length
 
-    setWarehousePallets((prev) => {
-      const updatedData = [...prev];
-      updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) + parseInt(removeQuantity)
-      return updatedData;
-    })
+    if (existWarehouseIndex !== -1) {
+      setWarehousePallets((prev) => {
+        const updatedData = [...prev];
+        updatedData[existWarehouseIndex].quantity = parseInt(updatedData[existWarehouseIndex].quantity) + parseInt(removeQuantity)
+        return updatedData;
+      })
+    }
   }
 
   const dispatchHandler = () => {
@@ -996,6 +1043,7 @@ const StockOut = () => {
                     loading ? <Loader color={"#fff"} /> :
                       <Row className={showCart ? "adjust_height" : ""}>
                         {warehousePallets?.map((p) => {
+                          console.log(p)
                           return (
                             <Col md={showCart ? 4 : 2} sm={3} xs={6} onClick={() => addQuantityHandler(p)}>
                               <div className="stockout_pallet_box">
@@ -1032,6 +1080,9 @@ const StockOut = () => {
                                     <Col md={9} xs={9}>
                                       <p> {p?.pallotLocations?.tag} </p>
                                     </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col md={12}> <p>{p?.date}</p> </Col>
                                   </Row>
                                 </div>
                               </div>
@@ -1133,7 +1184,7 @@ const StockOut = () => {
                   style={{ gap: "10px 0" }}
                 >
                   <Col md={6}>
-                    <button onClick={dispatchHandler}>
+                    <button onClick={dispatchHandler} disabled={saveLoading}>
                       {saveLoading ? <Spinner animation="border" size="sm" /> : "Dispatch"}
                     </button>
                   </Col>

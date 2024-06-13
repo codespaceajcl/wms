@@ -24,8 +24,7 @@ const Notification = ({ loading, notificationData }) => {
     useEffect(() => {
         if (approveRevertData?.response === "success") {
             const data = {
-                // email: userFound.email,
-                email: "sohaib.akram@ajcl.net",
+                email: userFound.email,
                 token: userFound.token
             }
 
@@ -39,8 +38,7 @@ const Notification = ({ loading, notificationData }) => {
     useEffect(() => {
         if (rejectRevertData?.response === "success") {
             const data = {
-                // email: userFound.email,
-                email: "sohaib.akram@ajcl.net",
+                email: userFound.email,
                 token: userFound.token
             }
 
@@ -53,7 +51,7 @@ const Notification = ({ loading, notificationData }) => {
 
     const approveHandler = () => {
         const d = {
-            email: "sohaib.akram@ajcl.net",
+            email: userFound.email,
             tn: saveTnNum.tn
         }
         const formData = JSON.stringify(d)
@@ -62,7 +60,7 @@ const Notification = ({ loading, notificationData }) => {
 
     const rejectHandler = () => {
         const d = {
-            email: "sohaib.akram@ajcl.net",
+            email: userFound.email,
             tn: saveTnNum.tn
         }
         const formData = JSON.stringify(d)

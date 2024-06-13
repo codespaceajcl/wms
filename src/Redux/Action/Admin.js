@@ -1,5 +1,6 @@
 import axios from "axios";
 import { errorNotify } from "../../Util/Toast";
+import { login } from "../../Util/Helper";
 
 //create material
 export const ListMaterialPost = (formData) => async (dispatch) => {
@@ -106,16 +107,13 @@ export const addIndustry = (formData) => async (dispatch) => {
 };
 
 //get Delivery Challan
-export const listDeliveryChallan = (page_no, formData) => async (dispatch) => {
+export const listDeliveryChallan = (page_no, quantity, formData) => async (dispatch) => {
   try {
     dispatch({
       type: "LIST_DELIVERY_CHALLAN_REQUEST",
     });
 
-    const { data } = await axios.post(
-      `wms/getDeliveryChallans/${page_no}`,
-      formData
-    );
+    const { data } = await axios.post(`wms/getDeliveryChallans/${page_no}/${quantity}`, formData);
 
     dispatch({
       type: "LIST_DELIVERY_CHALLAN_SUCCESS",
@@ -128,6 +126,32 @@ export const listDeliveryChallan = (page_no, formData) => async (dispatch) => {
     }
     dispatch({
       type: "LIST_DELIVERY_CHALLAN_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+//search Delivery Challan
+export const searchDeliveryChallan = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "SEARCH_DELIVERY_CHALLAN_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/searchDevliveryChallan/`, formData);
+
+    dispatch({
+      type: "SEARCH_DELIVERY_CHALLAN_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "SEARCH_DELIVERY_CHALLAN_FAILED",
       payload: e?.response?.data?.message,
       success: false,
     });
@@ -1824,3 +1848,62 @@ export const showPowerBiSidebar = () => async (dispatch) => {
   });
 };
 
+
+
+// STOCK IN REQUEST
+
+const config = {
+  headers: {
+    Authorization: `Bearer ${login.token}`
+  }
+};
+
+export const stockInRequests = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_STOCKIN_REQUESTS_REQUEST",
+    });
+
+    const { data } = await axios.get(`wms/getStockInRequests`, config);
+
+    dispatch({
+      type: "GET_STOCKIN_REQUESTS_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "GET_STOCKIN_REQUESTS_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};
+
+export const stockInRequestDeatils = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GET_STOCKIN_REQUEST_DETAILS_REQUEST",
+    });
+
+    const { data } = await axios.post(`wms/getStockInRequestDetails`, formData, config);
+
+    dispatch({
+      type: "GET_STOCKIN_REQUEST_DETAILS_SUCCESS",
+      payload: data,
+      success: true,
+    });
+  } catch (e) {
+    if (e?.message === "Network Error") {
+      errorNotify(e.message)
+    }
+    dispatch({
+      type: "GET_STOCKIN_REQUEST_DETAILS_FAILED",
+      payload: e?.response?.data?.message,
+      success: false,
+    });
+  }
+};

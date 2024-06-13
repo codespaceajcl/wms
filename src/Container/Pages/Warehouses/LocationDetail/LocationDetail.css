@@ -536,6 +536,7 @@
     background-color: rgba(217, 217, 217, 1);
     color: #000;
     font-weight: 600;
+    border: 1px solid #000;
 }
 
 .change_status_modal .serial_no div button:first-child {

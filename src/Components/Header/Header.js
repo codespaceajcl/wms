@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import MobileSidebar from "./MobileSideBar";
 import { Col, Modal, Row, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { BiChevronRight } from "react-icons/bi";
-import { AiOutlinePlus } from "react-icons/ai";
-import { BsFullscreen } from 'react-icons/bs'
 import Notification from "../Notification/Notification";
 import { MdClose, MdSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +10,6 @@ import "./Header.css";
 import { getUserNotifications } from "../../Redux/Action/Admin";
 import { allImages } from "../../Util/Images";
 import { IoMdLogOut } from "react-icons/io";
-
 
 function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const { pathname } = useLocation();
@@ -125,8 +121,6 @@ function Header({ sideBarItems, fullScreen, closeScreen, handle, children }) {
   const logoutHandler = () => {
     window.location.href = "https://crms.ajcl.net/mainMenu.html"
   }
-
-  console.log(showDashboard)
 
   return (
     <>

@@ -6,6 +6,15 @@ export const login = {
     token: getToken
 }
 
+export const statusStyles = {
+    option: (styles) => {
+        return {
+            ...styles,
+            color: "#000"
+        };
+    },
+};
+
 export const dashboardColorStyles = {
     control: (baseStyles, state) => ({
         ...baseStyles,

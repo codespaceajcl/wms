@@ -7,7 +7,7 @@ import { FiSearch } from "react-icons/fi";
 import { Pie, Bar } from 'react-chartjs-2';
 import { MdFilterList } from "react-icons/md";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa6";
-import { rackColorStyles, floorColorStyles, login } from "../../../../Util/Helper";
+import { rackColorStyles, floorColorStyles, login, statusStyles } from "../../../../Util/Helper";
 import './LocationDetail.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { createFloor, createLocation, createRack, editLocationTag, getAllWarehouses, getLocation, palletLocationDetail, palletStatusChange } from '../../../../Redux/Action/Admin';
@@ -218,7 +218,7 @@ const LocationDetail = () => {
 
     const addRackHandler = () => {
 
-        if(!addRackModal.noOfFloors || !addRackModal.noOfLocations){
+        if (!addRackModal.noOfFloors || !addRackModal.noOfLocations) {
             errorNotify("filled up fields")
             return;
         }
@@ -278,7 +278,7 @@ const LocationDetail = () => {
 
     const addFloorHandler = () => {
 
-        if(!addFloorModal.noOfFloor || !addFloorModal.rack){
+        if (!addFloorModal.noOfFloor || !addFloorModal.rack) {
             errorNotify("filled up fields")
             return;
         }
@@ -332,7 +332,7 @@ const LocationDetail = () => {
     )
 
     const addLocationHandler = () => {
-        if(!addLocationModal.noOfLocation || !addLocationModal.rack){
+        if (!addLocationModal.noOfLocation || !addLocationModal.rack) {
             errorNotify("filled up fields")
             return;
         }
@@ -464,14 +464,24 @@ const LocationDetail = () => {
                                             <td>{p.sku}</td>
                                             <td>{p.pallotNo}</td>
                                             <td className={p.status === 'ok' ? 'ok' : 'fault'}>{p.status}</td>
-                                            <td style={{ minWidth: "150px" }}><Select options={[{
-                                                value: "ok", label: "ok",
-                                            }, {
-                                                value: "faulty", label: "Faulty",
-                                            },
-                                            {
-                                                value: "damage", label: "Damage"
-                                            }]} placeholder="Select" onChange={(value) => statusChangeHandler(p, value)} className='react_select status' /></td>
+                                            <td style={{ minWidth: "150px" }}>
+                                                <Select options={[{
+                                                    value: "ok", label: "ok",
+                                                }, {
+                                                    value: "faulty", label: "Faulty",
+                                                },
+                                                {
+                                                    value: "damage", label: "Damage"
+                                                }]} placeholder="Select"
+                                                    menuPortalTarget={document.body}
+                                                    menuPosition='fixed'
+                                                    styles={{
+                                                        menuPortal: provided => ({ ...provided, zIndex: 9999 }),
+                                                        menu: provided => ({ ...provided, zIndex: 9999 })
+                                                    }}
+                                                    onChange={(value) => statusChangeHandler(p, value)} className='react_select status' />
+
+                                            </td>
                                         </tr>
                                     )
                                 })

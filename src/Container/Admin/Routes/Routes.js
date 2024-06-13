@@ -26,6 +26,8 @@ import Message from "../../Pages/Chat/Message/Message";
 import Notifications from "../Pages/Notifications/Notifications";
 import EnquiryDetail from "../Pages/Enquiry/Details/Details";
 import { allImages } from "../../../Util/Images";
+import StockInRequests from "../Pages/StockIn/StockInRequests/StockInRequests";
+import StockInRequestDetail from "../Pages/StockIn/StockInRequests/StockInRequestDetail";
 
 export const adminRoutes = [
   {
@@ -67,6 +69,14 @@ export const adminRoutes = [
   {
     path: "/wms/reports",
     component: <Reports />,
+  },
+  {
+    path: "/wms/stockin-requests",
+    component: <StockInRequests />,
+  },
+  {
+    path: "/wms/stockin-requests/detail/:id",
+    component: <StockInRequestDetail />,
   },
   {
     path: "/wms/stock-in",
@@ -165,6 +175,11 @@ export const adminSideBarItems = [
     path: "/wms/consignee",
     icon: allImages.consignee_icon,
     title: "Consignee",
+  },
+  {
+    path: "/wms/stockin-requests",
+    icon: allImages.stock_icon,
+    title: "Stock In Requests",
   },
   {
     path: "/wms/stock-in",

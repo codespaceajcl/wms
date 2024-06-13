@@ -370,6 +370,12 @@
     display: none;
 }
 
+.option_select select{
+    width: 60px;
+    border: 1px solid lightgrey;
+    font-size: 14px;
+}
+
 @media (max-width: 1120px) {
     .material_main .web_head{
         display: none;

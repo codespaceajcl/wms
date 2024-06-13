@@ -96,6 +96,16 @@ const ShipmentStock = () => {
         formData.append("token", login.token)
 
         dispatch(businessTypeWarehouse(formData))
+
+        return () => {
+            setShowSterilizeData([])
+            dispatch({ type: "GET_STOCKIN_REQUEST_DETAILS_RESET" })
+            dispatch({ type: "GET_BUSINESS_WAREHOUSE_RESET" })
+            dispatch({ type: "GET_STOCKIN_REQUEST_DETAILS_RESET" })
+            dispatch({ type: "GET_BUSINESS_CUSTOMER_RESET" })
+            dispatch({ type: "GENERATE_SERIAL_NO_RESET" })
+            dispatch({ type: "GET_EXIST_SERIAL_NO_RESET" })
+        }
     }, [])
 
     useEffect(() => {
@@ -380,27 +390,40 @@ const ShipmentStock = () => {
             const existingLocation = newData[assignPalletIndex]?.location;
 
             if (existingLocation) {
-                const existingLocationIndex = existingLocation.findIndex(loc => loc.hasOwnProperty(e.target.value));
+                // const existingLocationIndex = existingLocation.findIndex(loc => loc.hasOwnProperty(e.target.value));
 
-                if (existingLocationIndex === -1) {
-                    existingLocation.push({
-                        [e.target.value]: [
-                            {
-                                store: "",
-                                rack: "",
-                                location: "",
-                            }
-                        ],
-                        pallet: palletNo
-                    });
-                } else {
-                    e.target.value = ''
-                    // existingLocation[existingLocationIndex][e.target.value][0] = {
-                    //     store: "",
-                    //     rack: "",
-                    //     location: "",
-                    // };
-                }
+                // console.log(existingLocationIndex)
+
+                existingLocation.push({
+                    [e.target.value]: [
+                        {
+                            store: "",
+                            rack: "",
+                            location: "",
+                        }
+                    ],
+                    pallet: palletNo
+                });
+
+                // if (existingLocationIndex === -1) {
+                //     existingLocation.push({
+                //         [e.target.value]: [
+                //             {
+                //                 store: "",
+                //                 rack: "",
+                //                 location: "",
+                //             }
+                //         ],
+                //         pallet: palletNo
+                //     });
+                // } else {
+                //     e.target.value = ''
+                //     existingLocation[existingLocationIndex][e.target.value][0] = {
+                //         store: "",
+                //         rack: "",
+                //         location: "",
+                //     };
+                // }
             }
             else {
                 newData[assignPalletIndex] = {
@@ -425,13 +448,14 @@ const ShipmentStock = () => {
 
     const StoreArr = getLoctionPallet && Object.keys(getLoctionPallet?.response).concat(getStagesPallet?.response);
 
-    const storeSelectHandler = (e, currentIndex, locationData, loctionIndex) => {
+    const storeSelectHandler = (e, currentIndex, locationData, d) => {
 
         const updatedRowOptions = [...showRacks];
 
         let uniquePallet;
 
-        const currentObject = locationData.location[currentIndex];
+        // const currentObject = locationData.location[currentIndex];
+        const currentObject = locationData.location.find((loc) => loc.pallet === d.pallet);
 
         for (const key in currentObject) {
             if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
@@ -466,11 +490,12 @@ const ShipmentStock = () => {
         setShowRacks(updatedRowOptions)
     };
 
-    const rackSelectHandler = (e, currentIndex, locationData, loctionIndex) => {
+    const rackSelectHandler = (e, currentIndex, locationData, d) => {
 
         let uniquePallet;
 
-        const currentObject = locationData.location[currentIndex];
+        // const currentObject = locationData.location[currentIndex];
+        const currentObject = locationData.location.find((loc) => loc.pallet === d.pallet);
 
         for (const key in currentObject) {
             if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
@@ -502,8 +527,9 @@ const ShipmentStock = () => {
         }
     }
 
-    const locSelectHandler = (e, currentIndex, locationData, loctionIndex, name, noOfLoc) => {
-        const currentObject = locationData.location[currentIndex];
+    const locSelectHandler = (e, currentIndex, locationData, name, noOfLoc, d) => {
+        // const currentObject = locationData.location[currentIndex];
+        const currentObject = locationData.location.find((loc) => loc.pallet === d.pallet);
 
         for (const key in currentObject) {
             if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
@@ -513,13 +539,14 @@ const ShipmentStock = () => {
         }
     }
 
-    const handleInputChange = (e, currentIndex, locationData, loctionIndex) => {
+    const handleInputChange = (e, currentIndex, locationData, d) => {
         const value = parseInt(e.target.value, 10);
 
         const updatedRowOptions = [...showRacks];
 
         let uniquePallet;
-        const currentObject = locationData.location[currentIndex];
+        // const currentObject = locationData.location[currentIndex];
+        const currentObject = locationData.location.find((loc) => loc.pallet === d.pallet);
 
         for (const key in currentObject) {
             if (key !== 'pallet' && Object.hasOwnProperty.call(currentObject, key)) {
@@ -575,7 +602,7 @@ const ShipmentStock = () => {
             return;
         }
 
-        if(!file){
+        if (!file) {
             errorNotify("upload file")
             return;
         }
@@ -710,6 +737,8 @@ const ShipmentStock = () => {
 
     let count = 0
     let count2 = 0
+
+    const mappedLocations = {};
     return (
         <div>
             {modal}
@@ -900,10 +929,45 @@ const ShipmentStock = () => {
                                         <tbody>
                                             {
                                                 selectedAvailLocations && selectedAvailLocations?.map((l, i) => {
+
+                                                    const mappedData = l?.location?.flatMap(item => {
+                                                        const locationKey = Object.keys(item)[0];
+                                                        if (!mappedLocations[locationKey]) {
+                                                            mappedLocations[locationKey] = true;
+                                                            return {
+                                                                [locationKey]: item[locationKey].map(location => ({
+                                                                    store: location.store,
+                                                                    rack: location.rack,
+                                                                    location: location.location
+                                                                })),
+                                                                pallet: item.pallet
+                                                            };
+                                                        } else {
+                                                            return null;
+                                                        }
+                                                    }).filter(item => item !== null);
+
+                                                    {/* const mappedData = l?.location?.map(item => {
+                                                        const locationKey = Object.keys(item)[0];
+                                                        if (!mappedLocations[locationKey]) {
+                                                            mappedLocations[locationKey] = true;
+                                                            return {
+                                                                [locationKey]: item[locationKey].map(location => ({
+                                                                    store: location.store,
+                                                                    rack: location.rack,
+                                                                    location: location.location
+                                                                })),
+                                                                pallet: item.pallet
+                                                            };
+                                                        } else {
+                                                            return null;
+                                                        }
+                                                    }).filter(item => item !== null); */}
+
                                                     return (
                                                         <React.Fragment key={`selectedAvailLocations-${i}`}>
                                                             {
-                                                                l?.location.map((loc, j) => {
+                                                                mappedData?.map((loc, j) => {
                                                                     const rowOption = showRacks[Object.keys(loc)[0]] || {};
 
                                                                     return (
@@ -912,11 +976,11 @@ const ShipmentStock = () => {
                                                                             <td>{Object.keys(loc)[0]}</td>
                                                                             <td style={{ width: "160px" }}>
                                                                                 <div className='input_field'>
-                                                                                    <input type='Number' defaultValue={1} onChange={(e) => handleInputChange(e, j, l, i)} />
+                                                                                    <input type='Number' defaultValue={1} onChange={(e) => handleInputChange(e, j, l, loc)} />
                                                                                 </div>
                                                                             </td>
                                                                             <td style={{ width: "230px" }}>
-                                                                                <select className='location_select' onChange={(e) => storeSelectHandler(e, j, l, i)}>
+                                                                                <select className='location_select' onChange={(e) => storeSelectHandler(e, j, l, loc)}>
                                                                                     <option value="">Select</option>
                                                                                     {
                                                                                         rowOption?.store ? rowOption?.store?.map((s) => {
@@ -929,7 +993,7 @@ const ShipmentStock = () => {
                                                                                 </select>
                                                                             </td>
                                                                             <td style={{ width: "230px" }}>
-                                                                                <select disabled={rowOption?.rack?.length > 0 ? false : true} className='location_select' onChange={(e) => rackSelectHandler(e, j, l, i)}>
+                                                                                <select disabled={rowOption?.rack?.length > 0 ? false : true} className='location_select' onChange={(e) => rackSelectHandler(e, j, l, loc)}>
                                                                                     <option value="">Select</option>
                                                                                     {
                                                                                         rowOption?.rack?.map((r) => {
@@ -942,7 +1006,7 @@ const ShipmentStock = () => {
                                                                             </td>
                                                                             <td style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "8px 0", width: "230px" }}>
                                                                                 {Array.from({ length: rowOption?.noOfLoc ? rowOption.noOfLoc : 1 }).map((_, index) => (
-                                                                                    <select disabled={rowOption?.rack?.length > 0 ? false : true} key={index} className='location_select' onChange={(e) => locSelectHandler(e, j, l, i, `${index + 1}location`, rowOption.noOfLoc)}>
+                                                                                    <select disabled={rowOption?.rack?.length > 0 ? false : true} key={index} className='location_select' onChange={(e) => locSelectHandler(e, j, l, `${index + 1}location`, rowOption.noOfLoc, loc)}>
                                                                                         <option value="">Select</option>
                                                                                         {
                                                                                             rowOption?.location?.map((l) => {

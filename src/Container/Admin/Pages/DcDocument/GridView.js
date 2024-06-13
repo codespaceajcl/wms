@@ -7,7 +7,7 @@ import Loader from '../../../../Util/Loader';
 import { allImages } from '../../../../Util/Images';
 import { FaDownload } from "react-icons/fa";
 
-const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loading, pageNum, setPageNum, showNext, getDcData, revertModal, setRevertModal }) => {
+const GridView = ({ quantites, selectLimitHandler, setGetDc, setShowConfirm, setUploadFile, setGetRevert, loading, pageNum, setPageNum, showNext, getDcData, revertModal, setRevertModal }) => {
 
   const fileInputRef = useRef();
 
@@ -98,8 +98,8 @@ const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loadi
                               <h6>DC No.</h6>
                             </Col>
                             <Col md={8}>
-                              <p className='d-flex align-items-center justify-content-end gap-2'> 
-                              {d.dc} <a href={d?.documentPath} target='_blank'> <FaDownload /> </a> </p>
+                              <p className='d-flex align-items-center justify-content-end gap-2'>
+                                {d.dc} <a href={d?.documentPath} target='_blank'> <FaDownload /> </a> </p>
                             </Col>
                           </Row>
 
@@ -251,6 +251,27 @@ const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loadi
       }
 
       <div className='pagination_div'>
+        <div className='option_select'>
+          <select onChange={selectLimitHandler} value={quantites}>
+            <option value={10}>10</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+            <option value={1000}>1000</option>
+          </select>
+        </div>
+        {
+          pageNum > 0 &&
+          <h6 onClick={() => setPageNum(pageNum - 1)}>Previous</h6>
+        }
+        <p>Pg No: {pageNum}</p>
+
+        {
+          showNext &&
+          <h6 onClick={() => setPageNum(pageNum + 1)}>Next</h6>
+        }
+      </div>
+
+      {/* <div className='pagination_div'>
         {
           pageNum > 1 &&
           <h6 onClick={() => setPageNum(pageNum - 1)}>Previous</h6>
@@ -261,7 +282,7 @@ const GridView = ({ setGetDc, setShowConfirm, setUploadFile, setGetRevert, loadi
           showNext &&
           <h6 onClick={() => setPageNum(pageNum + 1)}>Next</h6>
         }
-      </div>
+      </div> */}
     </div>
   )
 }

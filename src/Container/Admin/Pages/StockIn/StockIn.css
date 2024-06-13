@@ -174,3 +174,41 @@ select:disabled {
 .stockin_main .row{
     gap: 15px 0;
 }
+
+.stockin_request_main{
+    margin-top: 50px;
+}
+
+.stockin_request_box{
+    border: 1px solid lightgray;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #a1bfc914;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    height: 100%;
+}
+
+.stockin_request_box p span {
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.stockin_request_box p {
+    border-bottom: 1px solid #d3d3d396;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+}
+
+.stockin_request_box button {
+    width: fit-content;
+    background-color: #003a70;
+    color: #fff;
+    padding: 10px 60px;
+    border: none;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    font-weight: 600;
+    display: flex;
+    margin-left: auto;
+    margin-top: 15px;
+}

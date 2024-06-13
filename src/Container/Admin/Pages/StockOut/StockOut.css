@@ -34,8 +34,9 @@
 }
 
   .disabled-select div{
-    background-color: #ececec;
-  }
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
 
 .show_stockout_result {
     background-image: url('../../../../assets/images/location_bg.png');

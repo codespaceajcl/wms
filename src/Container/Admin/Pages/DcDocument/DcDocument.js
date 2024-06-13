@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import Breadcrumbs from '../../../../Components/Breadcrumbs/Breadcrumbs';
 import { Col, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import { BsArrowLeftShort, BsFilter } from "react-icons/bs";
-import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
 import SuccessModal from '../../../../Components/Modals/SuccessModal';
@@ -10,7 +10,7 @@ import { useState } from 'react';
 import './DcDocument.css';
 import { login, partColorStyles } from "../../../../Util/Helper";
 import GridView from './GridView';
-import { listDeliveryChallan, postDcDocument, revertDocument } from '../../../../Redux/Action/Admin';
+import { listDeliveryChallan, postDcDocument, revertDocument, searchDeliveryChallan } from '../../../../Redux/Action/Admin';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../../Util/Loader';
 import { successNotify } from '../../../../Util/Toast';
@@ -37,10 +37,13 @@ const DcDocument = () => {
     const [uploadFile, setUploadFile] = useState(null)
     const [showConfirm, setShowConfirm] = useState(false)
     const [selectedStatus, setSelectedStatus] = useState(null);
+    const [dcSearch, setDcSearch] = useState('')
+    const [quantites, setQuantities] = useState(10)
 
     const tableHead = ["S.No", "DC No", "Vehicle", "Origin", "Destination", "Date", "Transaction By", "Transaction Number", "Reference", "Status", "Action"]
 
     const { loading, getDcData } = useSelector((state) => state.getDc)
+    const { loading: searchLoading, getDcSearchData } = useSelector((state) => state.getSearchDc)
     const { loading: postLoading, revertData } = useSelector((state) => state.postRevert)
     const { loading: dcLoading, dcDocumentData } = useSelector((state) => state.postDc)
 
@@ -55,7 +58,8 @@ const DcDocument = () => {
             formData.append("email", login.email)
             formData.append("token", login.token)
 
-            dispatch(listDeliveryChallan(pageNum, formData))
+            dispatch(listDeliveryChallan(pageNum, quantites, formData))
+
         }
     }, [revertData])
 
@@ -70,7 +74,7 @@ const DcDocument = () => {
             formData.append("email", login.email)
             formData.append("token", login.token)
 
-            dispatch(listDeliveryChallan(pageNum, formData))
+            dispatch(listDeliveryChallan(pageNum, quantites, formData))
         }
     }, [dcDocumentData])
 
@@ -91,7 +95,7 @@ const DcDocument = () => {
         formData.append("email", login.email)
         formData.append("token", login.token)
 
-        dispatch(listDeliveryChallan(pageNum, formData))
+        dispatch(listDeliveryChallan(pageNum, quantites, formData))
 
     }, [pageNum])
 
@@ -112,9 +116,11 @@ const DcDocument = () => {
         };
     }, []);
 
-    const options = [
-        { value: 'PakistanStorage_None01/Agility Port Qasim', label: 'PakistanStorage_None01/Agility Port Qasim' }
-    ]
+    useEffect(() => {
+        return () => {
+            dispatch({ type: "SEARCH_DELIVERY_CHALLAN_RESET" })
+        }
+    }, [])
 
     const showView = (view) => {
         setView(view)
@@ -239,9 +245,31 @@ const DcDocument = () => {
         setSelectedStatus(status === selectedStatus ? null : status);
     };
 
-    const filteredData = getDcData?.response?.filter((c) => {
+    const filteredData = getDcSearchData ? getDcSearchData?.response?.filter((c) => {
         return selectedStatus ? c.status === selectedStatus : true;
-    });
+    }) : getDcData?.response?.filter((c) => {
+        return selectedStatus ? c.status === selectedStatus : true;
+    })
+
+    const searchDcHandler = () => {
+        const formData = new FormData();
+        formData.append("search", dcSearch)
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+
+        dispatch(searchDeliveryChallan(formData))
+    }
+
+    const selectLimitHandler = (e) => {
+        setQuantities(e.target.value)
+
+        const formData = new FormData();
+
+        formData.append("email", login.email)
+        formData.append("token", login.token)
+
+        dispatch(listDeliveryChallan(pageNum, e.target.value, formData))
+    }
 
     return (
         <div>
@@ -309,7 +337,14 @@ const DcDocument = () => {
 
                 <Row className='mt-5'>
                     <div className='dc_document_search'>
-                        <Select styles={partColorStyles} options={options} placeholder="Select DC" className='react_select_inhouse dc_doc' />
+                        <div className='search_bar'>
+                            <input placeholder='Enter to Search' value={dcSearch} onChange={(e) => setDcSearch(e.target.value)} />
+                            <div className='search_icon' onClick={searchDcHandler}>
+                                <AiOutlineSearch />
+                            </div>
+                        </div>
+
+                        {/* <Select styles={partColorStyles} options={options} placeholder="Select DC" className='react_select_inhouse dc_doc' /> */}
                         <div className='change_table_icons'>
                             <img src={allImages.ChangeGridView} alt='' onClick={() => showView('table')} className={view === 'table' ? 'active' : null} />
                             <img src={allImages.ChangeTableView} alt='' onClick={() => showView('grid')} className={view === 'grid' ? 'active' : null} />
@@ -322,7 +357,7 @@ const DcDocument = () => {
                         view === 'table' &&
                         <Col md={12}>
                             {
-                                loading ? <div className='my-5'> <Loader /> </div> :
+                                (searchLoading || loading) ? <div className='my-5'> <Loader /> </div> :
                                     <div className='consignee_table inhouse dc_doc mt-4'>
                                         <div ref={targetRef}>
                                             <div className='select_inhouse_table'>
@@ -373,18 +408,29 @@ const DcDocument = () => {
                                             </Table>
                                         </div>
 
-                                        <div className='pagination_div'>
-                                            {
-                                                pageNum > 1 &&
-                                                <h6 onClick={() => setPageNum(pageNum - 1)}>Previous</h6>
-                                            }
-                                            <p>Pg No: {pageNum}</p>
+                                        {
+                                            !getDcSearchData &&
+                                            <div className='pagination_div'>
+                                                <div className='option_select'>
+                                                    <select onChange={selectLimitHandler} value={quantites}>
+                                                        <option value={10}>10</option>
+                                                        <option value={50}>50</option>
+                                                        <option value={100}>100</option>
+                                                        <option value={1000}>1000</option>
+                                                    </select>
+                                                </div>
+                                                {
+                                                    pageNum > 0 &&
+                                                    <h6 onClick={() => setPageNum(pageNum - 1)}>Previous</h6>
+                                                }
+                                                <p>Pg No: {pageNum}</p>
 
-                                            {
-                                                showNext &&
-                                                <h6 onClick={() => setPageNum(pageNum + 1)}>Next</h6>
-                                            }
-                                        </div>
+                                                {
+                                                    showNext &&
+                                                    <h6 onClick={() => setPageNum(pageNum + 1)}>Next</h6>
+                                                }
+                                            </div>
+                                        }
                                     </div>
                             }
                         </Col>
@@ -393,7 +439,7 @@ const DcDocument = () => {
                     {
                         view === 'grid' &&
                         <Col md={12} className='mt-4 grid_view_col'>
-                            <GridView setGetDc={setGetDc} setShowConfirm={setShowConfirm} setUploadFile={setUploadFile} setGetRevert={setGetRevert} loading={loading} pageNum={pageNum} setPageNum={setPageNum} showNext={showNext} getDcData={filteredData} revertModal={revertModal} setRevertModal={() => setRevertModal(!revertModal)} />
+                            <GridView quantites={quantites} selectLimitHandler={selectLimitHandler} setGetDc={setGetDc} setShowConfirm={setShowConfirm} setUploadFile={setUploadFile} setGetRevert={setGetRevert} loading={loading} pageNum={pageNum} setPageNum={setPageNum} showNext={showNext} getDcData={filteredData} revertModal={revertModal} setRevertModal={() => setRevertModal(!revertModal)} />
                         </Col>
                     }
                 </Row>
